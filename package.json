@@ -1,0 +1,21 @@
+{
+  "name": "simple-todo",
+  "version": "1.0.0",
+  "description": "singly page dynamic todo-list application with functional calendar.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Nikhil Pillai",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongodb": "^6.6.2",
+    "mongoose": "^8.3.4",
+    "nodemon": "^3.1.0"
+  }
+}

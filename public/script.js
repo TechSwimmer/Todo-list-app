@@ -144,6 +144,7 @@ function renderTaskPage() {
     
      if(!taskName && !taskDate){return;}
   
+  
     if (taskDate !== navHeader.textContent) {
         taskDayInfo.textContent = "";
         
@@ -179,6 +180,7 @@ function renderTaskPage() {
         closeTaskPage();
         // renderCalender()
     }
+
 }
 
 let taskSubmitBtn = document.getElementById('create');
@@ -533,4 +535,34 @@ function taskCompletedRemoval() {
 // console.log(checkbox)
 // console.log(addedTask)
 
+console.log('welcome');
 
+
+
+
+//-----------------------------------------------------------------------------
+
+
+const arr = [0,0,3,3,2,2,2,5,6];
+function findOddRep(arr){
+var hashMap = {};
+
+for (const num of arr){
+    if(hashMap[num]){
+        hashMap[num]++;
+    }
+    else{
+        hashMap[num] = 1;
+    }
+}
+
+for (const num in hashMap){
+    if(hashMap[num] % 2 !== 0){
+        console.log(hashMap[num]);
+    }
+}
+}
+
+
+
+findOddRep(arr);

@@ -86,11 +86,7 @@ ul li:hover {
     transition: font-size 0.3s ease;
 }
 
-.nav-header:hover {
-    font-size: 1.3rem;
-    border-bottom: 4px solid blue;
-    transition: border-bottom 0.2s ease;
-}
+
 
 /*-------------------------------------------------toggle links btn ---------------------------------------------------*/
 
@@ -98,7 +94,7 @@ ul li:hover {
 
 /*------------------------------------------add task button-----------------------------------------------------------*/
 .add-task-icon {
-    background-image: url(../images/plus-flat.png);
+    background-image: url(./images/plus-flat.png);
     background-size: cover;
     background-position: center;
     width: 45px;
@@ -134,6 +130,14 @@ ul li:hover {
 /*---------------------------------------mobile--------------------------------------------*/
 
 @media screen and (min-width: 1281px) {
+
+    /*-------------------------------------navbar behaviour for full webpage-------------*/
+
+    .nav-header:hover {
+        font-size: 1.3rem;
+        border-bottom: 4px solid blue;
+        transition: border-bottom 0.2s ease;
+    }
     #toggle-nav-menu {
         display: none;
     }
@@ -253,13 +257,13 @@ ul li:hover {
        
     }
     #l-arrow-year , #l-arrow-month{
-        background-image: url(../images/163768-arrow-left-free-photo.png);
+        background-image: url(./images/163768-arrow-left-free-photo.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
     }
     #r-arrow-year, #r-arrow-month{
-        background-image: url(../images/arrow-icon-1177.png);
+        background-image: url(./images/arrow-icon-1177.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
@@ -598,7 +602,7 @@ ul li:hover {
         flex-direction: column;
         width: 100vw;
         min-height: 100vh;
-        
+        overflow-x: auto;
         margin-right: 10px;
         justify-content: space-between;
         border-radius: 10px;
@@ -612,15 +616,19 @@ ul li:hover {
         background-color: blueviolet;
         border-radius: 10px;
         align-items: center;
+        margin-top: 75px;
     }
 
     .content .extras #calendar {
         background-color: blue;
-        height: 65vh;
-        width: 97vw;
+        height: 66vh;
+        width: 99vw;
         padding: 0px 5px 0px 5px;
         border-radius: 10px;
-       
+        overflow: hidden;
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
         
     }
 
@@ -649,12 +657,13 @@ ul li:hover {
         margin-left: 10px;
         text-align: center;
         height: 90%;
-        width: 30%;
+        width: 42%;
         align-self: flex-end;
         vertical-align: bottom;
         background-color: blueviolet;
         border: 1px solid blueviolet;
         border-radius: 15px 15px 0 0;
+        font-size: smaller;
     }
 
     .nav-header h2 {
@@ -662,19 +671,20 @@ ul li:hover {
         vertical-align: middle;
         height: 100%;
         text-align: center;
-        top: 14px;
-        letter-spacing: 2px;
-        transition: font-size 0.5s ease;
+        top: 18px;
+        
+        
     }
 
     .nav-header:hover {
-        font-size: 1.1rem;
+        
         border-bottom: 4px solid blue;
         transition: border-bottom 0.5s ease;
     }
     .navbar{
-        z-index: 25;
+        width: 100%;
     }
+   
 
     /*-------------------------------list for mobiles----------------*/
 
@@ -763,11 +773,11 @@ ul li:hover {
 
     #toggle-nav-menu {
         width: 55px;
-        background-image: url(/images/nav-menu-img.jpg);
+        background-image: url(./images/nav-menu-img.jpg);
         background-size: cover;
         background-position: center;
         border-radius: 10px;
-        margin-right: 30px;
+        margin-right: 8px;
         border: white;
     }
 
@@ -790,8 +800,8 @@ ul li:hover {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        margin: 10px;
-        width: 98%;
+        margin-top: 10px;
+        width: 100%;
     }
 
     .caption-flex-part {
@@ -816,87 +826,90 @@ ul li:hover {
     }
 
     #year{
-       
         
-        padding: 7px 152px;
+        
+        padding: 7px 70px;
         background-color: aqua;
         
     }
 
     #month {
-        padding: 7px 150px;
+        padding: 7px 70px;
         background-color: aqua;
+       
        
     }
     #l-arrow-year , #l-arrow-month{
-        background-image: url(../images/163768-arrow-left-free-photo.png);
+        background-image: url(./images/163768-arrow-left-free-photo.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
     }
     #r-arrow-year, #r-arrow-month{
-        background-image: url(../images/arrow-icon-1177.png);
+        background-image: url(./images/arrow-icon-1177.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
         
     }
    #calendar{
-        margin-right: 55px;
-        display: inline-block;
+        margin-right: 59px;
+       
         
    }
 
     #calendar table {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-evenly;
         height: 60vh;
-        width: 100%;
+        width: 98%;
         
     }
 
     #table-body {
         width: 100%;
-        margin: 9px;
-        
+        object-fit: contain;
     }
 
     #table-body tr {
         display: flex;
         flex-wrap: wrap;
         text-align: center;
-        width: 97vw;
-        justify-content: space-evenly;
-        align-self: flex-start;
+        width: 100%;
+        justify-content: space-around;
+       
     }
 
     #table-body tr td {
-        flex-basis: calc(95vw / 8.8);
-        padding: 7.5px 5px;
-        
+        flex-basis: calc(100% / 8);
+        padding: 4px 2px;
         text-align: center;
-        width: calc(100%/7);
+       
         background-color: aqua;
-        margin: 3px 1px;
+        margin: 2px 1px;
         border-radius: 5px;
         box-shadow: 2px 2px 2px 2px rgba(0.9, 0.9, 0.9, 0.9);
     }
+    #table-head{
+        display: flex;
+        width: 100%;
+    }
 
     #table-head tr{
-        width: 97vw;
+        width: 100%;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         margin-top: 7px;
         text-align: center;
         align-items: center;
-        margin-left: 5px;
-        margin-right: 5px;
+       
     }
 
     #table-head th {
-        margin:2px 1px;
-        width:11.75vw;
+       
+        margin: 2px 1px;
+        width:calc(100%/7);
         text-align: center;
         background-color: aqua;
         border-radius: 5px;
@@ -949,10 +962,10 @@ ul li:hover {
     .task-container{
         
         position: fixed;
-        top: 5%;
-        left: 25%;
-        bottom: 10%;
-        right: 25%;
+        top: 7%;
+        left: 15%;
+        bottom: 7%;
+        right: 15%;
         z-index: 20;
         
         justify-content: center;
@@ -968,6 +981,7 @@ ul li:hover {
      text-align: center;
      margin-bottom: 35px;
      letter-spacing: 2px;
+    
     }
  
     .task-container #task-form{
@@ -1043,35 +1057,39 @@ ul li:hover {
  
     /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
  
-    .content .day-info div{
-     position: absolute;
-     height:auto;
-     width: 99%;
-     background-color: blue;
-     margin-top:76px;
-     border-radius: 10px;
-     word-wrap:break-word;
-     
-     display: flex;
-     flex-direction: column;
-     justify-content: flex-start;
-     
+    .content .day-info {
+        height: 120%;
+        width: 100vw;
+        padding: 10px 0px 0px 5px;
+        background-color: blueviolet;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+       align-items: flex-start;
+        overflow:hidden;
+        margin-top: 75px;
+        
     }
+
+    
  
     .content .day-info div h3{
-         text-align: center;
-         height: auto;
-         background-color: aqua;
-         width: 80%;
-         border-radius: 10px;
-         padding-left: 8px;
-         
-         word-wrap: break-word;
-        position: absolute;
-         border-right: 3px solid black;
-         border-left: 3px solid black;
-         border-top: 3px solid black;
-         margin-bottom: 15px;
+        height: auto;
+        background-color: aqua;
+        width: 80%;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align: center;
+        word-wrap: break-word;
+        
+        border-left: 3px solid black;
+        border-right: 3px solid black;
+        border-top: 3px solid black;
+        padding-bottom: 4px;
+        
          
     }
  
@@ -1079,88 +1097,90 @@ ul li:hover {
          text-align: left;
          height: auto;
          background-color: aqua;
-         width: 96%;
+         width: auto;
          padding: 5px;
-         border-radius: 10px;
-         margin-right: 28px;
+         border-bottom-left-radius: 10px;
+         border-bottom-right-radius: 10px;
+         
+        
          word-wrap: break-word;
          border-left: 3px solid black;
          border-right: 3px solid black;
          border-bottom: 3px solid black;
          
     }
+    
 
     /*-------------------------mobile view for added tasks---------------------------------*/
 
-    .content .day-info .task-added{
+     .content .day-info .task-added{
     
-        height:25vh;
-        width: 95%;
+        margin-top: 15px;
+        height:auto;
+        width: 95vw;
         background-color: blue;
-       display: flex;
-       flex-direction: column;
+        display: flex;
+        flex-direction: column;
+        align-self: flex-start;
         border-radius: 10px;
         word-wrap:break-word;
-        border: 3px solid blue;
-       
-        justify-content: space-around;
+        
+        margin-bottom: 15px;
         align-self: flex-start;
+        overflow: hidden;
         
         
         
        }
     
-       .content .day-info div h3{
-            height: auto;
-            background-color: aqua;
-            width: 60vw;
-            border-radius: 10px;
-            padding-left: 10px;
-            padding-right: 10px;
-            text-align: center;
-            word-wrap: break-word;
-            box-shadow: 3px 3px 3px 3px rgba(25, 25, 25, 25);
-            border: 3px solid black;
-            padding-bottom: 4px;
-            
-       }
     
-       .content .day-info div p{
-            text-align: left;
-            height: auto;
-            background-color: aqua;
-            width:auto;
-            padding: 5px;
-            border-radius: 10px;
-            margin-right: 5px;
-            word-wrap: break-word;
-            border: 3px solid black;
-            box-shadow: 3px 3px 3px 3px rgba(25, 25, 25, 25);
-       }
      
         .head-checkbox .checkbox{
-            box-shadow: 3px 3px 3px 3px rgba(25, 25, 25, 25);
             background-color: aqua;
-            width: auto;
+            padding: 0 10px 0 10px;
             height:inherit;
-            border: 2px solid black;
-            border-radius: 10px;
-            width:20.5%;
+            border-top: 3px solid black;
+            border-right: 3px solid black;
+            border-bottom: 3px solid black;
+            border-left: 3px solid black;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            font-size: smaller;
+            width: 25%;
             color: aqua;
             text-align: center;
+            transition: width 0.3s ease;
+            
+            
         }
         .head-checkbox{
             display: flex;
+            justify-content: space-between;
+            width: 95vw;
+            
         }
+       
     
         .checkbox:hover{
             background-color: blueviolet;
             cursor: pointer;
             color: black;
-            .task-done{
-                color: black;
-            }
+            width: 35%;
             box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+        }
+        .content .day-info .task-added:hover{
+            border: 3px solid blue;
+            
+            box-shadow: 2px 2px 2px 2px rgba(15, 15, 15, 15);
+            
+        }
+
+        .checkbox:hover + .task-notes{
+            box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+        }
+        .head-checkbox .checkbox .task-done{
+            position: relative;
+            top: 5px;
         }
     
         .empty{
