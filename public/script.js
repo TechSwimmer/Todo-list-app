@@ -566,3 +566,146 @@ for (const num in hashMap){
 
 
 findOddRep(arr);
+
+
+
+
+
+// adding user input data to the database
+
+// prevent default submit behaviour
+
+let createTask = document.getElementById('create');
+console.log(createTask)
+createTask.addEventListener( "click",(event) => {
+    event.preventDefault();
+    console.log('submitted')
+    const taskName = document.getElementById('task-name').value;
+    const taskNotes = document.getElementById('task-notes').value;
+    const taskDate = document.getElementById('task-date').value;
+
+    if(!taskNotes) {
+        taskNotes = "No Task Notes."
+    }
+
+    const taskData = {
+        taskName,
+        taskNotes,
+        taskDate
+    }
+    
+      fetch('http://localhost:5000/tasks/add',{
+            method: 'POST',
+            
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ taskName: taskName, taskNotes: taskNotes, taskDate: new Date(taskDate)})
+        })
+        .then(response => response.json())
+        
+        .catch((error) => {
+            console.log('Error:', error)
+        });
+        console.log(taskData)
+        
+})
+
+
+// make a function that can bring out the tasks stored on the date that the user clicks on the calender if no date then front end should display no tasks for this date.
+
+let dateCells = document.querySelectorAll('td');
+console.log(dateCells);
+
+dateCells.forEach((day) => {
+    day.addEventListener('click', (event) => {
+        let month = document.getElementById('month').innerHTML;
+        let year = document.getElementById('year').innerHTML;
+        let selectedDay = day.innerText;
+
+        for (let i = 0 ; i <= months.length ; i++){
+            if(month == months[i]){
+                month = i+1;
+            }
+        }
+
+        let navHeader = document.querySelector('h2')
+        if(!selectedDay){return}
+        navHeader.innerText = `${year}-${month}-${selectedDay}`;
+
+        //check if the selected day is today and display nav header respectively
+
+
+        const today = new Date();
+        const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+
+        const thisYear = todayDate.getFullYear();
+        const thisMonth = todayDate.getMonth()+1;
+        const thisDay = todayDate.getDate();
+
+        const todaysDate = `${thisYear}-${thisMonth}-${thisDay}`
+        console.log(todaysDate,navHeader.innerText);
+        if(navHeader.innerText == todaysDate){
+            navHeader.innerText = 'TODAY';
+        }
+        
+        getDataFromBackend(year,month,selectedDay);
+        
+    });
+});
+
+function getDataFromBackend(year,month,selectedDay) {
+
+    let reqTaskDate = new Date(Date.UTC(year, month-1, selectedDay));
+    reqTaskDate = reqTaskDate.toISOString().split('T')[0];
+
+    let taskDayInfo = document.getElementById('day-info');
+    taskDayInfo.innerHTML = '';                                                                   // clear previous tasks
+    const url = `http://localhost:5000/tasks?year=${year}&month=${month}&day=${selectedDay}`;
+    let taskFound = false;
+
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(task => {
+            let dbTaskDate = new Date(task.taskDate).toISOString().split('T')[0];
+            if(reqTaskDate == dbTaskDate){
+                taskFound = true;
+                console.log(reqTaskDate,dbTaskDate)
+                let taskName = task.taskName;
+                let taskNotes = task.taskNotes || 'No Task Notes';
+
+                let taskDiv = document.createElement('div');
+
+                taskDiv.innerHTML = `<div class="task-added">
+                            <div class="head-checkbox">
+                                <h3>${taskName}</h3>
+                                <div class="checkbox">
+                                    <h4 class="task-done">Task Done.</h4>
+                                </div>
+                            </div>
+                            <p>${taskNotes}</p>
+                        </div>`;
+                        taskDayInfo.appendChild(taskDiv);
+            }   
+        });
+
+        // if no tasks are found for the specific date then the frontend should display 'No tasks for the day"
+        if(!taskFound){
+            let taskDiv = document.createElement('div');
+            taskDiv.innerHTML = `<div class="task-added">
+                        <h3>No tasks for the day</h3>
+                    </div>`;
+
+                    taskDayInfo.appendChild(taskDiv)
+        }
+    })
+    .catch(error => {
+        console.log('Error fetching tasks : ', error)
+    })
+    
+    console.log(reqTaskDate);
+}
+
+
+

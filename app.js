@@ -9,10 +9,11 @@ const taskRoutes = require('./routes/taskRoutes.js');
 const mongoURI = process.env.MONGO_URI;
 const app = express();
 const PORT = process.env.PORT || 5000;
+const cors = require('cors')
+const { mongoClient } = require('mongodb');
 
-
-
-    
+//cors
+app.use(cors());
 
 //middleware 
 
