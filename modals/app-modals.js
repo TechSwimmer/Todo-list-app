@@ -20,6 +20,11 @@ const appSchema = mongoose.Schema(
       required: [true, "Please add a date for the Task"],
       default: Date.now,
     },
+     completed : {
+      type: Boolean,
+      
+      default: false,
+     },
   },
   {
     timestamps: true,

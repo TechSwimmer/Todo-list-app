@@ -80,12 +80,31 @@ const deleteTask = async(req,res) => {
     }
 }
 
+// update the task that are completed
 
+const completedTask = async(req,res) => {
+    try{
+        const taskID = req.params.id;
+        const updatedTask = await todoApp.findByIdAndUpdate(
+            taskID,
+            {completed: true },
+            {new: true }
+        );
+        if(!updatedTask){
+            return res.status(404).json({message: "Task not found"});
+        }
+        res.status(200).json(updatedTask);
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    }
+}
 
 module.exports = {
     getAllTasks,
     getSpecificTask,
     addTask,
     updateTask,
-    deleteTask
+    deleteTask,
+    completedTask
 }

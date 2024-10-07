@@ -1,6 +1,6 @@
 const express = require('express');
 const todoApp = require("../modals/app-modals.js");
-const { getAllTasks,getSpecificTask,addTask,updateTask,deleteTask } = require('../controllers/taskController.js')
+const { getAllTasks,getSpecificTask,addTask,updateTask,deleteTask, completedTask } = require('../controllers/taskController.js')
 const router = express.Router();
 const path = require('path')
 
@@ -20,5 +20,8 @@ router.put('/tasks/update/:id', updateTask);
 
 //delete a task from the DB
 router.delete('/tasks/delete/:id', deleteTask);
+
+//update completed to be true when clicked on task done. 
+router.patch('/tasks/completed/:id', completedTask);
 
 module.exports = router;
