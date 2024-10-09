@@ -100,11 +100,26 @@ const completedTask = async(req,res) => {
     }
 }
 
+// delete every single task from the dbb
+
+const deleteAll = async(req,res)=> {
+    try{
+        await todoApp.deleteMany({});
+        res.status(200).send({message: 'All tasks deleted sucessfully.'})
+    }
+    catch(error){
+        console.error('Error deleting tasks', error);
+        res.status(500).send({ error: ' Failed to delete tasks.'})
+
+    }
+}
+
 module.exports = {
     getAllTasks,
     getSpecificTask,
     addTask,
     updateTask,
     deleteTask,
-    completedTask
+    completedTask,
+    deleteAll
 }
