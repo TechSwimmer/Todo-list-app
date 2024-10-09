@@ -704,76 +704,10 @@ async function renderTaskPage() {
     //-----------------------------------------------------------------------------
 
 
-    const arr = [0, 0, 3, 3, 2, 2, 2, 5, 6];
-    function findOddRep(arr) {
-        var hashMap = {};
-
-        for (const num of arr) {
-            if (hashMap[num]) {
-                hashMap[num]++;
-            }
-            else {
-                hashMap[num] = 1;
-            }
-        }
-
-        for (const num in hashMap) {
-            if (hashMap[num] % 2 !== 0) {
-                console.log(hashMap[num]);
-            }
-        }
-    }
+ 
 
 
 
-    findOddRep(arr);
-
-
-
-
-
-    // adding user input data to the database
-
-    // prevent default submit behaviour
-
-    // let createTask = document.getElementById('create');
-    // console.log(createTask)
-    // createTask.addEventListener("click", (event) => {
-    //     event.preventDefault();
-    //     console.log('submitted')
-    //     let taskName = document.getElementById('task-name').value;
-    //     let taskNotes = document.getElementById('task-notes').value;
-    //     let taskDate = document.getElementById('task-date').value;
-
-    //     if (!taskNotes) {
-    //         taskNotes = "No Task Notes."
-    //     }
-
-    //     const taskData = {
-    //         taskName,
-    //         taskNotes,
-    //         taskDate
-    //     }
-
-    //     fetch('http://localhost:5000/tasks/add', {
-    //         method: 'POST',
-
-    //         headers: {
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ taskName: taskName, taskNotes: taskNotes, taskDate: new Date(taskDate), completed: false })
-    //     })
-    //         .then(response => response.json())
-
-    //         .catch((error) => {
-    //             console.log('Error:', error)
-    //         });
-
-
-    //     console.log(taskData)
-
-
-    // })
 
 
     // make a function that can bring out the tasks stored on the date that the user clicks on the calender if no date then front end should display no tasks for this date.
@@ -881,22 +815,7 @@ async function renderTaskPage() {
 
 
 
-    function countTaskWithspecifictaskName() {
-        let taskName = "NIKHIL";
-
-        fetch('http://localhost:5000/tasks')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(task => {
-                    if (task.taskName == taskName) {
-                        console.log(task);
-                    }
-                });
-            })
-
-    }
-
-    // countTaskWithspecifictaskName();
+  
 
 
     // function to display all tasks when all tasks button is clicked
