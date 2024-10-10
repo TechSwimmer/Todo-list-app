@@ -512,8 +512,7 @@ ul li:hover {
         background-color: aqua;
         width:auto;
         padding: 5px;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
+        
         margin-right: 5px;
         word-wrap: break-word;
         border-bottom: 3px solid black;
@@ -531,13 +530,13 @@ ul li:hover {
         height:inherit;
         border-top: 3px solid black;
         border-right: 3px solid black;
-        border-bottom: 5px solid black;
+        border-bottom: 3px solid black;
         border-left: 3px solid black;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         margin-right: 5px;
         width:15%;
-        color: aqua;
+        color: black;
         text-align: center;
         transition: width 0.3s ease;
     }
@@ -549,19 +548,46 @@ ul li:hover {
     .checkbox:hover{
         background-color: blueviolet;
         cursor: pointer;
-        color: blue;
+        font-weight: bold;
         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
         width: 25%;
-        .task-done{
-            color: black;
-        }
+       
         
         
     }
     .checkbox:hover + .task-notes{
         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
     }
+    #Delete-task ,  #Edit-task{
+        width: 50%;
+        background-color: aqua;
+        border: 2px solid black;
+       
+        text-align: center;
+        padding: 2px;
+        font-size: 1rem;
+        transition: width 0.3s ease;
+        border-bottom-left-radius:10px; 
+        border-bottom-right-radius: 10px;
+    }
 
+    #Edit-del-btn{
+        display: flex;
+        width: 99.3%;
+    }
+
+    #Delete-task:hover{
+        cursor: pointer;
+        width: 65%;
+        font-weight: bold;
+        background-color: blueviolet;
+    }
+    #Edit-task:hover{
+        cursor: pointer;
+        width: 65%;
+        font-weight: bold;
+        background-color: blueviolet;
+    }
     
 
     .content .day-info .task-added:hover{
@@ -574,6 +600,13 @@ ul li:hover {
     .empty{
        height: 25px;
        
+    }
+
+    #no-tasks{
+        font-size: 2rem;
+        letter-spacing: 2px;
+        word-spacing: 5px;
+        padding-left: 10px;
     }
      /*-----------------------task-page scrollbar-----------------------------*/
 
@@ -656,7 +689,44 @@ ul li:hover {
         flex-direction: column;
         justify-content: space-between;
     }
+    /*---------------------------------------edit and delete buttons for small devices----------------------------------------------*/
+    #no-tasks{
+        font-size: 1rem;
+        letter-spacing: 2px;
+        word-spacing: 5px;
+        padding-left: 10px;
+        padding-bottom: 10px;
+    }
+    #Delete-task ,  #Edit-task{
+        width: 50%;
+        background-color: aqua;
+        border: 2px solid black;
+       
+        text-align: center;
+        padding: 2px;
+        font-size: 1rem;
+        transition: width 0.3s ease;
+        border-bottom-left-radius:10px; 
+        border-bottom-right-radius: 10px;
+    }
 
+    #Edit-del-btn{
+        display: flex;
+        width: 99.3%;
+    }
+
+    #Delete-task:hover{
+        cursor: pointer;
+        width: 65%;
+        font-weight: bold;
+        background-color: blueviolet;
+    }
+    #Edit-task:hover{
+        cursor: pointer;
+        width: 65%;
+        font-weight: bold;
+        background-color: blueviolet;
+    }
     /*------------------day-header for small screens---------------------------*/
 
     .nav-header {

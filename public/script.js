@@ -77,7 +77,7 @@ leftArrowMonth.addEventListener('mouseleave', () => {
 
 
 
-
+todayTasks();                         //   function to load tyhe current day tasks right in tyyhe beginning 
 
 
 // let numOfDays = new Date(2024,3,32).getDate();
@@ -133,112 +133,6 @@ overlay.addEventListener('mouseenter', function () {
 
 
 
-
-// async function renderTaskPage() {
-//     let taskName = document.getElementById('task-name').value;
-//     let taskNotes = document.getElementById('task-notes').value;
-//     let taskDate = document.getElementById('task-date').value;
-
-//     if (taskNotes == "") {
-//         taskNotes = "No Task Notes.";
-//     }
-
-//     let userNoteInput = taskNotes.replace(/\n/g, "<br>");
-//     let taskDayInfo = document.getElementById('day-info');
-//     let navHeader = document.querySelector('h2');
-
-//     // check if the task name and task date is provided
-
-//     if (!taskName || !taskDate) { return; }
-
-
-//     if (taskDate !== navHeader.textContent) {
-//         taskDayInfo.textContent = "";
-//         const newTask = {
-//             taskName: taskName,
-//             taskNotes: taskNotes,
-//             taskDate: new Date(taskDate),
-//             completed: false
-//         };
-//         try {
-//             let response = await fetch('http://localhost:5000/tasks/add', {
-//                 method: 'POST',
-
-//                 headers: {
-//                     'content-type': 'application/json'
-//                 },
-//                 body: JSON.stringify(newTask)
-//             })
-
-//             let taskdata = await response.json();   // get task details
-//             if (response.ok) {
-//                 let taskId = taskdata._id;     // retrieve task id from response
-
-//                 let taskDiv = document.createElement('div');
-
-                
-//                 taskDiv.innerHTML =
-//                     `<div class="task-added" data-id="${taskId}" data-date="${taskDate}">
-//             <div class="head-checkbox"><h3>${taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
-   
-//             <p>${userNoteInput}</p>
-//             </div>`;
-//             taskDiv.setAttribute('data-id', taskId)
-//                 navHeader.innerText = taskDate;
-
-//                 taskDayInfo.appendChild(taskDiv);
-//                 closeTaskPage()
-//             }
-
-//         } catch (error) {
-//             console.error('Error:', error);
-//         }
-
-
-        
-//         // renderCalender()
-//     }
-//     else {
-//         try {
-//             let response = await fetch('http://localhost:5000/tasks/add', {
-//                 method: 'POST',
-
-//                 headers: {
-//                     'content-type': 'application/json'
-//                 },
-//                 body: JSON.stringify({ taskName: taskName, taskNotes: taskNotes, taskDate: new Date(taskDate), completed: false })
-//             })
-
-//             let taskdata = await response.json();   // get task details
-//             if (response.ok) {
-//                 let taskId = taskdata._id;
-//                 let taskDiv = document.createElement('div');
-//                 taskDiv.setAttribute('data-id', taskId);
-//                 taskDiv.innerHTML =
-//                     `<div class="task-added" data-id="${taskId}" data-date="${taskDate}">
-//     <div class="head-checkbox"><h3>${taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
-    
-//     <p>${userNoteInput}</p>
-//     </div>`;
-
-//                 navHeader.innerText = taskDate;
-//                 // taskDiv.getAttribute('data-date',)
-//                 taskDayInfo.appendChild(taskDiv);
-
-//                 closeTaskPage();
-//                 // taskCompletedRemoval();
-//                 // renderCalender()
-
-//             }
-
-
-
-
-//         } catch (error) {
-//             console.error('Error:', error);
-//         }
-//     }
-
 async function renderTaskPage() {
     let taskName = document.getElementById('task-name').value;
     let taskNotes = document.getElementById('task-notes').value;
@@ -252,7 +146,7 @@ async function renderTaskPage() {
     let userNoteInput = taskNotes.replace(/\n/g, "<br>");
     let taskDayInfo = document.getElementById('day-info');
     let navHeader = document.querySelector('h2');
-
+    taskDayInfo.innerHTML = "";
     // Ensure both task name and task date are provided
     if (!taskName || !taskDate) {
         return;
@@ -265,7 +159,7 @@ async function renderTaskPage() {
         taskDate: new Date(taskDate),
         completed: false
     };
-
+    // add the tasks in the db
     try {
         // Send the task data to the server
         let response = await fetch('http://localhost:5000/tasks/add', {
@@ -292,6 +186,10 @@ async function renderTaskPage() {
                         </div>
                     </div>
                     <p>${userNoteInput}</p>
+                    <div id="Edit-del-btn">
+                    <div id="Delete-task">Delete</div>
+                    <div id="Edit-task">Edit task</div>
+                    </div>
                 </div>`;
             
             navHeader.innerText = taskDate;
@@ -642,7 +540,7 @@ async function renderTaskPage() {
                 taskName = taskDiv.querySelector('h3').innerText;
                 taskNotes = taskDiv.querySelector('p').innerText;
                 taskDate = taskDiv.getAttribute('data-date');
-                taskID = taskDiv.getAttribute('data-id')
+                taskID = taskDiv.getAttribute('data-id');
 
                 // create a date obj from the string
                 let dateObject = new Date(taskDate);
@@ -661,7 +559,7 @@ async function renderTaskPage() {
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(task => {
-                            if (taskName == task.taskName && taskNotes == task.taskNotes && isoDateString == task.taskDate && taskID==task._id) {
+                            if (taskID == task._id) {
 
                                 taskID = task._id;
                                 console.log(taskID);
@@ -693,6 +591,7 @@ async function renderTaskPage() {
 
 
     });
+   
 
 
 
@@ -716,7 +615,10 @@ async function renderTaskPage() {
     console.log(dateCells);
 
     dateCells.forEach((day) => {
+        day.style.backgroundColor = '';
         day.addEventListener('click', (event) => {
+            dateCells.forEach(day => day.style.backgroundColor = 'aqua')
+            day.style.backgroundColor = 'blueviolet';
             let month = document.getElementById('month').innerHTML;
             let year = document.getElementById('year').innerHTML;
             let selectedDay = day.innerText;
@@ -766,12 +668,14 @@ async function renderTaskPage() {
             .then(response => response.json())
             .then(data => {
                 data.forEach(task => {
+                   
                     let dbTaskDate = new Date(task.taskDate).toISOString().split('T')[0];
                     if (reqTaskDate == dbTaskDate) {
                         taskFound = true;
                         console.log(reqTaskDate, dbTaskDate)
                         let taskName = task.taskName;
                         let taskNotes = task.taskNotes || 'No Task Notes';
+                        let userNoteInput = taskNotes.replace(/\n/g, "<br>");
                         let taskID = task._id;
                         let taskDiv = document.createElement('div');
                         taskDiv.setAttribute('data-id', task.id);
@@ -782,7 +686,11 @@ async function renderTaskPage() {
                                     <h4 class="task-done">Task Done.</h4>
                                 </div>
                             </div>
-                            <p>${taskNotes}</p>
+                            <p>${userNoteInput}</p>
+                            <div id="Edit-del-btn">
+                            <div id="Delete-task">Delete</div>
+                            <div id="Edit-task">Edit task</div>
+                            </div>
                         </div>`;
                         taskDayInfo.appendChild(taskDiv);
                         // Add the task ID as a data attribute (use data-task-id)
@@ -794,11 +702,8 @@ async function renderTaskPage() {
                 // if no tasks are found for the specific date then the frontend should display 'No tasks for the day"
                 if (!taskFound) {
                     let taskDiv = document.createElement('div');
-                    taskDiv.innerHTML = `<div class="task-added">
-                        <h3>No tasks for the day</h3>
-                    </div>`;
-
-                    taskDayInfo.appendChild(taskDiv)
+                    taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">No tasks for the day.</h4>`;
+                    taskDayInfo.appendChild(taskDiv);
                 }
             })
             .catch(error => {
@@ -826,29 +731,43 @@ async function renderTaskPage() {
         let taskDayInfo = document.getElementById('day-info');
 
 
-
+        let dateCells = document.querySelectorAll('#table-body tr td')
+        dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
 
 
         taskDayInfo.innerHTML = "";
 
         fetch('http://localhost:5000/tasks')
             .then(response => response.json())
-            .then(data => data.forEach(task => {
+            .then(data => {
+
+                if(data.length == 0){
+                    let taskDiv = document.createElement('div');
+                    taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">No tasks created.</h4>`;
+                    taskDayInfo.appendChild(taskDiv);
+                }
+                data.forEach(task => {
                 let taskName = task.taskName;
                 let taskNotes = task.taskNotes;
+                let userNoteInput = taskNotes.replace(/\n/g, "<br>");
                 let taskDate = task.taskDate;
+                let taskID = task._id;
                 navHeader.innerText = "All Tasks";
                 let taskDiv = document.createElement('div');
                 taskDiv.innerHTML =
-                    `<div class="task-added" data-id="" data-date="${taskDate}">
+                    `<div class="task-added" data-id="${taskID}" data-date="${taskDate}">
                 <div class="head-checkbox"><h3>${taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
    
-                <p>${taskNotes}</p>
-            </div>`;
+                <p>${userNoteInput}</p>
+                <div id="Edit-del-btn">
+                    <div id="Delete-task">Delete</div>
+                    <div id="Edit-task">Edit task</div>
+                    </div>
+                </div>`;
                 taskDiv.setAttribute('data-date', task.taskDate);
                 console.log(taskDate)
                 taskDayInfo.appendChild(taskDiv);
-            }))
+            })})
     }
 
     let allTaskBtn = document.getElementById('All-Tasks');
@@ -897,23 +816,50 @@ async function renderTaskPage() {
     function showCompletedTasks() {
         let navHeader = document.querySelector('h2').innerText = 'Completed';
         let taskDayInfo = document.getElementById('day-info');
+        let noTrueTaskCounter =  0;
         taskDayInfo.innerHTML = "";
-
+        let dateCells = document.querySelectorAll('#table-body tr td')
+        dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
         fetch('http://localhost:5000/tasks')
-            .then(response => response.json())
-            .then(data => data.forEach(task => {
-
-                if (task.completed == true) {
-                    let taskDiv = document.createElement('div');
-                    taskDiv.innerHTML =
-                        `<div class="task-added" data-id="${task.id}" data-date="${task.taskDate}">
-                    <div class="head-checkbox"><h3>${task.taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
-       
-                    <p>${task.taskNotes}</p>
-                </div>`;
+        .then(response => {
+            
+            return response.json();
+        })
+        .then(data => {
+            console.log(data)
+            if (data.length == 0){
+                let taskDiv = document.createElement('div');
+                    taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">No tasks created.</h4>`;
                     taskDayInfo.appendChild(taskDiv);
-                }
-            }))
+            }
+            else{
+                data.forEach(task => {
+                    if(task.completed == true){
+                        noTrueTaskCounter++
+                        let taskId = task._id;
+                        
+                        let taskNotes = task.taskNotes;
+                        let userNoteInput = taskNotes.replace(/\n/g, "<br>");
+                        let taskDiv = document.createElement('div');
+                        taskDiv.innerHTML = `<div class="task-added" data-id="${taskId}" data-date="${task.taskDate}">
+                        <div class="head-checkbox"><h3>${task.taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
+                        <p>${userNoteInput}</p>
+                        <div id="Edit-del-btn">
+                    <div id="Delete-task">Delete</div>
+                    <div id="Edit-task">Edit task</div>
+                    </div>
+                    </div>`;
+                        taskDayInfo.appendChild(taskDiv);
+                    }
+                    if(noTrueTaskCounter == 0){
+                        let taskDiv = document.createElement('div');
+                        taskDiv.innerHTML = `<h4 id="no-tasks">No tasks completed</h4>`;
+                        taskDayInfo.appendChild(taskDiv);
+                    }
+                    
+                })
+            }
+        })    
     }
 
 
@@ -983,18 +929,23 @@ async function renderTaskPage() {
                 if (tasksForTomorrow.length > 0) {
                     // display the tasks
                     tasksForTomorrow.forEach(task => {
+                        let taskNotes = task.taskNotes;
+                        let userNoteInput = taskNotes.replace(/\n/g, "<br>");
                         let taskDiv = document.createElement('div');
-                        taskDiv.innerHTML = `<div class="task-added" data-id="${task.id}" data-date="${task.taskDate}">
+                        let taskId = task._id;
+                        taskDiv.innerHTML = `<div class="task-added" data-id="${taskId}" data-date="${task.taskDate}">
                         <div class="head-checkbox"><h3>${task.taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
-                        <p>${task.taskNotes}</p>
+                        <p>${userNoteInput}</p>
+                        <div id="Edit-del-btn">
+                    <div id="Delete-task">Delete</div>
+                    <div id="Edit-task">Edit task</div>
+                    </div>
                     </div>`;
                         taskDayInfo.appendChild(taskDiv);
                     })
                 } else {
                     let taskDiv = document.createElement('div');
-                    taskDiv.innerHTML = taskDiv.innerHTML = `<div class="task-added">
-                <h3>No tasks for the day</h3>
-            </div>`;
+                    taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">No tasks for the day.</h4>`;
                     taskDayInfo.appendChild(taskDiv);
                 }
 
@@ -1094,10 +1045,17 @@ async function renderTaskPage() {
                 console.log(tasksForToday)
                 if (tasksForToday.length > 0) {
                     tasksForToday.forEach(task => {
+                        let taskID = task._id;
+                        let taskNotes = task.taskNotes;
+                        let userNoteInput = taskNotes.replace(/\n/g, "<br>"); 
                         let taskDiv = document.createElement('div');
-                        taskDiv.innerHTML = `<div class="task-added" data-id="${task.id}" data-date="${task.taskDate}">
+                        taskDiv.innerHTML = `<div class="task-added" data-id="${taskID}" data-date="${task.taskDate}">
                             <div class="head-checkbox"><h3>${task.taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
-                            <p>${task.taskNotes}</p>
+                            <p>${userNoteInput}</p>
+                            <div id="Edit-del-btn">
+                        <div id="Delete-task">Delete</div>
+                        <div id="Edit-task">Edit task</div>
+                        </div>
                         </div>`;
                         taskDayInfo.appendChild(taskDiv);
                         renderCalendarWRTCond(year, month, day + 1)
@@ -1105,10 +1063,9 @@ async function renderTaskPage() {
 
                 } else {
                     let taskDiv = document.createElement('div');
-                    taskDiv.innerHTML = taskDiv.innerHTML = `<div class="task-added">
-                <h3>No tasks for Today</h3>
-            </div>`;
+                    taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">No tasks for the day.</h4>`;
                     taskDayInfo.appendChild(taskDiv);
+                    renderCalendarWRTCond(year, month, day + 1)
                 }
             })
     }
@@ -1217,4 +1174,59 @@ async function renderTaskPage() {
         // Attach the listener for when the window resizes
         mediaQuery.addEventListener('change', handleMediaQueryChange);
     })
+
+
+    // delete or edit  specific task from database
+
+    document.getElementById('day-info').addEventListener('click' , function(event){
+        // check if the element clicked is delete or edit
+
+        if(event.target && (event.target.id == 'Delete-task' || event.target.id == 'Edit-task')){
+            // find the taskDiv to get taskID
+            const taskDiv = event.target.closest('.task-added') 
+            if(taskDiv){
+                // get id
+                let taskID = taskDiv.getAttribute('data-id');
+
+                // perform delete and edit operations
+
+                if(event.target.id == 'Delete-task'){
+                    deleteSpecificTask(taskID,taskDiv);
+                    
+                }
+                else if (event.target.id == 'Edit-task'){
+
+                }
+            }
+        }
+    })
+
+
+    // functon to delete specific task
+    
+    function deleteSpecificTask(taskID,taskDiv) {
+
+        if(confirm('this task will be removed. this action is irreversible')){
+            fetch(`http://localhost:5000/tasks/delete/${taskID}`,{
+                method : 'DELETE',
+                headers: {
+                    'content-type': 'application/json'
+                }
+            })
+            .then(response => {
+                if(response.ok) {
+                    console.log('Task Deleted successfully.')
+                    taskDiv.remove();
+                }
+                else{
+                    console.error('Error deleting tasks.:', response.statusText)
+                }
+            })
+            
+        }
+    }
+
+
+         
+
 
