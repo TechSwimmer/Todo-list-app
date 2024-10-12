@@ -87,6 +87,7 @@ todayTasks();                         //   function to load tyhe current day tas
 // ------------------------------------------------add-task-icon btn use and add-task page dynamism.-----------------------------------------
 
 function openTaskPage() {
+    
     let taskAdder = document.getElementById('taskPageContainer');
     taskAdder.style.display = 'block';
     document.getElementById('task-name').value = "";
@@ -109,19 +110,21 @@ function closeTaskPage() {
 let addTaskBtn = document.querySelector('.add-task-icon');
 
 addTaskBtn.addEventListener('click', () => {
+  
+    
     openTaskPage();
 
 
 })
 
 
-// overlay mouse pointer behaviour
+// overlay mouse pointer behaviour when create task page is open
 
 
 let overlay = document.getElementById('overlay');
 overlay.addEventListener('click', function () {
     closeTaskPage();
-
+    
 });
 
 overlay.addEventListener('mouseenter', function () {
@@ -191,7 +194,7 @@ async function renderTaskPage() {
                     <div id="Edit-task">Edit task</div>
                     </div>
                 </div>`;
-            
+            console.log(taskDate,taskName,taskNotes,taskId)
             navHeader.innerText = taskDate;
             taskDayInfo.appendChild(taskDiv);
 
@@ -208,12 +211,12 @@ async function renderTaskPage() {
     let taskSubmitBtn = document.getElementById('create');
 
     taskSubmitBtn.addEventListener('click', (event) => {
-
+        
         event.preventDefault();
 
-
+        
         renderTaskPage();
-
+        
 
 
     })
@@ -851,14 +854,17 @@ async function renderTaskPage() {
                     </div>`;
                         taskDayInfo.appendChild(taskDiv);
                     }
-                    if(noTrueTaskCounter == 0){
-                        let taskDiv = document.createElement('div');
-                        taskDiv.innerHTML = `<h4 id="no-tasks">No tasks completed</h4>`;
-                        taskDayInfo.appendChild(taskDiv);
-                    }
+                   
                     
                 })
+              
+                if(noTrueTaskCounter == 0){
+                    let taskDiv = document.createElement('div');
+                    taskDiv.innerHTML = `<h4 id="no-tasks">No tasks completed</h4>`;
+                    taskDayInfo.appendChild(taskDiv);
+                }
             }
+            
         })    
     }
 
@@ -1187,7 +1193,10 @@ async function renderTaskPage() {
             if(taskDiv){
                 // get id
                 let taskID = taskDiv.getAttribute('data-id');
-
+                let taskDate =  taskDiv.getAttribute('data-date');
+                let taskName = taskDiv.querySelector('h3').innerText;
+                let taskNotes = taskDiv.querySelector('p').innerText;
+                console.log(taskID,taskDate)
                 // perform delete and edit operations
 
                 if(event.target.id == 'Delete-task'){
@@ -1195,7 +1204,8 @@ async function renderTaskPage() {
                     
                 }
                 else if (event.target.id == 'Edit-task'){
-
+                    openEditPage();
+                    
                 }
             }
         }
@@ -1230,3 +1240,56 @@ async function renderTaskPage() {
          
 
 
+// edit specifc task
+
+
+function editTask(taskID,taskDiv,taskName,taskNotes,taskDate){
+
+    const updatedTask = {
+        taskName: taskName,
+        taskNotes: taskNotes,
+        _id: taskID,
+        taskDate: taskDate
+    }
+    fetch(`http://localhost:5000/tasks/update/${taskID}`,{
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(updatedTask)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Task updated successfully:', data);
+        // You can also update the DOM with the new task details if needed
+    })
+    .catch(error => {
+        console.error('Error updating task:', error);
+    });
+}
+
+
+function openEditPage() {
+    
+    let taskEditor = document.getElementById('editTaskPageContainer');
+    taskEditor.style.display = 'block';
+    
+
+    document.getElementById('overlay').style.display = 'block';
+    addTaskBtn.classList.add('visibility');
+    document.querySelector('#edit-task-container').classList.remove('visibility')
+
+}
+
+function closeEditPage() {
+    document.getElementById('editTaskPageContainer').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+    document.querySelector('#edit-task-container').classList.add('visibility')
+    addTaskBtn.classList.remove('visibility');
+}
+
+let overlaytwo = document.querySelectorAll('#overlay');
+console.log(overlaytwo)
+// overlaytwo.addEventListener('click', function() {
+//     closeEditPage();
+// })

@@ -111,7 +111,7 @@
     </div>
     <div class="task-page-container" id="taskPageContainer"></div>
     <div class="task-container visibility">
-      <h2>TASK</h2>
+      <h2>CREATE TASK</h2>
       <form id="task-form">
       <label for="task-name">Task Name:</label><br>
       <input type="text" id="task-name" name="task-name" required maxlength="150" placeholder="Maximum 150 characters"><br><br>
@@ -122,6 +122,24 @@
       <button type="button" id="create">CREATE</button>
     </form>
     </div>
+  
+
+    <div class="overlay" id="overlay"></div>
+    <div class="edit-task-page-container" id="editTaskPageContainer"></div>
+    <div id="edit-task-container" class="visibility">
+      <h2>EDIT TASK</h2>
+      <form id="task-form">
+      <label for="task-name">Task Name:</label><br>
+      <input type="text" id="task-name" name="task-name" required maxlength="150" placeholder="Maximum 150 characters"><br><br>
+      <label for="task-name">Task Notes:</label><br>
+      <textarea id="task-notes" name="task-notes" placeholder="Notes here" rows="5"></textarea><br><br><br>
+      <label for ="task-date">Date:</label>
+      <input type="date" id="task-date" required><br><br>
+      <button type="button" id="edit">UPDATE</button>
+    </form>
+    </div>
+  
+
     <div class="overlay" id="overlay"></div>
   </div>
     <button class="add-task-icon"></button>
