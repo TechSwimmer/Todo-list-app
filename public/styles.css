@@ -89,7 +89,6 @@ ul li:hover {
 }
 
 
-
 /*-------------------------------------------------toggle links btn ---------------------------------------------------*/
 
 /*------------------------classes to be applied to the toggle button and the dropdown lnk list-------------------------------------*/
@@ -161,13 +160,15 @@ ul li:hover {
 
     .content .day-info {
         height: 100%;
+        position: relative;
         width: 56vw;
         padding: 10px 0px 0px 5px;
         background-color: blueviolet;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
-       
+        justify-content: top;
+        
         overflow:auto;
         margin-top: 75px;
         
@@ -192,7 +193,7 @@ ul li:hover {
     }
 
     .extras {
-        height: 100%;
+        height: 99.6%;
         margin-right: 1pxvw;
         display: flex;
         flex-direction: column;
@@ -446,7 +447,7 @@ ul li:hover {
         display: none;
         justify-content: center;
    }
-   .overlay{
+   .overlay-create{
     position: fixed;
     top: 0;
     left: 0;
@@ -485,11 +486,11 @@ ul li:hover {
  letter-spacing: 2px;
 }
 
-#edit-task-container #task-form{
+#edit-task-container #edit-task-form{
  width: 100%;
  align-items: center;
 }
-#edit-task-container #task-name{
+#edit-task-container #edit-task-name{
  width: 100%;
  height: 20px;
  padding: 5px;
@@ -497,7 +498,7 @@ ul li:hover {
  border: 3px solid blue;
  resize: none;
 }
-#edit-task-container #task-notes{
+#edit-task-container #edit-task-notes{
  width: 100%;
  height:23vh;
  padding: 5px;
@@ -508,7 +509,7 @@ ul li:hover {
 
 }
 
-#edit-task-container #task-date{
+#edit-task-container #edit-task-date{
  border: 3px solid blue;
  height: 30px;
  align-self: center;
@@ -526,7 +527,7 @@ ul li:hover {
  font-weight: bold;
  
 }
-#edit-task-container #create:hover{
+#edit-task-container #edit:hover{
      cursor: pointer;
      box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
      border: 3px solid blue;
@@ -540,7 +541,7 @@ ul li:hover {
      display: none;
      justify-content: center;
 }
-.overlay{
+#overlay-edit{
  position: fixed;
  top: 0;
  left: 0;
@@ -709,7 +710,89 @@ ul li:hover {
 
 /*---------------------WRITE CODE TO REMOVE THE TASK FROM THE DIV WHEN THE CHECKBOX (TASK DOINE IS CLICKED)-------------------------*/
 
-     
+
+/*------------------------------------------------------settings - feedback - help-----------------------------------------------------*/
+
+#settings {
+    height: 100%;
+    width: 100%;
+    background-color: blueviolet;
+    display: none;
+    justify-content: center;
+    align-self: center;
+}
+#help {
+    height: 100%;
+    width: 100%;
+    background-color: blueviolet;
+    display: none;
+    justify-content: center;
+    align-self: center;
+}
+
+
+
+
+/*----------------------------------------------feedback form styles-----------------------------------------*/
+#feedb {
+    max-height: 99vh;
+    width: 97.3%;
+    background-color: blueviolet;
+    
+    display: none;
+    
+    
+}
+
+#feedbackForm{
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    width: 100%;
+    max-height: 99vh;
+    
+}
+#feedb-submit{
+    width: 100%;
+    align-self: baseline;
+    height: 50px;
+    border-radius: 10px;
+    background-color: aqua;
+    justify-content: flex-end;
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: box-shadow 0.3s ease-in;
+}
+#feedb-submit:hover{
+    box-shadow:1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
+    font-size: 1.3rem;
+    transition:  0.2s ease;
+}
+
+#feedb-issues{
+    height: 100px;
+    width: 97%;
+    resize: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#feedb-improvement{
+    height: 100px;
+    width: 97%;
+    resize: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+#feedb-satisfaction, #feedb-satisfaction option {
+    font-weight: bold; /* Makes the options bold */
+  }
+
+  #feedb-experience, #feedb-experience option {
+    font-weight: bold;
+  }
 
 
 
@@ -1215,7 +1298,7 @@ ul li:hover {
          display: none;
          justify-content: center;
     }
-    .overlay{
+    .overlay-create{
      position: fixed;
      top: 0;
      left: 0;
@@ -1232,11 +1315,101 @@ ul li:hover {
         display:inline-block;
     }
  
+    /*----------------------------------------------------------edit task page for mobile--------------------------------------*/
+
+    #edit-task-container{
+        
+        position: fixed;
+        top: 7%;
+        left: 15%;
+        bottom: 7%;
+        right: 15%;
+        z-index: 20;
+        
+        justify-content: center;
+        font-weight: bold;
+        height: 75%;
+        padding: 50px;
+        background-color: blueviolet;
+        text-align: start;
+        border-radius: 20px;
+        letter-spacing: 1.3px;
+    }
+    #edit-task-container h2{
+     text-align: center;
+     margin-bottom: 35px;
+     letter-spacing: 2px;
     
+    }
+ 
+    #edit-task-container #edit-task-form{
+     width: 100%;
+     align-items: center;
+    }
+    #edit-task-container #edit-task-name{
+     width: 100%;
+     height: 20px;
+     padding: 5px;
+     border-radius:6px ;
+     border: 3px solid blue;
+     resize: none;
+    }
+    #edit-task-container #edit-task-notes{
+     width: 100%;
+     height:23vh;
+     padding: 5px;
+     border-radius: 6px;
+     resize: none;
+     overflow-y: auto;
+     border: 3px solid blue;
+    }
+ 
+    #edit-task-container #edit-task-date{
+     border: 3px solid blue;
+     height: 30px;
+     align-self: center;
+     padding: 5px;
+     margin-left: 15px;
+     border-radius: 6px;
+    }
+ 
+    #edit-task-container #edit{
+     justify-content: center;
+     width: 100%;
+     padding: 15px;
+     border-radius: 10px;
+     font-size: 1rem;
+     font-weight: bold;
+     
+    }
+    #edit-task-container #edit:hover{
+         cursor: pointer;
+         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+         border: 3px solid blue;
+    }
+    .edit-task-page-container{
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         display: none;
+         justify-content: center;
+    }
+    .overlay-edit{
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 1, 0.85);
+     display: none;
+    }
  
     /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
  
     .content .day-info {
+        position:relative;
         height: 100%;
         width: 100vw;
         padding: 10px 0px 0px 5px;
@@ -1244,7 +1417,8 @@ ul li:hover {
         border-radius: 10px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        justify-content: top;
+        align-items: center;
         overflow:scroll;
         margin-top: 75px;
         
@@ -1366,6 +1540,95 @@ ul li:hover {
            height: 25px;
            
         }
+
+        /*---------------------------settings-edit-feedback-----------------------------------------*/
+
+        #settings {
+            height: 100%;
+            width: 100%;
+            background-color: blueviolet;
+           
+            display: none;
+            justify-content: center;
+            align-self: center;
+        }
+        #help {
+            height: 100%;
+            width: 100%;
+            background-color: blueviolet;
+           
+            display: none;
+            justify-content: center;
+            align-self: center;
+        }
+
+
+
+        /*----------------------------------------feedback-styles for mobile devices-----------------------------------*/
+        #feedb {
+            max-height: 99vh;
+            width: 97.3%;
+            background-color: blueviolet;
+            
+            display: none;
+            
+            
+        }
+        
+        #feedbackForm{
+            display: flex;
+            flex-direction: column;
+            font-weight: 600;
+            width: 100%;
+            max-height: 99vh;
+            
+        }
+        #feedb-submit{
+            width: 100%;
+            align-self: baseline;
+            height: 50px;
+            border-radius: 10px;
+            background-color: aqua;
+            justify-content: flex-end;
+            font-size: large;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: box-shadow 0.3s ease-in;
+            margin-bottom: 7px;
+        }
+        #feedb-submit:hover{
+            box-shadow:1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
+            font-size: 1.3rem;
+            transition:  0.2s ease;
+        }
+        
+        #feedb-issues{
+            height: 100px;
+            width: 97%;
+            resize: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        #feedb-improvement{
+            height: 100px;
+            width: 97%;
+            resize: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        #feedb-satisfaction, #feedb-satisfaction option {
+            font-weight: bold; /* Makes the options bold */
+          }
+        
+          #feedb-experience, #feedb-experience option {
+            font-weight: bold;
+          }
+        
+
+
+
 
         /*-----------------------task-page scrollbar-----------------------------*/
 

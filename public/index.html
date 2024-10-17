@@ -11,15 +11,15 @@
       <div class="nav-header" id="nav-header"><h2>TODAY</h2></div>
 
       <ul class="nav-menu-links" id="nav-menu-links">
-        <li><a class="nav-link" href="#">Feedback</a></li>
-        <li><a class="nav-link" href="#">Help</a></li>
-        <li><a class="nav-link list-right-div" href="#">Settings</a></li>
+        <li><a class="nav-link" id="feedback-nav" href="#">Feedback</a></li>
+        <li><a class="nav-link" id="help-nav" href="#">Help</a></li>
+        <li><a class="nav-link list-right-div" id="settings-nav" href="#">Settings</a></li>
         <li><a class="nav-link list-left-div" id="completed" href="#">Completed tasks</a></li>
 
         <li><a class="nav-link" id="All-Tasks" href="#">All Tasks</a></li>
         <li><a class="nav-link" id="Tomorrow" href="#">Tomorrow</a></li>
         <li><a class="nav-link" id="Today" href="#">Today</a></li>
-        <li><a class="nav-link" id="delete" href="#">Delete All</a></li>
+        <li><a class="nav-link" id="delete" href="#">Delete Completed</a></li>
       </ul>
 
       <btn id="toggle-nav-menu"
@@ -31,7 +31,55 @@
       <btn class="nav-menu-links" id="back-btn"><h2>BACK</h2></btn>
     </nav>
     <div class="content">
-      <div class="day-info" id="day-info"></div>
+      <div class="day-info" id="day-info">
+        <div  id="settings"></div>
+        <div  id="feedb">
+          <form id="feedbackForm" action="/submit-feedback" method="POST">
+            <!-- User Information -->
+            <label for="name">Name (Optional):</label>
+            <input type="text" id="feedb-name" name="name">
+            <br>
+            <label for="email">Email (Optional):</label>
+            <input type="email" id="feedb-email" name="email">
+    
+            <br>
+    
+            <label for="experience">How would you rate your overall experience?</label>
+            <select id="feedb-experience" name="experience">
+                <option value="1">1 - Very Poor</option>
+                <option value="2">2 - Poor</option>
+                <option value="3">3 - Neutral</option>
+                <option value="4">4 - Good</option>
+                <option value="5">5 - Excellent</option>
+            </select>
+            <br>
+          
+            <label for="satisfaction">How satisfied are you with the calendar feature?</label>
+            <select id="feedb-satisfaction" name="satisfaction">
+                <option value="1">1 - Very Unsatisfied</option>
+                <option value="2">2 - Unsatisfied</option>
+                <option value="3">3 - Neutral</option>
+                <option value="4">4 - Satisfied</option>
+                <option value="5">5 - Very Satisfied</option>
+            </select>
+    
+            <br>   
+            <!-- Suggestions for Improvement -->
+            <label for="improvement">What would make this app better for you?</label>
+            <textarea id="feedb-improvement" name="improvement" rows="4" cols="50"></textarea>
+            <br>
+            <label for="issues">Did you encounter any bugs or issues?</label>
+            <textarea id="feedb-issues" name="issues" rows="4" cols="50"></textarea>
+    
+            <!-- User Satisfaction -->
+            <br>
+    
+            <!-- Submit Button -->
+            <button type="submit" id="feedb-submit">Submit Feedback</button>
+        </form>
+        </div>
+        <div id="help"></div>
+      </div>
       <div class="extras">
         <div id="calendar">
           <table>
@@ -115,7 +163,7 @@
       <form id="task-form">
       <label for="task-name">Task Name:</label><br>
       <input type="text" id="task-name" name="task-name" required maxlength="150" placeholder="Maximum 150 characters"><br><br>
-      <label for="task-name">Task Notes:</label><br>
+      <label for="task-notes">Task Notes:</label><br>
       <textarea id="task-notes" name="task-notes" placeholder="Notes here" rows="5"></textarea><br><br><br>
       <label for ="task-date">Date:</label>
       <input type="date" id="task-date" required><br><br>
@@ -124,23 +172,23 @@
     </div>
   
 
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay-create" id="overlay-create"></div>
     <div class="edit-task-page-container" id="editTaskPageContainer"></div>
     <div id="edit-task-container" class="visibility">
       <h2>EDIT TASK</h2>
-      <form id="task-form">
+      <form id="edit-task-form">
       <label for="task-name">Task Name:</label><br>
-      <input type="text" id="task-name" name="task-name" required maxlength="150" placeholder="Maximum 150 characters"><br><br>
-      <label for="task-name">Task Notes:</label><br>
-      <textarea id="task-notes" name="task-notes" placeholder="Notes here" rows="5"></textarea><br><br><br>
+      <input type="text" id="edit-task-name" name="task-name" required maxlength="150" placeholder="Maximum 150 characters"><br><br>
+      <label for="task-notes">Task Notes:</label><br>
+      <textarea id="edit-task-notes" name="task-notes" placeholder="Notes here" rows="5"></textarea><br><br><br>
       <label for ="task-date">Date:</label>
-      <input type="date" id="task-date" required><br><br>
+      <input type="date" id="edit-task-date" required><br><br>
       <button type="button" id="edit">UPDATE</button>
     </form>
     </div>
   
 
-    <div class="overlay" id="overlay"></div>
+    <div class="overlay-edit" id="overlay-edit"></div>
   </div>
     <button class="add-task-icon"></button>
 

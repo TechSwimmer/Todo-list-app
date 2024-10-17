@@ -102,14 +102,19 @@ const completedTask = async(req,res) => {
 
 // delete every single task from the dbb
 
-const deleteAll = async(req,res)=> {
+const deleteCompleted = async(req,res)=> {
     try{
-        await todoApp.deleteMany({});
-        res.status(200).send({message: 'All tasks deleted sucessfully.'})
+        const result =  await todoApp.deleteMany({completed: true});
+        if(result.deletedCount > 0){
+        res.status(200).send({message: `${result.deletedCount} tasks deleted sucessfully.`})
+        }
+        else {
+            res.status(404).json({ message: 'No completed tasks found.' });
+        }
     }
     catch(error){
-        console.error('Error deleting tasks', error);
-        res.status(500).send({ error: ' Failed to delete tasks.'})
+        
+        res.status(500).json({ message: error.message})
 
     }
 }
@@ -121,5 +126,5 @@ module.exports = {
     updateTask,
     deleteTask,
     completedTask,
-    deleteAll
+    deleteCompleted
 }

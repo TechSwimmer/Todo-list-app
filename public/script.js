@@ -77,7 +77,7 @@ leftArrowMonth.addEventListener('mouseleave', () => {
 
 
 
-todayTasks();                         //   function to load tyhe current day tasks right in tyyhe beginning 
+// todayTasks();                         //   function to load tyhe current day tasks right in tyyhe beginning 
 
 
 // let numOfDays = new Date(2024,3,32).getDate();
@@ -94,7 +94,7 @@ function openTaskPage() {
     document.getElementById('task-notes').value = "";
     document.getElementById('task-date').value = "";
 
-    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('overlay-create').style.display = 'block';
     addTaskBtn.classList.add('visibility');
     document.querySelector('.task-container').classList.remove('visibility')
 
@@ -102,7 +102,7 @@ function openTaskPage() {
 
 function closeTaskPage() {
     document.getElementById('taskPageContainer').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('overlay-create').style.display = 'none';
     document.querySelector('.task-container').classList.add('visibility')
     addTaskBtn.classList.remove('visibility');
 }
@@ -121,14 +121,14 @@ addTaskBtn.addEventListener('click', () => {
 // overlay mouse pointer behaviour when create task page is open
 
 
-let overlay = document.getElementById('overlay');
-overlay.addEventListener('click', function () {
+let overlaycreate = document.getElementById('overlay-create');
+overlaycreate.addEventListener('click', function () {
     closeTaskPage();
     
 });
 
-overlay.addEventListener('mouseenter', function () {
-    overlay.style.cursor = 'pointer';
+overlaycreate.addEventListener('mouseenter', function () {
+    overlaycreate.style.cursor = 'pointer';
 })
 
 
@@ -140,6 +140,9 @@ async function renderTaskPage() {
     let taskName = document.getElementById('task-name').value;
     let taskNotes = document.getElementById('task-notes').value;
     let taskDate = document.getElementById('task-date').value;
+
+    let feedbackDiv = document.querySelector('#feedb');
+        if(feedbackDiv){feedbackDiv.style.display = 'none'}
 
     // Provide default task notes if empty
     if (taskNotes === "") {
@@ -654,6 +657,42 @@ async function renderTaskPage() {
 
             getDataFromBackend(year, month, selectedDay);
 
+             // media query to hide the nav menu links for mobile devices
+        const mediaQuery = window.matchMedia('(max-width:1280px)')
+        function handleMediaQueryChange(e) {
+            let navMenuLinks = document.getElementById('nav-menu-links');
+            let backbtn = document.getElementById('back-btn');
+            let toggleNavMenu = document.getElementById('toggle-nav-menu');
+            let toggleNavImg = document.getElementsByClassName('toggle-img')
+            let taskDayInfo = document.getElementById('day-info');
+            taskDayInfo.style.display = 'block';
+            if (e.matches) {
+                // If the screen width is <= 1280px, hide nav menu links
+                navMenuLinks.classList.add('visibility');
+                backbtn.classList.toggle('visibility');
+                toggleNavMenu.classList.add('invisibility');
+
+                toggleNavMenu.addEventListener('click', () => {
+                    navMenuLinks.classList.remove('visibility');
+                    backbtn.classList.remove('visibility');
+                    toggleNavMenu.classList.remove('invisibility');
+                    taskDayInfo.style.display = 'none';
+                })
+
+            }
+            else {
+                navMenuLinks.style.display = 'flex';
+            }
+            backbtn.addEventListener('click', () => {
+                taskDayInfo.style.display = 'block';
+            })
+        }
+
+        // Initial check when the function is called
+        handleMediaQueryChange(mediaQuery);
+
+        // Attach the listener for when the window resizes
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
         });
     });
 
@@ -662,52 +701,68 @@ async function renderTaskPage() {
         let reqTaskDate = new Date(Date.UTC(year, month - 1, selectedDay));
         reqTaskDate = reqTaskDate.toISOString().split('T')[0];
 
+        let feedbackDiv = document.querySelector('#feedb');
+        if(feedbackDiv){feedbackDiv.style.display = 'none'}
+
+        
+
+        let taskDivs = document.querySelectorAll('#day-info .task-added');                         // clear previous tasks
+        taskDivs.forEach(task => task.remove())
+        
+        let noTasksDiv = document.querySelector('#day-info #no-tasks')
+        if(noTasksDiv){noTasksDiv.remove()}
+
         let taskDayInfo = document.getElementById('day-info');
-        taskDayInfo.innerHTML = '';                                                                   // clear previous tasks
+                                                                        
         const url = `http://localhost:5000/tasks?year=${year}&month=${month}&day=${selectedDay}`;
         let taskFound = false;
-
+        let counter = 0;
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                data.forEach(task => {
-                   
-                    let dbTaskDate = new Date(task.taskDate).toISOString().split('T')[0];
-                    if (reqTaskDate == dbTaskDate) {
-                        taskFound = true;
-                        console.log(reqTaskDate, dbTaskDate)
-                        let taskName = task.taskName;
-                        let taskNotes = task.taskNotes || 'No Task Notes';
-                        let userNoteInput = taskNotes.replace(/\n/g, "<br>");
-                        let taskID = task._id;
-                        let taskDiv = document.createElement('div');
-                        taskDiv.setAttribute('data-id', task.id);
-                        taskDiv.innerHTML = `<div class="task-added" data-id="${taskID}" data-date="${task.taskDate}">
-                            <div class="head-checkbox">
-                                <h3>${taskName}</h3>
-                                <div class="checkbox">
-                                    <h4 class="task-done">Task Done.</h4>
-                                </div>
-                            </div>
-                            <p>${userNoteInput}</p>
-                            <div id="Edit-del-btn">
-                            <div id="Delete-task">Delete</div>
-                            <div id="Edit-task">Edit task</div>
-                            </div>
-                        </div>`;
-                        taskDayInfo.appendChild(taskDiv);
-                        // Add the task ID as a data attribute (use data-task-id)
-                       
-
-                    }
-                });
-
-                // if no tasks are found for the specific date then the frontend should display 'No tasks for the day"
-                if (!taskFound) {
+               let counter = 0
+                
+                let updatedTask = data.filter(task => 
+                    task.taskDate.split('T')[0] === reqTaskDate
+                );
+                 console.log(reqTaskDate)
+                if (updatedTask.length == 0) {
                     let taskDiv = document.createElement('div');
                     taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">No tasks for the day.</h4>`;
                     taskDayInfo.appendChild(taskDiv);
                 }
+                updatedTask.forEach(task => {
+                    counter++
+                    if(task.completed == false){
+                        let taskID = task._id;
+                        let taskName = task.taskName;
+                        let taskDate = task.taskDate;
+                        let taskNote = task.taskNotes;
+                        let userNoteInput =  taskNote.replace(/\n/g, "<br>");                       
+                        let taskDiv = document.createElement('div');
+                     taskDiv.innerHTML =
+                        `<div class="task-added" data-id="${taskID}" data-date="${taskDate}">
+                    <div class="head-checkbox"><h3>${taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
+   
+                    <p>${userNoteInput}</p>
+                    <div id="Edit-del-btn">
+                        <div id="Delete-task">Delete</div>
+                        <div id="Edit-task">Edit task</div>
+                        </div>
+                    </div>`;
+                    taskDiv.setAttribute('data-date', task.taskDate);
+                    console.log(taskDate)
+                    taskDayInfo.appendChild(taskDiv);
+                    }
+                    else if (task.completed == true  && counter == updatedTask.length){
+                        let taskDiv = document.createElement('div');
+                    taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">All tasks for the day completed</h4>`;
+                    taskDayInfo.appendChild(taskDiv);
+                    }
+                })
+                console.log(feedbackDiv)
+                // if no tasks are found for the specific date then the frontend should display 'No tasks for the day"
+              
             })
             .catch(error => {
                 console.log('Error fetching tasks : ', error)
@@ -731,14 +786,25 @@ async function renderTaskPage() {
 
     function displayAllTasks() {
         let navHeader = document.querySelector('h2');
-        let taskDayInfo = document.getElementById('day-info');
+
+        let feedbackDiv = document.querySelector('#feedb');
+        if(feedbackDiv){feedbackDiv.style.display = 'none'}
+
+            // clear previous tasks in the day-iinfo
+            let taskDayInfo = document.getElementById('day-info');
+            let taskDivs = document.querySelectorAll('.task-added');
+            taskDivs.forEach(task => task.remove())
+
+            // if no-tyasks div existys remove it
+            let noTasksDiv = document.querySelector('#day-info #no-tasks')
+            if(noTasksDiv){noTasksDiv.remove()}
 
 
         let dateCells = document.querySelectorAll('#table-body tr td')
         dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
 
 
-        taskDayInfo.innerHTML = "";
+        
 
         fetch('http://localhost:5000/tasks')
             .then(response => response.json())
@@ -784,24 +850,31 @@ async function renderTaskPage() {
             let navMenuLinks = document.getElementById('nav-menu-links');
             let backbtn = document.getElementById('back-btn');
             let toggleNavMenu = document.getElementById('toggle-nav-menu');
-            let toggleNavImg = document.getElementsByClassName('toggle-img')
-
+            let toggleNavImg = document.getElementsByClassName('toggle-img');
+            let taskDayInfo = document.getElementById('day-info')
+            taskDayInfo.style.display = 'block';
             if (e.matches) {
                 // If the screen width is <= 1280px, hide nav menu links
                 navMenuLinks.classList.add('visibility');
-                backbtn.classList.toggle('visibility');
+                backbtn.classList.add('visibility');
                 toggleNavMenu.classList.add('invisibility');
 
                 toggleNavMenu.addEventListener('click', () => {
                     navMenuLinks.classList.remove('visibility');
                     backbtn.classList.remove('visibility');
                     toggleNavMenu.classList.remove('invisibility');
+                    taskDayInfo.style.display = 'none';
+                   
                 })
 
             }
+
             else {
                 navMenuLinks.style.display = 'flex';
             }
+           backbtn.addEventListener('click', () => {
+            taskDayInfo.style.display = 'block'
+           })
         }
 
         // Initial check when the function is called
@@ -818,9 +891,21 @@ async function renderTaskPage() {
 
     function showCompletedTasks() {
         let navHeader = document.querySelector('h2').innerText = 'Completed';
-        let taskDayInfo = document.getElementById('day-info');
+
+        let feedbackDiv = document.querySelector('#feedb');
+        if(feedbackDiv){feedbackDiv.style.display = 'none'}
+
+            // if no-tyasks div existys remove it
+            let noTasksDiv = document.querySelector('#day-info #no-tasks')
+            if(noTasksDiv){noTasksDiv.remove()}
+
+            // clear previous tasks in the day-iinfo
+            let taskDayInfo = document.getElementById('day-info');
+            let taskDivs = document.querySelectorAll('.task-added');
+            taskDivs.forEach(task => task.remove())
+    
         let noTrueTaskCounter =  0;
-        taskDayInfo.innerHTML = "";
+        
         let dateCells = document.querySelectorAll('#table-body tr td')
         dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
         fetch('http://localhost:5000/tasks')
@@ -880,7 +965,9 @@ async function renderTaskPage() {
             let navMenuLinks = document.getElementById('nav-menu-links');
             let backbtn = document.getElementById('back-btn');
             let toggleNavMenu = document.getElementById('toggle-nav-menu');
-            let toggleNavImg = document.getElementsByClassName('toggle-img')
+            let toggleNavImg = document.getElementsByClassName('toggle-img');
+            let taskDayInfo = document.getElementById('day-info');
+            taskDayInfo.style.display = 'block';
 
             if (e.matches) {
                 // If the screen width is <= 1280px, hide nav menu links
@@ -892,12 +979,16 @@ async function renderTaskPage() {
                     navMenuLinks.classList.remove('visibility');
                     backbtn.classList.remove('visibility');
                     toggleNavMenu.classList.remove('invisibility');
+                    taskDayInfo.style.display = 'none';
                 })
 
             }
             else {
                 navMenuLinks.style.display = 'flex';
             }
+            backbtn.addEventListener('click', () => {
+               taskDayInfo.style.display = 'block';
+            })
         }
 
         // Initial check when the function is called
@@ -914,14 +1005,24 @@ async function renderTaskPage() {
     function displayTomorrowTasks() {
         let date = new Date();
         date.setDate(date.getDate() + 1)
+        
+        let feedbackDiv = document.querySelector('#feedb');
+        if(feedbackDiv){feedbackDiv.style.display = 'none'}
+
+        // if no-tyasks div existys remove it
+        let noTasksDiv = document.querySelector('#day-info #no-tasks')
+        if(noTasksDiv){noTasksDiv.remove()}
 
         let day = date.getDate() + 1;
         let month = date.getMonth();
         let year = date.getFullYear();
 
         let tomorrowDateString = date.toISOString().split('T')[0];
-        let taskDayInfo = document.getElementById('day-info');
-        taskDayInfo.innerHTML = "";
+            // clear previous tasks in the day-iinfo
+            let taskDayInfo = document.getElementById('day-info');
+            let taskDivs = document.querySelectorAll('.task-added');
+            taskDivs.forEach(task => task.remove())
+    
         let navHeader = document.querySelector('h2');
         navHeader.innerText = 'Tomorrow';
         console.log(tomorrowDateString)
@@ -973,7 +1074,8 @@ async function renderTaskPage() {
             let backbtn = document.getElementById('back-btn');
             let toggleNavMenu = document.getElementById('toggle-nav-menu');
             let toggleNavImg = document.getElementsByClassName('toggle-img')
-
+            let taskDayInfo = document.getElementById('day-info');
+            taskDayInfo.style.display = 'block';
             if (e.matches) {
                 // If the screen width is <= 1280px, hide nav menu links
                 navMenuLinks.classList.add('visibility');
@@ -984,12 +1086,16 @@ async function renderTaskPage() {
                     navMenuLinks.classList.remove('visibility');
                     backbtn.classList.remove('visibility');
                     toggleNavMenu.classList.remove('invisibility');
+                    taskDayInfo.style.display = 'none';
                 })
 
             }
             else {
                 navMenuLinks.style.display = 'flex';
             }
+            backbtn.addEventListener('click', () => {
+                taskDayInfo.style.display = 'block';
+            })
         }
 
         // Initial check when the function is called
@@ -1026,6 +1132,8 @@ async function renderTaskPage() {
     // function for today btn
 
     function todayTasks() {
+        let feedbackDiv = document.querySelector('#feedb');
+        if(feedbackDiv){feedbackDiv.style.display = 'none'}
         //get today's date
         let date = new Date();
         let day = date.getDate();
@@ -1033,13 +1141,22 @@ async function renderTaskPage() {
         let year = date.getFullYear();
         let todayDateString = date.toISOString().split('T')[0];
 
+        // if no-tyasks div existys remove it
+        let noTasksDiv = document.querySelector('#day-info #no-tasks')
+        if(noTasksDiv){noTasksDiv.remove()}
+
         // set navheader as today
         let navHeader = document.querySelector('h2');
+        
         navHeader.innerText = 'Today';
 
         // clear previous tasks in the day-iinfo
         let taskDayInfo = document.getElementById('day-info');
-        taskDayInfo.innerHTML = "";
+        // let noTasksDiv = document.getElementById('no-tasks');
+        // taskDayInfo.removeChild(noTasksDiv)
+        
+        let taskDivs = document.querySelectorAll('.task-added');
+        taskDivs.forEach(task => task.remove())
 
         fetch('http://localhost:5000/tasks')
             .then(response => response.json())
@@ -1047,10 +1164,13 @@ async function renderTaskPage() {
 
                 // filter tasks for today
                 let tasksForToday = data.filter(task => task.taskDate.split('T')[0] == todayDateString);
-
+                let counter = 0;
                 console.log(tasksForToday)
                 if (tasksForToday.length > 0) {
                     tasksForToday.forEach(task => {
+                        
+                        counter++;
+                        if(task.completed == false){
                         let taskID = task._id;
                         let taskNotes = task.taskNotes;
                         let userNoteInput = taskNotes.replace(/\n/g, "<br>"); 
@@ -1065,6 +1185,12 @@ async function renderTaskPage() {
                         </div>`;
                         taskDayInfo.appendChild(taskDiv);
                         renderCalendarWRTCond(year, month, day + 1)
+                    }else if(task.completed == true && tasksForToday.length == counter){
+                        let taskDiv = document.createElement('div');
+                        taskDiv.innerHTML = `<h4 id="no-tasks">All tasks for today completed.</h4>`;
+                        taskDayInfo.appendChild(taskDiv);
+                        renderCalendarWRTCond(year, month, day + 1)
+                    }
                     })
 
                 } else {
@@ -1086,7 +1212,8 @@ async function renderTaskPage() {
             let backbtn = document.getElementById('back-btn');
             let toggleNavMenu = document.getElementById('toggle-nav-menu');
             let toggleNavImg = document.getElementsByClassName('toggle-img')
-
+            let taskDayInfo = document.getElementById('day-info');
+            taskDayInfo.style.display = 'block';
             if (e.matches) {
                 // If the screen width is <= 1280px, hide nav menu links
                 navMenuLinks.classList.add('visibility');
@@ -1097,12 +1224,16 @@ async function renderTaskPage() {
                     navMenuLinks.classList.remove('visibility');
                     backbtn.classList.remove('visibility');
                     toggleNavMenu.classList.remove('invisibility');
+                    taskDayInfo.style.display = 'none';
                 })
 
             }
             else {
                 navMenuLinks.style.display = 'flex';
             }
+            backbtn.addEventListener('click', () => {
+                taskDayInfo.style.display = 'block';
+            })
         }
 
         // Initial check when the function is called
@@ -1115,12 +1246,12 @@ async function renderTaskPage() {
 
     // a function that will delete all tasks storedin all dates
 
-    function deleteAllTasks() {
+    function deleteCompletedTasks() {
         let taskDayInfo =  document.getElementById('day-info');
         taskDayInfo.innerHTML = '';
 
         if (confirm('Are you sure to delete all tasks? this action is irreversible and will delete completed and incomplete tasks.')) {
-            fetch('http://localhost:5000/tasks', {
+            fetch('http://localhost:5000/tasks/delete-completed', {
                 method: 'DELETE',
                 headers: {
 
@@ -1130,14 +1261,14 @@ async function renderTaskPage() {
             })
                 .then(response => {
                     if (response.ok) {
-                        console.log('all tasks deleted successfully');
-                        alert('All tasks have been deleted.')
+                        
+                        alert('All completed tasks have been deleted.')
                     }
                     else {
-                        console.log('Error deleting tasks.')
+                        alert('No completed task to delete')
                     }
                 })
-                .catch(error => {'Error:', error}) 
+                .catch(error => {console.error('Error:', error); }) 
         }
 
 
@@ -1146,7 +1277,7 @@ async function renderTaskPage() {
     let deleteBtn = document.getElementById('delete');
 
     deleteBtn.addEventListener('click',  ()  => {
-        deleteAllTasks();
+        deleteCompletedTasks();
 
         // media query to hide the nav menu links for mobile devices
         const mediaQuery = window.matchMedia('(max-width:1280px)')
@@ -1196,7 +1327,7 @@ async function renderTaskPage() {
                 let taskDate =  taskDiv.getAttribute('data-date');
                 let taskName = taskDiv.querySelector('h3').innerText;
                 let taskNotes = taskDiv.querySelector('p').innerText;
-                console.log(taskID,taskDate)
+                console.log(taskID,taskDate,taskName,taskNotes)
                 // perform delete and edit operations
 
                 if(event.target.id == 'Delete-task'){
@@ -1204,7 +1335,11 @@ async function renderTaskPage() {
                     
                 }
                 else if (event.target.id == 'Edit-task'){
-                    openEditPage();
+                    let taskID = taskDiv.getAttribute('data-id');
+                    let taskDate =  taskDiv.getAttribute('data-date');
+                    let taskName = taskDiv.querySelector('h3').innerText;
+                    let taskNotes = taskDiv.querySelector('p').innerText;
+                    openEditPage(taskName, taskNotes, taskDate,taskID);
                     
                 }
             }
@@ -1243,11 +1378,13 @@ async function renderTaskPage() {
 // edit specifc task
 
 
-function editTask(taskID,taskDiv,taskName,taskNotes,taskDate){
-
+function editTask(taskID,taskName,taskNotes,taskDate){
+    let taskDayInfo = document.getElementById('day-info');
+    taskDayInfo.innerHTML = "";
+    let userNoteInput = taskNotes.replace(/\n/g, "<br>");
     const updatedTask = {
         taskName: taskName,
-        taskNotes: taskNotes,
+        taskNotes: userNoteInput,
         _id: taskID,
         taskDate: taskDate
     }
@@ -1262,6 +1399,16 @@ function editTask(taskID,taskDiv,taskName,taskNotes,taskDate){
     .then(data => {
         console.log('Task updated successfully:', data);
         // You can also update the DOM with the new task details if needed
+        let taskDiv = document.createElement('div');
+        taskDiv.innerHTML = `<div class="task-added" data-id="${taskID}" data-date="${taskDate}">
+            <div class="head-checkbox"><h3>${taskName}</h3><div class="checkbox"><h4 class="task-done">Task Done.</h4></div></div>
+            <p>${userNoteInput}</p>
+            <div id="Edit-del-btn">
+        <div id="Delete-task">Delete</div>
+        <div id="Edit-task">Edit task</div>
+        </div>
+        </div>`;
+        taskDayInfo.appendChild(taskDiv);
     })
     .catch(error => {
         console.error('Error updating task:', error);
@@ -1269,27 +1416,145 @@ function editTask(taskID,taskDiv,taskName,taskNotes,taskDate){
 }
 
 
-function openEditPage() {
-    
+function openEditPage(taskName, taskNotes, taskDate, taskID) {
+  
     let taskEditor = document.getElementById('editTaskPageContainer');
     taskEditor.style.display = 'block';
-    
-
-    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('edit-task-name').value = taskName;
+    document.getElementById('edit-task-notes').value =  taskNotes;
+    document.getElementById('edit-task-date').value = new Date(taskDate).toISOString().slice(0,10);
+    document.getElementById('overlay-edit').style.display = 'block';
     addTaskBtn.classList.add('visibility');
-    document.querySelector('#edit-task-container').classList.remove('visibility')
+    document.getElementById('edit-task-container').classList.remove('visibility');
+    
+     // Store the current task ID as a data attribute for future reference
+     document.getElementById('edit').setAttribute('data-id', taskID);
 
 }
 
 function closeEditPage() {
     document.getElementById('editTaskPageContainer').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
-    document.querySelector('#edit-task-container').classList.add('visibility')
+    document.getElementById('overlay-edit').style.display = 'none';
+    document.getElementById('edit-task-container').classList.add('visibility')
     addTaskBtn.classList.remove('visibility');
 }
 
-let overlaytwo = document.querySelectorAll('#overlay');
-console.log(overlaytwo)
-// overlaytwo.addEventListener('click', function() {
-//     closeEditPage();
-// })
+let overlayedit = document.getElementById('overlay-edit');
+// console.log(overlaytwo)
+overlayedit.addEventListener('click', () => {
+    closeEditPage();
+})
+overlayedit.addEventListener('mouseenter', () => {
+    overlayedit.style.cursor = 'pointer';
+})
+
+// updating the db and frontend on click
+
+let updateBtn = document.getElementById('edit');
+
+updateBtn.addEventListener('click', () => {
+
+    let taskID = updateBtn.getAttribute('data-id');
+    let taskName = document.getElementById('edit-task-name').value;
+    let taskNotes = document.getElementById('edit-task-notes').value;
+    let taskDate = document.getElementById('edit-task-date').value;
+    closeEditPage()
+    editTask(taskID,taskName,taskNotes,taskDate)
+})
+
+
+// feedback form logic
+
+    let feedbackBtn = document.getElementById('feedback-nav');
+    // let feedbackDiv = document.querySelector('#feedb');
+    // console.log('Feedback button: ', feedbackBtn); // Check if button exists
+    // console.log('Feedback div: ', feedbackDiv); // Check if div exists
+
+    // if (!feedbackDiv) {
+    //     console.error('feedb element is missing from the DOM');
+    // }
+
+feedbackBtn.addEventListener('click', () => {
+
+    let noTasksDiv = document.querySelector('#day-info #no-tasks')
+        if(noTasksDiv){noTasksDiv.remove()}
+    let taskDayInfo = document.getElementById('day-info');
+    let tasksAdded = document.querySelectorAll('.task-added');
+    
+    // taskDayInfo.innerHTML = ''
+    let feedbackDiv = document.getElementById('feedb');
+    let feedbackForm = document.getElementById('feedbackForm');
+
+    if(feedbackDiv && tasksAdded){
+        tasksAdded.forEach(task => {task.remove()})}
+    console.log(feedbackDiv)
+    console.log(feedbackForm)
+    
+    let navHeader = document.querySelector('#nav-header h2')
+    navHeader.innerText = 'Feedback';
+    
+    // taskDayInfo.appendChild(feedbackForm);
+    // taskDayInfo.appendChild(feedbackDiv);
+    
+    //   renderFeedbackForm();
+    
+   
+
+    
+        // media query to hide the nav menu links for mobile devices
+
+        const mediaQuery = window.matchMedia('(max-width:1280px)')
+        function handleMediaQueryChange(e) {
+            let navMenuLinks = document.getElementById('nav-menu-links');
+            let backbtn = document.getElementById('back-btn');
+            let toggleNavMenu = document.getElementById('toggle-nav-menu');
+            let toggleNavImg = document.getElementsByClassName('toggle-img');
+            let taskDayInfo = document.getElementById('day-info');
+            let feedbackPage = document.querySelector('#feedb');
+            
+            
+
+            if (e.matches) {
+                // If the screen width is <= 1280px, hide nav menu links
+                navMenuLinks.classList.add('visibility');
+                backbtn.classList.toggle('visibility');
+                toggleNavMenu.classList.add('invisibility');
+                let tasksAdded = document.querySelectorAll('.task-added');
+                tasksAdded.forEach(task => {task.remove()})
+                taskDayInfo.style.display = 'block';
+                feedbackPage.style.display = 'block';
+                
+
+                toggleNavMenu.addEventListener('click', () => {
+                    navMenuLinks.classList.remove('visibility');
+                    backbtn.classList.remove('visibility');
+                    toggleNavMenu.classList.remove('invisibility');
+                    feedbackPage.style.display = 'none';
+                     
+                })
+                backbtn.addEventListener('click', () => {
+                    let tasksAdded = document.querySelectorAll('.task-added');
+                    if(feedbackPage && tasksAdded){
+                    tasksAdded.forEach(task => {task.remove()})
+                    feedbackPage.style.display = 'block';
+                    }
+                })
+                
+
+            }
+           
+            else {
+                navMenuLinks.style.display = 'flex';
+                feedbackDiv.style.display = 'block';
+            }
+            
+        }
+
+        // Initial check when the function is called
+        handleMediaQueryChange(mediaQuery);
+
+        // Attach the listener for when the window resizes
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+})
+
+
