@@ -697,6 +697,9 @@ async function renderTaskPage() {
     });
 
     function getDataFromBackend(year, month, selectedDay) {
+         // remove help page 
+         let helpPage = document.getElementById('help');
+         helpPage.style.display = 'none';
 
         let reqTaskDate = new Date(Date.UTC(year, month - 1, selectedDay));
         reqTaskDate = reqTaskDate.toISOString().split('T')[0];
@@ -785,6 +788,10 @@ async function renderTaskPage() {
 
 
     function displayAllTasks() {
+         // remove help page 
+         let helpPage = document.getElementById('help');
+         helpPage.style.display = 'none';
+
         let navHeader = document.querySelector('h2');
 
         let feedbackDiv = document.querySelector('#feedb');
@@ -890,6 +897,10 @@ async function renderTaskPage() {
 
 
     function showCompletedTasks() {
+
+         // remove help page 
+         let helpPage = document.getElementById('help');
+         helpPage.style.display = 'none';
         let navHeader = document.querySelector('h2').innerText = 'Completed';
 
         let feedbackDiv = document.querySelector('#feedb');
@@ -1003,6 +1014,11 @@ async function renderTaskPage() {
     // functionality for tomorrow button
 
     function displayTomorrowTasks() {
+
+        // remove help page 
+        let helpPage = document.getElementById('help');
+        helpPage.style.display = 'none';
+
         let date = new Date();
         date.setDate(date.getDate() + 1)
         
@@ -1132,6 +1148,10 @@ async function renderTaskPage() {
     // function for today btn
 
     function todayTasks() {
+
+        // remove the help page
+        let helpPage = document.getElementById('help');
+        helpPage.style.display = 'none';
         let feedbackDiv = document.querySelector('#feedb');
         if(feedbackDiv){feedbackDiv.style.display = 'none'}
         //get today's date
@@ -1475,7 +1495,8 @@ updateBtn.addEventListener('click', () => {
     // }
 
 feedbackBtn.addEventListener('click', () => {
-
+    let helpPage = document.getElementById('help');
+    helpPage.style.display = 'none';
     let noTasksDiv = document.querySelector('#day-info #no-tasks')
         if(noTasksDiv){noTasksDiv.remove()}
     let taskDayInfo = document.getElementById('day-info');
@@ -1537,6 +1558,7 @@ feedbackBtn.addEventListener('click', () => {
                     if(feedbackPage && tasksAdded){
                     tasksAdded.forEach(task => {task.remove()})
                     feedbackPage.style.display = 'block';
+                    navHeader.innerText = 'Feedback';
                     }
                 })
                 
@@ -1558,3 +1580,113 @@ feedbackBtn.addEventListener('click', () => {
 })
 
 
+
+// ---------------------------------------------------functionality for help page and buttons--------------------------------------
+
+
+// help button logic
+
+let helpbtn =  document.getElementById('help-nav');
+
+
+helpbtn.addEventListener('click', () => {
+    // change navbar text to help
+   let navHeader = document.querySelector('#nav-header h2')
+    navHeader.innerText = 'Help';
+
+    // remove any existing tasks
+    let tasksAdded = document.querySelectorAll('.task-added');
+    tasksAdded.forEach(task => task.remove()); 
+    
+    // remove any no-task div if present
+    let noTasksDiv = document.querySelector('#no-tasks')
+    if(noTasksDiv){noTasksDiv.remove()}
+
+    // remove feedback page if exists
+    let feedbackPage = document.getElementById('feedb');
+    if(feedbackPage){feedbackPage.style.display = 'none'}
+
+    // display the help div
+   let helpPage = document.getElementById('help');
+   helpPage.style.display = 'flex';
+
+
+   // media query to hide the nav menu links for mobile devices
+   const mediaQuery = window.matchMedia('(max-width:1280px)')
+   function handleMediaQueryChange(e) {
+       let navMenuLinks = document.getElementById('nav-menu-links');
+       let backbtn = document.getElementById('back-btn');
+       let toggleNavMenu = document.getElementById('toggle-nav-menu');
+       let toggleNavImg = document.getElementsByClassName('toggle-img')
+       let helpPage = document.getElementById('help');
+       let feedbackPage = document.getElementById('feedb');
+       let feedbackForm = document.getElementById('feedbackForm');
+       let navHeader = document.querySelector('#nav-header h2');
+       
+
+       if (e.matches) {
+           // If the screen width is <= 1280px, hide nav menu links
+           navMenuLinks.classList.add('visibility');
+           backbtn.classList.toggle('visibility');
+           toggleNavMenu.classList.add('invisibility');
+           let taskDayInfo = document.getElementById('day-info')
+           taskDayInfo.style.display = 'block';
+           let tasksAdded = document.querySelectorAll('.task-added');
+                tasksAdded.forEach(task => {task.remove()})
+                feedbackPage.style.display = 'none';
+
+           toggleNavMenu.addEventListener('click', () => {
+               navMenuLinks.classList.remove('visibility');
+               backbtn.classList.remove('visibility');
+               toggleNavMenu.classList.remove('invisibility');
+               helpPage.style.display = 'none';
+           })
+           backbtn.addEventListener('click', () => {
+            if(helpPage && feedbackPage){
+            helpPage.style.display = 'flex';
+            feedbackPage.style.display = 'none';
+            feedbackForm.style.display = 'none';
+            navHeader.innerText = 'Help';
+            }
+           })
+
+       }
+       else {
+           navMenuLinks.style.display = 'flex';
+       }
+   }
+
+   // Initial check when the function is called
+   handleMediaQueryChange(mediaQuery);
+
+   // Attach the listener for when the window resizes
+   mediaQuery.addEventListener('change', handleMediaQueryChange);
+})
+
+
+
+// only one details tag should be open at one time 
+
+const detailsTags = document.querySelectorAll('details');
+
+detailsTags.forEach(detail => {
+    detail.addEventListener('toggle', function() {
+        if(this.open){
+            //close other elements
+            detailsTags.forEach(newDetail => {
+                if(newDetail !== this && newDetail.open){
+                    newDetail.open = false;
+                }
+            })
+        }
+    })
+})
+
+
+
+
+
+
+
+
+//--------------------------------------------------functionality for settings page--------------------------------------------------

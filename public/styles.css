@@ -721,17 +721,55 @@ ul li:hover {
     justify-content: center;
     align-self: center;
 }
+
+/*-------------------------------------------------help page styles-----------------------------------------------------*/
 #help {
     height: 100%;
     width: 100%;
     background-color: blueviolet;
     display: none;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     align-self: center;
 }
 
+.faq{
+    display: flex;
+    flex-direction: column;
+    
+}
+#help .faq details summary{
+    border-top: 2px solid aliceblue;
+    border-right: 2px solid aliceblue;
+    border-left: 2px solid aliceblue;
+    background-color: aqua;
+    margin-top: 5px;
+    font-weight: bold;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 5px;
+}
+#help .faq details p{
+    background-color: aqua;
+    border-left:2px solid aliceblue ;
+    border-bottom:2px solid aliceblue ;
+    border-right:2px solid aliceblue ;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 0;
+    padding: 8px;
 
+}
+#help .faq details summary:hover{
+    cursor: pointer;
+}
 
+.faq-images{
+    height: 40%;
+    border: 1px solid black;
+    width: 90%;
+    align-self: center;
+}
 
 /*----------------------------------------------feedback form styles-----------------------------------------*/
 #feedb {
@@ -1552,14 +1590,56 @@ ul li:hover {
             justify-content: center;
             align-self: center;
         }
+        /*-----------------------------------------------------help-page-styles for mobile devices--------------------------------------*/
         #help {
             height: 100%;
             width: 100%;
             background-color: blueviolet;
-           
             display: none;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-around;
             align-self: center;
+        }
+        
+        .faq{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 5px;
+            
+        }
+        #help .faq details summary{
+            border-top: 2px solid aliceblue;
+            border-right: 2px solid aliceblue;
+            border-left: 2px solid aliceblue;
+            background-color: aqua;
+            margin-top: 5px;
+            font-weight: bold;
+            margin-right: 5px;
+            margin-left: 5px;
+            padding: 5px;
+        }
+        #help .faq details p{
+            background-color: aqua;
+            border-left:2px solid aliceblue ;
+            border-bottom:2px solid aliceblue ;
+            border-right:2px solid aliceblue ;
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-top: 0;
+            padding: 8px;
+        
+        }
+        #help .faq details summary:hover{
+            cursor: pointer;
+        }
+        
+        .faq-images{
+            min-height: 50vh;
+            border: 1px solid black;
+            width: 90%;
+            align-self: center;
+            margin-top: 10px;
+            margin-bottom: 20px;
         }
 
 
