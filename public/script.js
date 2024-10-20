@@ -707,7 +707,9 @@ async function renderTaskPage() {
         let feedbackDiv = document.querySelector('#feedb');
         if(feedbackDiv){feedbackDiv.style.display = 'none'}
 
-        
+         // remove settings page if it exists
+        let settingsPage = document.getElementById('settings');
+        settingsPage.style.display = 'none';
 
         let taskDivs = document.querySelectorAll('#day-info .task-added');                         // clear previous tasks
         taskDivs.forEach(task => task.remove())
@@ -790,7 +792,7 @@ async function renderTaskPage() {
     function displayAllTasks() {
          // remove help page 
          let helpPage = document.getElementById('help');
-         helpPage.style.display = 'none';
+         if(helpPage){helpPage.style.display = 'none';}
 
         let navHeader = document.querySelector('h2');
 
@@ -810,7 +812,9 @@ async function renderTaskPage() {
         let dateCells = document.querySelectorAll('#table-body tr td')
         dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
 
-
+         // remove settings page if it exists
+        let settingsPage = document.getElementById('settings');
+        settingsPage.style.display = 'none';
         
 
         fetch('http://localhost:5000/tasks')
@@ -900,7 +904,7 @@ async function renderTaskPage() {
 
          // remove help page 
          let helpPage = document.getElementById('help');
-         helpPage.style.display = 'none';
+        if(helpPage){helpPage.style.display = 'none'}
         let navHeader = document.querySelector('h2').innerText = 'Completed';
 
         let feedbackDiv = document.querySelector('#feedb');
@@ -909,6 +913,10 @@ async function renderTaskPage() {
             // if no-tyasks div existys remove it
             let noTasksDiv = document.querySelector('#day-info #no-tasks')
             if(noTasksDiv){noTasksDiv.remove()}
+
+             // remove settings page if it exists
+        let settingsPage = document.getElementById('settings');
+        settingsPage.style.display = 'none';
 
             // clear previous tasks in the day-iinfo
             let taskDayInfo = document.getElementById('day-info');
@@ -1017,7 +1025,7 @@ async function renderTaskPage() {
 
         // remove help page 
         let helpPage = document.getElementById('help');
-        helpPage.style.display = 'none';
+        if(helpPage){helpPage.style.display = 'none';}
 
         let date = new Date();
         date.setDate(date.getDate() + 1)
@@ -1028,6 +1036,10 @@ async function renderTaskPage() {
         // if no-tyasks div existys remove it
         let noTasksDiv = document.querySelector('#day-info #no-tasks')
         if(noTasksDiv){noTasksDiv.remove()}
+
+         // remove settings page if it exists
+        let settingsPage = document.getElementById('settings');
+        settingsPage.style.display = 'none';
 
         let day = date.getDate() + 1;
         let month = date.getMonth();
@@ -1151,7 +1163,7 @@ async function renderTaskPage() {
 
         // remove the help page
         let helpPage = document.getElementById('help');
-        helpPage.style.display = 'none';
+        if(helpPage){helpPage.style.display = 'none';}
         let feedbackDiv = document.querySelector('#feedb');
         if(feedbackDiv){feedbackDiv.style.display = 'none'}
         //get today's date
@@ -1174,6 +1186,10 @@ async function renderTaskPage() {
         let taskDayInfo = document.getElementById('day-info');
         // let noTasksDiv = document.getElementById('no-tasks');
         // taskDayInfo.removeChild(noTasksDiv)
+
+         // remove settings page if it exists
+         let settingsPage = document.getElementById('settings');
+         settingsPage.style.display = 'none';
         
         let taskDivs = document.querySelectorAll('.task-added');
         taskDivs.forEach(task => task.remove())
@@ -1496,7 +1512,7 @@ updateBtn.addEventListener('click', () => {
 
 feedbackBtn.addEventListener('click', () => {
     let helpPage = document.getElementById('help');
-    helpPage.style.display = 'none';
+    if(helpPage){helpPage.style.display = 'none';}
     let noTasksDiv = document.querySelector('#day-info #no-tasks')
         if(noTasksDiv){noTasksDiv.remove()}
     let taskDayInfo = document.getElementById('day-info');
@@ -1513,6 +1529,9 @@ feedbackBtn.addEventListener('click', () => {
     
     let navHeader = document.querySelector('#nav-header h2')
     navHeader.innerText = 'Feedback';
+     // remove settings page if it exists
+   let settingsPage = document.getElementById('settings');
+   settingsPage.style.display = 'none';
     
     // taskDayInfo.appendChild(feedbackForm);
     // taskDayInfo.appendChild(feedbackDiv);
@@ -1532,6 +1551,8 @@ feedbackBtn.addEventListener('click', () => {
             let toggleNavImg = document.getElementsByClassName('toggle-img');
             let taskDayInfo = document.getElementById('day-info');
             let feedbackPage = document.querySelector('#feedb');
+            let settingsPage = document.getElementById('settings');
+            let helpPage = document.getElementById('help');
             
             
 
@@ -1555,6 +1576,8 @@ feedbackBtn.addEventListener('click', () => {
                 })
                 backbtn.addEventListener('click', () => {
                     let tasksAdded = document.querySelectorAll('.task-added');
+                    settingsPage.style.display = 'none';
+                    helpPage.style.display = 'none';
                     if(feedbackPage && tasksAdded){
                     tasksAdded.forEach(task => {task.remove()})
                     feedbackPage.style.display = 'block';
@@ -1567,7 +1590,7 @@ feedbackBtn.addEventListener('click', () => {
            
             else {
                 navMenuLinks.style.display = 'flex';
-                feedbackDiv.style.display = 'block';
+                feedbackPage.style.display = 'block';
             }
             
         }
@@ -1596,7 +1619,9 @@ helpbtn.addEventListener('click', () => {
 
     // remove any existing tasks
     let tasksAdded = document.querySelectorAll('.task-added');
-    tasksAdded.forEach(task => task.remove()); 
+    tasksAdded.forEach(task => {
+        if(task){task.remove();}
+    }); 
     
     // remove any no-task div if present
     let noTasksDiv = document.querySelector('#no-tasks')
@@ -1606,10 +1631,15 @@ helpbtn.addEventListener('click', () => {
     let feedbackPage = document.getElementById('feedb');
     if(feedbackPage){feedbackPage.style.display = 'none'}
 
-    // display the help div
-   let helpPage = document.getElementById('help');
-   helpPage.style.display = 'flex';
+   
 
+   // remove settings page if it exists
+   let settingsPage = document.getElementById('settings');
+   settingsPage.style.display = 'none';
+
+    // display the help div
+    let helpPage = document.getElementById('help');
+    helpPage.style.display = 'flex';
 
    // media query to hide the nav menu links for mobile devices
    const mediaQuery = window.matchMedia('(max-width:1280px)')
@@ -1621,6 +1651,7 @@ helpbtn.addEventListener('click', () => {
        let helpPage = document.getElementById('help');
        let feedbackPage = document.getElementById('feedb');
        let feedbackForm = document.getElementById('feedbackForm');
+       let settingsPage = document.getElementById('settings')
        let navHeader = document.querySelector('#nav-header h2');
        
 
@@ -1642,6 +1673,7 @@ helpbtn.addEventListener('click', () => {
                helpPage.style.display = 'none';
            })
            backbtn.addEventListener('click', () => {
+            settingsPage.style.display = 'none';
             if(helpPage && feedbackPage){
             helpPage.style.display = 'flex';
             feedbackPage.style.display = 'none';
@@ -1690,3 +1722,70 @@ detailsTags.forEach(detail => {
 
 
 //--------------------------------------------------functionality for settings page--------------------------------------------------
+
+let settingsBtn = document.getElementById('settings-nav');
+
+
+settingsBtn.addEventListener('click', () => {
+    let tasksAdded = document.querySelectorAll('.task-added');
+    tasksAdded.forEach(task => {
+        if(task){task.remove()}
+    });
+
+    let noTasksDiv = document.querySelector('#no-tasks');
+    if(noTasksDiv){noTasksDiv.remove()}
+
+    let settingsPage = document.getElementById('settings');
+    settingsPage.style.display = 'block';
+
+    let helpPage = document.getElementById('help');
+    if(helpPage){helpPage.style.display = 'none'}
+
+    let feedbackPage = document.getElementById('feedb');
+    if(feedbackPage){feedbackPage.style.display = 'none'}
+
+      // media query to hide the nav menu links for mobile devices
+      const mediaQuery = window.matchMedia('(max-width:1280px)')
+      function handleMediaQueryChange(e) {
+          let navMenuLinks = document.getElementById('nav-menu-links');
+          let backbtn = document.getElementById('back-btn');
+          let toggleNavMenu = document.getElementById('toggle-nav-menu');
+          let toggleNavImg = document.getElementsByClassName('toggle-img')
+          let settingsPage = document.getElementById('settings');
+          let feedbackPage = document.getElementById('feedb')
+          let helpPage = document.getElementById('help')
+          let navHeader = document.querySelector('#nav-header h2');
+          navHeader.innerText = ' Settings';
+
+          if (e.matches) {
+              // If the screen width is <= 1280px, hide nav menu links
+              navMenuLinks.classList.add('visibility');
+              backbtn.classList.toggle('visibility');
+              toggleNavMenu.classList.add('invisibility');
+
+              toggleNavMenu.addEventListener('click', () => {
+                  navMenuLinks.classList.remove('visibility');
+                  backbtn.classList.remove('visibility');
+                  toggleNavMenu.classList.remove('invisibility');
+                  settingsPage.style.display = 'none';
+              })
+              backbtn.addEventListener('click', () => {
+                feedbackPage.style.display = 'none';
+                helpPage.style.display = 'none';
+                settingsPage.style.display = 'block';
+                navHeader.innerText = ' Settings';
+              })
+
+          }
+          else {
+              navMenuLinks.style.display = 'flex';
+          }
+      }
+
+      // Initial check when the function is called
+      handleMediaQueryChange(mediaQuery);
+
+      // Attach the listener for when the window resizes
+      mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+})

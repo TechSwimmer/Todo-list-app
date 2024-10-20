@@ -713,15 +713,30 @@ ul li:hover {
 
 /*------------------------------------------------------settings - feedback - help-----------------------------------------------------*/
 
+/*-------------------------------------------------settings page styles for large screens---------------------------------------*/
 #settings {
     height: 100%;
     width: 100%;
     background-color: blueviolet;
     display: none;
-    justify-content: center;
-    align-self: center;
+    
+}
+#settings #settings-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
 }
 
+#settings-list li{
+    display: flex;
+    text-align: center;
+    width: 99%;
+    height: 8vh;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
 /*-------------------------------------------------help page styles-----------------------------------------------------*/
 #help {
     height: 100%;
@@ -967,6 +982,8 @@ ul li:hover {
     }
     .navbar{
         width: 100%;
+        position: fixed;
+        top: 0;
     }
    
 
@@ -1580,15 +1597,31 @@ ul li:hover {
         }
 
         /*---------------------------settings-edit-feedback-----------------------------------------*/
-
+        /*-----------------------------settings page styles for mobile devices-------------------------------------*/
         #settings {
             height: 100%;
             width: 100%;
             background-color: blueviolet;
-           
             display: none;
+            
+        }
+        #settings #settings-list{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+        }
+        
+        #settings-list li{
+            display: flex;
+            text-align: center;
+            width: 99%;
+            height: 8vh;
+            align-items: center;
             justify-content: center;
-            align-self: center;
+            border-radius: 10px;
+            margin-top:10px ;
+            margin-bottom:10px ;
         }
         /*-----------------------------------------------------help-page-styles for mobile devices--------------------------------------*/
         #help {
