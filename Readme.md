@@ -1,135 +1,135 @@
-#TaskNest
+# TaskNest
 
-###Description
+### Description
 
 TaskNest is a simple and intuitive todo application designed to help users efficiently manage their daily tasks. Users can add, edit, and delete tasks, as well as mark them as completed. The app features a calendar view to organize tasks by date and provides authentication to ensure that each user's tasks remain private and secure.
 
-###Features
+### Features
 
-*Add tasks with due dates
+* Add tasks with due dates
 
-*View tasks in a calendar format
+* View tasks in a calendar format
 
-*Mark tasks as completed
+* Mark tasks as completed
 
-*Delete individual tasks or clear all tasks
+* Delete individual tasks or clear all tasks
 
-*Filter tasks based on status (completed/pending)
-
-
-
-
-##Tech Stack
-
-
-###Frontend
-
-*HTML, CSS, JavaScript
-
-*React.js
-
-*Context API (for state management)
-
-
-###Backend
-
-*Node.js
-
-*Express.js
-
-*MongoDB (MongoDB Atlas)
+* Filter tasks based on status (completed/pending)
 
 
 
-##Installation and Setup
 
-###Prerequisites
+## Tech Stack
 
-*Node.js installed
 
-*MongoDB Atlas or a local MongoDB database set up
+### Frontend
 
-###Clone the Repository
+* HTML, CSS, JavaScript
 
-*git clone https://github.com/your-username/tasknest.git
-*cd tasknest
+* React.js
 
-###Backend Setup
+* Context API (for state management)
 
-*Navigate to the backend folder:
-  *cd backend
 
-*Install dependencies:
-  *npm install
+### Backend
 
-*Create a .env file and add the following environment variables:
-  *MONGO_URI=your_mongodb_connection_string
-  *JWT_SECRET=your_secret_key
+* Node.js
 
-*Start the backend server:
-  *npm start
+* Express.js
 
-###Frontend Setup
+* MongoDB (MongoDB Atlas)
 
-*Navigate to the frontend folder:
-  *cd frontend
 
-*Install dependencies:
-  *npm install
 
-*Start the frontend development server:
-  *npm run dev
+## Installation and Setup
 
-###Deployment
+### Prerequisites
+
+* Node.js installed
+
+* MongoDB Atlas or a local MongoDB database set up
+
+### Clone the Repository
+
+* git clone https://github.com/your-username/tasknest.git
+* cd tasknest
+
+### Backend Setup
+
+* Navigate to the backend folder:
+  * cd backend
+
+* Install dependencies:
+  * npm install
+
+* Create a .env file and add the following environment variables:
+  * MONGO_URI=your_mongodb_connection_string
+  * JWT_SECRET=your_secret_key
+
+* Start the backend server:
+  * npm start
+
+### Frontend Setup
+
+* Navigate to the frontend folder:
+  * cd frontend
+
+* Install dependencies:
+  * npm install
+
+* Start the frontend development server:
+  * npm run dev
+
+### Deployment
 
 TaskNest can be deployed using:
 
-*####Frontend: Netlify / Vercel
+* #### Frontend: Netlify / Vercel
 
-*####Backend: Render / Heroku
+* #### Backend: Render / Heroku
 
-###Deploying the Backend
+### Deploying the Backend
 
-*Push the backend code to GitHub.
+* Push the backend code to GitHub.
 
-*Deploy it on Render (or any hosting platform supporting Node.js).
+* Deploy it on Render (or any hosting platform supporting Node.js).
 
-*Update the frontend API URL to point to the deployed backend.
+* Update the frontend API URL to point to the deployed backend.
 
-###Deploying the Frontend
+### Deploying the Frontend
 
-*Push the frontend code to GitHub.
+* Push the frontend code to GitHub.
 
-*Deploy it on Netlify/Vercel.
+* Deploy it on Netlify/Vercel.
 
-*Ensure the backend URL is correctly set in API requests.
+* Ensure the backend URL is correctly set in API requests.
 
-###API Endpoints
+### API Endpoints
 
-####Authentication
+#### Authentication
 
-*POST /register - User signup
+* POST /register - User signup
 
-*POST /login - User login
+* POST /login - User login
 
-###Tasks
+### Tasks
 
-*GET /tasks - Fetch all tasks for the authenticated user
+* GET /tasks - Fetch all tasks for the authenticated user
 
-*POST /tasks - Create a new task
+* POST /tasks - Create a new task
 
-*PUT /tasks/:id - Update a task
+* PUT /tasks/:id - Update a task
 
-*DELETE /tasks/:id - Delete a task
+* DELETE /tasks/:id - Delete a task
 
-###Contributing
+### Contributing
 
-*Contributions are welcome! Feel free to fork the repository and submit a pull request.
+* Contributions are welcome! Feel free to fork the repository and submit a pull request.
 
-###License
+### License
 
-*This project is open-source and available under the MIT License.
+* This project is open-source and available under the MIT License.
 
-#Contact
+# Contact
 
-*For any queries, reach out via [your email or social media link].
+*For any queries, reach out via https://techdevnikhil.netlify.app/.
