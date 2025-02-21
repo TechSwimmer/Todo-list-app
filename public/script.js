@@ -168,7 +168,7 @@ async function renderTaskPage() {
     // add the tasks in the db
     try {
         // Send the task data to the server
-        let response = await fetch('http://localhost:5000/tasks/add', {
+        let response = await fetch('http://localhost:5500/tasks/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -209,6 +209,25 @@ async function renderTaskPage() {
     } catch (error) {
         console.error('Error:', error);
     }
+    
+
+    allTaskBtn.addEventListener('click',() => {
+        displayAllTasks();
+    })
+    completedTaskBtn.addEventListener('click', () => {
+        showCompletedTasks();
+    })
+    todayBtn.addEventListener('click', () => {
+        todayTasks();
+
+    })
+    tomorrowbtn.addEventListener('click', () => {
+        displayTomorrowTasks();
+    })
+    helpbtn.addEventListener('click', () => {
+        displayHelpPage()
+     })
+    
 }
 
     let taskSubmitBtn = document.getElementById('create');
@@ -561,7 +580,7 @@ async function renderTaskPage() {
                 //get the task name and notes of the completed task compare it to tasks and obtain taskID
 
 
-                fetch('http://localhost:5000/tasks')
+                fetch('http://localhost:5500/tasks')
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(task => {
@@ -570,7 +589,7 @@ async function renderTaskPage() {
                                 taskID = task._id;
                                 console.log(taskID);
 
-                                fetch(`http://localhost:5000/tasks/completed/${taskID}`, {
+                                fetch(`http://localhost:5500/tasks/completed/${taskID}`, {
                                     method: 'PATCH',
                                     headers: {
                                         'content-type': 'application/json'
@@ -644,7 +663,7 @@ async function renderTaskPage() {
 
             const today = new Date();
             const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate())
-
+                
             const thisYear = todayDate.getFullYear();
             const thisMonth = todayDate.getMonth() + 1;
             const thisDay = todayDate.getDate();
@@ -719,7 +738,7 @@ async function renderTaskPage() {
 
         let taskDayInfo = document.getElementById('day-info');
                                                                         
-        const url = `http://localhost:5000/tasks?year=${year}&month=${month}&day=${selectedDay}`;
+        const url = `http://localhost:5500/tasks?year=${year}&month=${month}&day=${selectedDay}`;
         let taskFound = false;
         let counter = 0;
         fetch(url)
@@ -809,15 +828,15 @@ async function renderTaskPage() {
             if(noTasksDiv){noTasksDiv.remove()}
 
 
-        let dateCells = document.querySelectorAll('#table-body tr td')
-        dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
+            let dateCells = document.querySelectorAll('#table-body tr td')
+            dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
 
          // remove settings page if it exists
-        let settingsPage = document.getElementById('settings');
-        settingsPage.style.display = 'none';
+            let settingsPage = document.getElementById('settings');
+            if(settingsPage)settingsPage.style.display = 'none';
         
 
-        fetch('http://localhost:5000/tasks')
+        fetch('http://localhost:5500/tasks')
             .then(response => response.json())
             .then(data => {
 
@@ -910,13 +929,13 @@ async function renderTaskPage() {
         let feedbackDiv = document.querySelector('#feedb');
         if(feedbackDiv){feedbackDiv.style.display = 'none'}
 
-            // if no-tyasks div existys remove it
+            // if no-tasks div exists remove it
             let noTasksDiv = document.querySelector('#day-info #no-tasks')
             if(noTasksDiv){noTasksDiv.remove()}
 
              // remove settings page if it exists
         let settingsPage = document.getElementById('settings');
-        settingsPage.style.display = 'none';
+        if(settingsPage)settingsPage.style.display = 'none';
 
             // clear previous tasks in the day-iinfo
             let taskDayInfo = document.getElementById('day-info');
@@ -927,7 +946,7 @@ async function renderTaskPage() {
         
         let dateCells = document.querySelectorAll('#table-body tr td')
         dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
-        fetch('http://localhost:5000/tasks')
+        fetch('http://localhost:5500/tasks')
         .then(response => {
             
             return response.json();
@@ -1028,7 +1047,7 @@ async function renderTaskPage() {
         if(helpPage){helpPage.style.display = 'none';}
 
         let date = new Date();
-        date.setDate(date.getDate() + 1)
+        date.setDate(date.getDate() )
         
         let feedbackDiv = document.querySelector('#feedb');
         if(feedbackDiv){feedbackDiv.style.display = 'none'}
@@ -1054,7 +1073,7 @@ async function renderTaskPage() {
         let navHeader = document.querySelector('h2');
         navHeader.innerText = 'Tomorrow';
         console.log(tomorrowDateString)
-        fetch('http://localhost:5000/tasks')
+        fetch('http://localhost:5500/tasks')
             .then(response => response.json())
             .then(data => {
 
@@ -1085,7 +1104,7 @@ async function renderTaskPage() {
                 }
 
             })
-        renderCalendarWRTCond(year, month, day)
+        renderCalendarWRTCond(year, month, day-1)
         // .catch(error => console.error("Error fetching tasks:", error));
     }
 
@@ -1134,18 +1153,25 @@ async function renderTaskPage() {
     })
 
     function renderCalendarWRTCond(year, month, day) {
-
+        console.log(year,month,day)
         const renderMonth = document.getElementById('month');
         const renderYear = document.getElementById('year');
 
         const dateRow = document.querySelector('#table-body tr');
         const dateCell = document.querySelectorAll('#table-body tr td');
-
+        let trueIndex = 0;
         dateCell.forEach((cell, index) => {
+           
+            console.log(cell.innerText,trueIndex)
             cell.style.background = 'aqua';
-            if (index == day) {
+            
+            if (trueIndex == day) {
                 cell.style.backgroundColor = 'blue';
             }
+
+            
+            if(cell.innerText !== ""){trueIndex++}
+           
         })
         renderMonth.innerText = months[month];
         renderYear.innerText = year;
@@ -1173,7 +1199,7 @@ async function renderTaskPage() {
         let year = date.getFullYear();
         let todayDateString = date.toISOString().split('T')[0];
 
-        // if no-tyasks div existys remove it
+        // if no-tasks div exists remove it
         let noTasksDiv = document.querySelector('#day-info #no-tasks')
         if(noTasksDiv){noTasksDiv.remove()}
 
@@ -1189,12 +1215,12 @@ async function renderTaskPage() {
 
          // remove settings page if it exists
          let settingsPage = document.getElementById('settings');
-         settingsPage.style.display = 'none';
+         if(settingsPage)settingsPage.style.display = 'none';
         
         let taskDivs = document.querySelectorAll('.task-added');
-        taskDivs.forEach(task => task.remove())
+        if(taskDivs)taskDivs.forEach(task => task.remove())
 
-        fetch('http://localhost:5000/tasks')
+        fetch('http://localhost:5500/tasks')
             .then(response => response.json())
             .then(data => {
 
@@ -1220,12 +1246,12 @@ async function renderTaskPage() {
                         </div>
                         </div>`;
                         taskDayInfo.appendChild(taskDiv);
-                        renderCalendarWRTCond(year, month, day + 1)
+                        renderCalendarWRTCond(year, month, day - 1)
                     }else if(task.completed == true && tasksForToday.length == counter){
                         let taskDiv = document.createElement('div');
                         taskDiv.innerHTML = `<h4 id="no-tasks">All tasks for today completed.</h4>`;
                         taskDayInfo.appendChild(taskDiv);
-                        renderCalendarWRTCond(year, month, day + 1)
+                        renderCalendarWRTCond(year, month, day - 1)
                     }
                     })
 
@@ -1233,7 +1259,7 @@ async function renderTaskPage() {
                     let taskDiv = document.createElement('div');
                     taskDiv.innerHTML = taskDiv.innerHTML = `<h4 id="no-tasks">No tasks for the day.</h4>`;
                     taskDayInfo.appendChild(taskDiv);
-                    renderCalendarWRTCond(year, month, day + 1)
+                    renderCalendarw(year, month, day-1 )
                 }
             })
     }
@@ -1287,7 +1313,7 @@ async function renderTaskPage() {
         taskDayInfo.innerHTML = '';
 
         if (confirm('Are you sure to delete all tasks? this action is irreversible and will delete completed and incomplete tasks.')) {
-            fetch('http://localhost:5000/tasks/delete-completed', {
+            fetch('http://localhost:5500/tasks/delete-completed', {
                 method: 'DELETE',
                 headers: {
 
@@ -1388,7 +1414,7 @@ async function renderTaskPage() {
     function deleteSpecificTask(taskID,taskDiv) {
 
         if(confirm('this task will be removed. this action is irreversible')){
-            fetch(`http://localhost:5000/tasks/delete/${taskID}`,{
+            fetch(`http://localhost:5500/tasks/delete/${taskID}`,{
                 method : 'DELETE',
                 headers: {
                     'content-type': 'application/json'
@@ -1424,7 +1450,7 @@ function editTask(taskID,taskName,taskNotes,taskDate){
         _id: taskID,
         taskDate: taskDate
     }
-    fetch(`http://localhost:5000/tasks/update/${taskID}`,{
+    fetch(`http://localhost:5500/tasks/update/${taskID}`,{
         method: 'PUT',
         headers: {
             'content-type': 'application/json'
@@ -1609,90 +1635,94 @@ feedbackBtn.addEventListener('click', () => {
 
 // help button logic
 
+
+function displayHelpPage(){
+     // change navbar text to help
+   let navHeader = document.querySelector('#nav-header h2')
+   navHeader.innerText = 'Help';
+
+   // remove any existing tasks
+   let tasksAdded = document.querySelectorAll('.task-added');
+   tasksAdded.forEach(task => {
+       if(task){task.remove();}
+   }); 
+   
+   // remove any no-task div if present
+   let noTasksDiv = document.querySelector('#no-tasks')
+   if(noTasksDiv){noTasksDiv.remove()}
+
+   // remove feedback page if exists
+   let feedbackPage = document.getElementById('feedb');
+   if(feedbackPage){feedbackPage.style.display = 'none'}
+
+  
+
+  // remove settings page if it exists
+  let settingsPage = document.getElementById('settings');
+  settingsPage.style.display = 'none';
+
+   // display the help div
+   let helpPage = document.getElementById('help');
+   helpPage.style.display = 'flex';
+
+  // media query to hide the nav menu links for mobile devices
+  const mediaQuery = window.matchMedia('(max-width:1280px)')
+  function handleMediaQueryChange(e) {
+      let navMenuLinks = document.getElementById('nav-menu-links');
+      let backbtn = document.getElementById('back-btn');
+      let toggleNavMenu = document.getElementById('toggle-nav-menu');
+      let toggleNavImg = document.getElementsByClassName('toggle-img')
+      let helpPage = document.getElementById('help');
+      let feedbackPage = document.getElementById('feedb');
+      let feedbackForm = document.getElementById('feedbackForm');
+      let settingsPage = document.getElementById('settings')
+      let navHeader = document.querySelector('#nav-header h2');
+      
+
+      if (e.matches) {
+          // If the screen width is <= 1280px, hide nav menu links
+          navMenuLinks.classList.add('visibility');
+          backbtn.classList.toggle('visibility');
+          toggleNavMenu.classList.add('invisibility');
+          let taskDayInfo = document.getElementById('day-info')
+          taskDayInfo.style.display = 'block';
+          let tasksAdded = document.querySelectorAll('.task-added');
+               tasksAdded.forEach(task => {task.remove()})
+               feedbackPage.style.display = 'none';
+
+          toggleNavMenu.addEventListener('click', () => {
+              navMenuLinks.classList.remove('visibility');
+              backbtn.classList.remove('visibility');
+              toggleNavMenu.classList.remove('invisibility');
+              helpPage.style.display = 'none';
+          })
+          backbtn.addEventListener('click', () => {
+           settingsPage.style.display = 'none';
+           if(helpPage && feedbackPage){
+           helpPage.style.display = 'flex';
+           feedbackPage.style.display = 'none';
+           feedbackForm.style.display = 'none';
+           navHeader.innerText = 'Help';
+           }
+          })
+
+      }
+      else {
+          navMenuLinks.style.display = 'flex';
+      }
+  }
+
+  // Initial check when the function is called
+  handleMediaQueryChange(mediaQuery);
+
+  // Attach the listener for when the window resizes
+  mediaQuery.addEventListener('change', handleMediaQueryChange)
+}
 let helpbtn =  document.getElementById('help-nav');
 
 
 helpbtn.addEventListener('click', () => {
-    // change navbar text to help
-   let navHeader = document.querySelector('#nav-header h2')
-    navHeader.innerText = 'Help';
-
-    // remove any existing tasks
-    let tasksAdded = document.querySelectorAll('.task-added');
-    tasksAdded.forEach(task => {
-        if(task){task.remove();}
-    }); 
-    
-    // remove any no-task div if present
-    let noTasksDiv = document.querySelector('#no-tasks')
-    if(noTasksDiv){noTasksDiv.remove()}
-
-    // remove feedback page if exists
-    let feedbackPage = document.getElementById('feedb');
-    if(feedbackPage){feedbackPage.style.display = 'none'}
-
-   
-
-   // remove settings page if it exists
-   let settingsPage = document.getElementById('settings');
-   settingsPage.style.display = 'none';
-
-    // display the help div
-    let helpPage = document.getElementById('help');
-    helpPage.style.display = 'flex';
-
-   // media query to hide the nav menu links for mobile devices
-   const mediaQuery = window.matchMedia('(max-width:1280px)')
-   function handleMediaQueryChange(e) {
-       let navMenuLinks = document.getElementById('nav-menu-links');
-       let backbtn = document.getElementById('back-btn');
-       let toggleNavMenu = document.getElementById('toggle-nav-menu');
-       let toggleNavImg = document.getElementsByClassName('toggle-img')
-       let helpPage = document.getElementById('help');
-       let feedbackPage = document.getElementById('feedb');
-       let feedbackForm = document.getElementById('feedbackForm');
-       let settingsPage = document.getElementById('settings')
-       let navHeader = document.querySelector('#nav-header h2');
-       
-
-       if (e.matches) {
-           // If the screen width is <= 1280px, hide nav menu links
-           navMenuLinks.classList.add('visibility');
-           backbtn.classList.toggle('visibility');
-           toggleNavMenu.classList.add('invisibility');
-           let taskDayInfo = document.getElementById('day-info')
-           taskDayInfo.style.display = 'block';
-           let tasksAdded = document.querySelectorAll('.task-added');
-                tasksAdded.forEach(task => {task.remove()})
-                feedbackPage.style.display = 'none';
-
-           toggleNavMenu.addEventListener('click', () => {
-               navMenuLinks.classList.remove('visibility');
-               backbtn.classList.remove('visibility');
-               toggleNavMenu.classList.remove('invisibility');
-               helpPage.style.display = 'none';
-           })
-           backbtn.addEventListener('click', () => {
-            settingsPage.style.display = 'none';
-            if(helpPage && feedbackPage){
-            helpPage.style.display = 'flex';
-            feedbackPage.style.display = 'none';
-            feedbackForm.style.display = 'none';
-            navHeader.innerText = 'Help';
-            }
-           })
-
-       }
-       else {
-           navMenuLinks.style.display = 'flex';
-       }
-   }
-
-   // Initial check when the function is called
-   handleMediaQueryChange(mediaQuery);
-
-   // Attach the listener for when the window resizes
-   mediaQuery.addEventListener('change', handleMediaQueryChange);
+   displayHelpPage()
 })
 
 
@@ -1736,7 +1766,7 @@ settingsBtn.addEventListener('click', () => {
     if(noTasksDiv){noTasksDiv.remove()}
 
     let settingsPage = document.getElementById('settings');
-    settingsPage.style.display = 'block';
+    if(settingsPage)settingsPage.style.display = 'block';
 
     let helpPage = document.getElementById('help');
     if(helpPage){helpPage.style.display = 'none'}
@@ -1767,7 +1797,7 @@ settingsBtn.addEventListener('click', () => {
                   navMenuLinks.classList.remove('visibility');
                   backbtn.classList.remove('visibility');
                   toggleNavMenu.classList.remove('invisibility');
-                  settingsPage.style.display = 'none';
+                  if(settingsPage)settingsPage.style.display = 'none';
               })
               backbtn.addEventListener('click', () => {
                 feedbackPage.style.display = 'none';
