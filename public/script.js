@@ -1548,7 +1548,7 @@ feedbackBtn.addEventListener('click', () => {
     let feedbackDiv = document.getElementById('feedb');
     let feedbackForm = document.getElementById('feedbackForm');
 
-    if(feedbackDiv && tasksAdded){
+    if(tasksAdded){
         tasksAdded.forEach(task => {task.remove()})}
     console.log(feedbackDiv)
     console.log(feedbackForm)
@@ -1557,7 +1557,7 @@ feedbackBtn.addEventListener('click', () => {
     navHeader.innerText = 'Feedback';
      // remove settings page if it exists
    let settingsPage = document.getElementById('settings');
-   settingsPage.style.display = 'none';
+   if(settingsPage)settingsPage.style.display = 'none';
     
     // taskDayInfo.appendChild(feedbackForm);
     // taskDayInfo.appendChild(feedbackDiv);
@@ -1659,7 +1659,7 @@ function displayHelpPage(){
 
   // remove settings page if it exists
   let settingsPage = document.getElementById('settings');
-  settingsPage.style.display = 'none';
+  if(settingsPage)settingsPage.style.display = 'none';
 
    // display the help div
    let helpPage = document.getElementById('help');
@@ -1766,7 +1766,7 @@ settingsBtn.addEventListener('click', () => {
     if(noTasksDiv){noTasksDiv.remove()}
 
     let settingsPage = document.getElementById('settings');
-    if(settingsPage)settingsPage.style.display = 'block';
+    settingsPage.style.display = 'block';
 
     let helpPage = document.getElementById('help');
     if(helpPage){helpPage.style.display = 'none'}
