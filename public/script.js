@@ -168,7 +168,7 @@ async function renderTaskPage() {
     // add the tasks in the db
     try {
         // Send the task data to the server
-        let response = await fetch('http://localhost:5500/tasks/add', {
+        let response = await fetch('https://todo-list-app-production-a09f.up.railway.app/tasks/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -580,7 +580,7 @@ async function renderTaskPage() {
                 //get the task name and notes of the completed task compare it to tasks and obtain taskID
 
 
-                fetch('http://localhost:5500/tasks')
+                fetch('https://todo-list-app-production-a09f.up.railway.app/tasks')
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(task => {
@@ -589,7 +589,7 @@ async function renderTaskPage() {
                                 taskID = task._id;
                                 console.log(taskID);
 
-                                fetch(`http://localhost:5500/tasks/completed/${taskID}`, {
+                                fetch(`https://todo-list-app-production-a09f.up.railway.app/tasks/completed/${taskID}`, {
                                     method: 'PATCH',
                                     headers: {
                                         'content-type': 'application/json'
@@ -738,7 +738,7 @@ async function renderTaskPage() {
 
         let taskDayInfo = document.getElementById('day-info');
                                                                         
-        const url = `http://localhost:5500/tasks?year=${year}&month=${month}&day=${selectedDay}`;
+        const url = `https://todo-list-app-production-a09f.up.railway.app/tasks?year=${year}&month=${month}&day=${selectedDay}`;
         let taskFound = false;
         let counter = 0;
         fetch(url)
@@ -836,7 +836,7 @@ async function renderTaskPage() {
             if(settingsPage)settingsPage.style.display = 'none';
         
 
-        fetch('http://localhost:5500/tasks')
+        fetch('https://todo-list-app-production-a09f.up.railway.app/tasks')
             .then(response => response.json())
             .then(data => {
 
@@ -946,7 +946,7 @@ async function renderTaskPage() {
         
         let dateCells = document.querySelectorAll('#table-body tr td')
         dateCells.forEach(cell => cell.style.backgroundColor = 'aqua')
-        fetch('http://localhost:5500/tasks')
+        fetch('https://todo-list-app-production-a09f.up.railway.app/tasks')
         .then(response => {
             
             return response.json();
@@ -1073,7 +1073,7 @@ async function renderTaskPage() {
         let navHeader = document.querySelector('h2');
         navHeader.innerText = 'Tomorrow';
         console.log(tomorrowDateString)
-        fetch('http://localhost:5500/tasks')
+        fetch('https://todo-list-app-production-a09f.up.railway.app/tasks')
             .then(response => response.json())
             .then(data => {
 
@@ -1220,7 +1220,7 @@ async function renderTaskPage() {
         let taskDivs = document.querySelectorAll('.task-added');
         if(taskDivs)taskDivs.forEach(task => task.remove())
 
-        fetch('http://localhost:5500/tasks')
+        fetch('https://todo-list-app-production-a09f.up.railway.app/tasks')
             .then(response => response.json())
             .then(data => {
 
@@ -1313,7 +1313,7 @@ async function renderTaskPage() {
         taskDayInfo.innerHTML = '';
 
         if (confirm('Are you sure to delete all tasks? this action is irreversible and will delete completed and incomplete tasks.')) {
-            fetch('http://localhost:5500/tasks/delete-completed', {
+            fetch('https://todo-list-app-production-a09f.up.railway.app/tasks/delete-completed', {
                 method: 'DELETE',
                 headers: {
 
@@ -1414,7 +1414,7 @@ async function renderTaskPage() {
     function deleteSpecificTask(taskID,taskDiv) {
 
         if(confirm('this task will be removed. this action is irreversible')){
-            fetch(`http://localhost:5500/tasks/delete/${taskID}`,{
+            fetch(`https://todo-list-app-production-a09f.up.railway.app/tasks/delete/${taskID}`,{
                 method : 'DELETE',
                 headers: {
                     'content-type': 'application/json'
@@ -1450,7 +1450,7 @@ function editTask(taskID,taskName,taskNotes,taskDate){
         _id: taskID,
         taskDate: taskDate
     }
-    fetch(`http://localhost:5500/tasks/update/${taskID}`,{
+    fetch(`https://todo-list-app-production-a09f.up.railway.app/tasks/update/${taskID}`,{
         method: 'PUT',
         headers: {
             'content-type': 'application/json'

@@ -897,7 +897,7 @@ ul li:hover {
         overflow: hidden;
         display: flex;
         justify-content: space-around;
-        margin-top: 30px;
+        
         
     }
 
@@ -913,7 +913,7 @@ ul li:hover {
     .extras {
         height: 100%;
         border-radius: 10px;
-        margin-right: 1px;
+        margin-right: 2px;
         margin-top: 5px;
         display: flex;
         flex-direction: column;
@@ -1230,7 +1230,7 @@ ul li:hover {
 
     #table-head th {
        
-        margin: 2px 1px;
+        margin: 3px 1px;
         width:calc(100%/7);
         text-align: center;
         background-color: aqua;
