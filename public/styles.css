@@ -467,7 +467,27 @@ ul li:hover {
    .visibility{
     display: none;
    }
+   .hidden{
+    display: hidden;
+   }
+
+   .block{
+
+    display: block;
+   }
+
+   .flex{
+
+
+    display: flex;
+   }
  
+   .highlight{
+    background-color: blue !important;
+    color: white;
+    border-radius: 50%;
+   }
+
   /*--------------------------------------------edit-task-page----------------------------------------*/
   #edit-task-container{
         
@@ -726,6 +746,8 @@ ul li:hover {
     width: 100%;
     background-color: blueviolet;
     display: none;
+    justify-content: center;
+    align-items: center;
     
 }
 #settings #settings-list{
@@ -733,6 +755,8 @@ ul li:hover {
     flex-direction: column;
     justify-content: space-around;
     height: 100%;
+    width: 100%;
+    
 }
 
 #settings-list li{
@@ -795,12 +819,13 @@ ul li:hover {
 
 /*----------------------------------------------feedback form styles-----------------------------------------*/
 #feedb {
-    max-height: 99vh;
+    max-height: 100vh;
     width: 97.3%;
     background-color: blueviolet;
     
     display: none;
-    
+    justify-content: center;
+    align-items: center;
     
 }
 
@@ -809,8 +834,26 @@ ul li:hover {
     flex-direction: column;
     font-weight: 600;
     width: 100%;
-    max-height: 99vh;
+    max-height: 95vh;
     
+}
+
+#feedb-name{
+    padding: 5px;
+}
+
+
+#feedb-email{
+    padding: 5px;
+}
+
+#feedb-issues{
+    padding: 5px;
+}
+
+
+#feedb-improvement{
+    padding:5px;
 }
 #feedb-submit{
     width: 100%;
@@ -824,6 +867,7 @@ ul li:hover {
     cursor: pointer;
     margin-top: 25px;
     transition: box-shadow 0.3s ease-in;
+    margin-bottom: 13px;
 }
 #feedb-submit:hover{
     box-shadow:1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
@@ -1382,21 +1426,31 @@ ul li:hover {
     .invisibility{
         display:inline-block;
     }
+   
+       .hidden{
+        display: hidden;
+       }
+    
+       .block{
+    
+        display: block;
+       }
+     
  
     /*----------------------------------------------------------edit task page for mobile--------------------------------------*/
 
     #edit-task-container{
         
         position: fixed;
-        top: 7%;
+        top: 5%;
         left: 15%;
-        bottom: 7%;
+        bottom: 5%;
         right: 15%;
         z-index: 20;
-        
-        justify-content: center;
+        align-items: center;
+        justify-content: space-around;
         font-weight: bold;
-        height: 65%;
+        height: 72%;
         padding: 25px;
         background-color: blueviolet;
         text-align: start;
@@ -1405,7 +1459,7 @@ ul li:hover {
     }
     #edit-task-container h2{
      text-align: center;
-     margin-bottom: 35px;
+     margin-bottom: 15px;
      letter-spacing: 2px;
     
     }
@@ -1436,7 +1490,7 @@ ul li:hover {
      border: 3px solid blue;
      height: 30px;
      align-self: center;
-     padding: 5px;
+     padding: 3px;
      margin-left: 15px;
      border-radius: 6px;
     }
@@ -1444,7 +1498,7 @@ ul li:hover {
     #edit-task-container #edit{
      justify-content: center;
      width: 100%;
-     padding: 15px;
+     padding: 10px;
      border-radius: 10px;
      font-size: 1rem;
      font-weight: bold;
@@ -1623,6 +1677,7 @@ ul li:hover {
             flex-direction: column;
             justify-content: space-around;
             height: 100%;
+            width: 100%;
         }
         
         #settings-list li{
@@ -1695,7 +1750,8 @@ ul li:hover {
             max-height: 99vh;
             width: 97.3%;
             background-color: blueviolet;
-            
+            justify-content: center;
+            align-items: center;
             display: none;
             
             
@@ -1704,6 +1760,8 @@ ul li:hover {
         #feedbackForm{
             display: flex;
             flex-direction: column;
+
+            
             font-weight: 600;
             width: 100%;
             max-height: 99vh;
