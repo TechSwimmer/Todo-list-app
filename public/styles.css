@@ -467,6 +467,15 @@ ul li:hover {
    .visibility{
     display: none;
    }
+   .invisibility{
+    display: inline-block;
+   }
+   .block{
+    display: block;
+   }
+   .flex{
+    display: flex;
+   }
  
   /*--------------------------------------------edit-task-page----------------------------------------*/
   #edit-task-container{
@@ -562,6 +571,8 @@ ul li:hover {
 
    .content .day-info{
     height: 88%;
+    position: relative;
+    
    }
 
    .content .day-info .task-added{
@@ -733,6 +744,7 @@ ul li:hover {
     flex-direction: column;
     justify-content: space-around;
     height: 100%;
+    width: 100%;
 }
 
 #settings-list li{
@@ -1382,6 +1394,14 @@ ul li:hover {
     .invisibility{
         display:inline-block;
     }
+
+    .block{
+        display: block;
+    }
+    .flex{
+        display: flex;
+    }
+
  
     /*----------------------------------------------------------edit task page for mobile--------------------------------------*/
 
@@ -1477,7 +1497,7 @@ ul li:hover {
     /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
  
     .content .day-info {
-        position:relative;
+        
         height: 100%;
         width: 100vw;
         padding: 10px 0px 0px 5px;
@@ -1488,7 +1508,7 @@ ul li:hover {
         justify-content: top;
         align-items: center;
         overflow:scroll;
-        margin-top: 75px;
+        
         
     }
 
@@ -1623,6 +1643,7 @@ ul li:hover {
             flex-direction: column;
             justify-content: space-around;
             height: 100%;
+            width: 100%;
         }
         
         #settings-list li{
