@@ -1,6 +1,6 @@
 
 
 const CONFIG = {
-    backendUrl: window.API_BASE_URL,
+    backendUrl: import.meta.env.API_BASE_URL || 'http://localhost:5000',
 
 }
