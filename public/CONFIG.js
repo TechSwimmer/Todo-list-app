@@ -1,6 +1,6 @@
 
 
 const CONFIG = {
-    backendUrl: import.meta.env.API_BASE_URL || 'http://localhost:5000',
+    backendUrl: 'https://todo-list-app-production-a09f.up.railway.app',
 
 }
