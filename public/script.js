@@ -407,7 +407,8 @@ function renderCalendar(year, month, date) {
     // Clear previous calendar rows
     const tableBody = document.getElementById('table-body');
     tableBody.innerHTML = '';
-
+    // remove bg styles for date cells
+    removeDateBg();
     
 
 
@@ -520,6 +521,11 @@ taskSubmitBtn.addEventListener('click', (event) => {
 // console.log(taskDateCalendar);
 
 
+// logic to apply the edit task function when the button is clicked
+
+
+
+
 
 
 
@@ -564,7 +570,7 @@ function renderRegularCalendar() {
                 // Highlight today's date
                 if (dayCounter === day) {
                     td.classList.add('highlight');
-                    document.querySelector('.nav-header h2').innerText = "Today";
+                    if(dayCounter == day){document.querySelector('.nav-header h2').innerText = "Today";}
                     console.log(dayCounter, day)
                 }
 
@@ -575,6 +581,7 @@ function renderRegularCalendar() {
         }
         tableBody.appendChild(tr);
     }
+    
 }
 
 renderRegularCalendar();
@@ -843,8 +850,63 @@ rYearArrow.addEventListener('click', () => {
 })
 
 
+// ----------------open the edit page with all the user info placed in the task editor-----------------
 
-//----------------------------CODE TO REMOVE THE ADDED TASK DIV WHEN USER CLICKS CHECKBOX------------------------------------------
+function openEditPage(taskName, taskNotes, taskDate, taskID) {
+  
+   
+    document.getElementById('edit-task-name').value = taskName;
+    document.getElementById('edit-task-notes').value =  taskNotes;
+    document.getElementById('edit-task-date').value = new Date(taskDate).toISOString().slice(0,10);
+    document.getElementById('overlay-edit').style.display = 'block';
+    addTaskBtn.classList.add('visibility');
+    document.getElementById('edit-task-container').classList.remove('visibility');
+    let taskEditor = document.getElementById('editTaskPageContainer');
+    taskEditor.style.display = 'block';
+     // Store the current task ID as a data attribute for future reference
+     document.getElementById('edit').setAttribute('data-id', taskID);
+
+}
+
+document.getElementById('day-info').addEventListener('click', function(event) {
+    if(event.target && event.target.classList.contains('Edit-task')){
+        const edittaskDiv = event.target.closest('.task-added')
+        const taskID = edittaskDiv.getAttribute('data-id');
+        const taskDate = edittaskDiv.getAttribute('data-date');              // Get from data-date attribute
+        const taskName = edittaskDiv.querySelector('h3').innerText;          // Select <h3> for task name
+        const taskNotes = edittaskDiv.querySelector('p').innerHTML.replace(/<br>/g, "\n");
+        openEditPage(taskName, taskNotes, taskDate, taskID);
+        document.getElementById('edit').addEventListener('click', () => {
+            const editedTaskNotes = document.getElementById('edit-task-notes').innerText;
+            let userNoteInput = editedTaskNotes.replace(/\n/g, "<br>")     
+            editTask(taskID, taskName, taskNotes, taskDate).then(() => {
+                let taskDayInfo = document.getElementById('day-info');
+                addTaskToUI(edittaskDiv, taskDayInfo)
+            })
+            
+        })
+    }
+})
+   
+
+// Remove the specific task when a user clicks delete specific task
+
+document.getElementById('day-info').addEventListener('click', function(event) {
+    if(event.target && event.target.classList.contains('Delete-task')){
+        
+        const deleteTaskDiv = event.target.closest('.task-added')
+        let taskID = deleteTaskDiv.getAttribute('data-Id')
+        
+        deleteSpecificTask(taskID, deleteTaskDiv)
+    }
+})
+
+
+
+
+
+//---------------------------- REMOVE THE ADDED TASK DIV WHEN USER CLICKS CHECKBOX------------------------------------------
+
 
 document.getElementById('day-info').addEventListener('click', function (event) {
     if (event.target && event.target.classList.contains('task-done')) {
@@ -873,6 +935,8 @@ document.getElementById('day-info').addEventListener('click', function (event) {
             });
     }
 });
+
+
 
 
 
@@ -1332,8 +1396,9 @@ function todayTasks() {
     let date = new Date();
     let todayDateString = date.toISOString().split('T')[0];
 
+    
     document.querySelector('h2').innerText = 'Today';
-
+    
     fetch(`${CONFIG.backendUrl}/tasks`)
         .then(response => response.json())
         .then(data => {
@@ -1353,8 +1418,11 @@ function todayTasks() {
         })
         .catch(error => console.error('Error fetching tasks:', error));
         const mediaQuery = window.matchMedia('(max-width:1280px)');
-    handleMediaQueryChange(mediaQuery);
-    mediaQuery.addEventListener('change', handleMediaQueryChange);
+        handleMediaQueryChange(mediaQuery);
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+    
+    
 }
 document.getElementById('Today').addEventListener('click', todayTasks);
 
@@ -1404,7 +1472,7 @@ function deleteSpecificTask(taskID, taskDiv) {
 // a function that would edit task when user clicks edit task btn
 
 function editTask(taskID, taskName, taskNotes, taskDate) {
-    let userNoteInput = taskNotes.replace(/\n/g, "<br>");
+    ;
     const updatedTask = { taskName, taskNotes: userNoteInput, _id: taskID, taskDate };
 
     fetch(`${CONFIG.backendUrl}/tasks/update/${taskID}`, {
@@ -1425,17 +1493,6 @@ function editTask(taskID, taskName, taskNotes, taskDate) {
 }
 
 
-    let editTaskButton = document.querySelectorAll('.Edit-task');
-    editTaskButton.forEach((task) => {
-        console.log(editTaskButton)
-        task.addEventListener('click', editTask(task.taskID, task.taskName, task.taskNotes, task.taskDate) )
-    })
-
-
-
-   
-
-
 //  function that would delete all completed tasks when the delete completed btn is clicked
 
 function deleteCompletedTasks() {
@@ -1452,7 +1509,9 @@ function deleteCompletedTasks() {
         })
         .catch(error => console.error('Error:', error));
 }
-
+document.querySelector('#delete').addEventListener('click', () => {
+    deleteCompletedTasks();
+})
 
 // function to remove bg from datecells whenb displaying settings anbd similar pages
 
@@ -2138,9 +2197,14 @@ document.addEventListener("DOMContentLoaded", function () {
 function showPage(pageId, title) {
     let navHeader = document.querySelector('#nav-header h2');
     let pages = ['feedb', 'settings', 'help']; // List of page IDs
+    pages.forEach(id => {
+        let page = document.getElementById(id);
+        if (page) {
+            page.style.display = 'none'; // Ensures no stacking
+        }
+    });
+    // Hide all pages dynamically
 
-    // Hide all tasks dynamically
-    
     clearTasks();
     removeDateBg();
     // Show the selected page
