@@ -14,6 +14,7 @@ body {
 
 /*-----------------------------------------------------------navbar--------------------------------------------------   */
 nav {
+    z-index: 99;
     position: fixed;
     display: flex;
     width: 100vw;
@@ -467,6 +468,7 @@ ul li:hover {
    .visibility{
     display: none;
    }
+<<<<<<< HEAD
    .hidden{
     display: hidden;
    }
@@ -479,6 +481,15 @@ ul li:hover {
    .flex{
 
 
+=======
+   .invisibility{
+    display: inline-block;
+   }
+   .block{
+    display: block;
+   }
+   .flex{
+>>>>>>> master
     display: flex;
    }
  
@@ -582,6 +593,8 @@ ul li:hover {
 
    .content .day-info{
     height: 88%;
+    position: relative;
+    
    }
 
    .content .day-info .task-added{
@@ -756,7 +769,10 @@ ul li:hover {
     justify-content: space-around;
     height: 100%;
     width: 100%;
+<<<<<<< HEAD
     
+=======
+>>>>>>> master
 }
 
 #settings-list li{
@@ -977,7 +993,7 @@ ul li:hover {
         width: 50%;
         background-color: aqua;
        
-       
+        border: 2px solid black;
         text-align: center;
         padding: 2px;
         font-size: 1rem;
@@ -1037,6 +1053,7 @@ ul li:hover {
         width: 100%;
         position: fixed;
         top: 0;
+        z-index: 99;
     }
    
 
@@ -1426,6 +1443,7 @@ ul li:hover {
     .invisibility{
         display:inline-block;
     }
+<<<<<<< HEAD
    
        .hidden{
         display: hidden;
@@ -1436,6 +1454,16 @@ ul li:hover {
         display: block;
        }
      
+=======
+
+    .block{
+        display: block;
+    }
+    .flex{
+        display: flex;
+    }
+
+>>>>>>> master
  
     /*----------------------------------------------------------edit task page for mobile--------------------------------------*/
 
@@ -1531,7 +1559,7 @@ ul li:hover {
     /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
  
     .content .day-info {
-        position:relative;
+        
         height: 100%;
         width: 100vw;
         padding: 10px 0px 0px 5px;
@@ -1542,7 +1570,7 @@ ul li:hover {
         justify-content: top;
         align-items: center;
         overflow:scroll;
-        margin-top: 75px;
+        
         
     }
 
