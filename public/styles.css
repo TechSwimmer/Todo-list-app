@@ -85,8 +85,9 @@ ul li:hover {
     height: 100%;
     text-align: center;
     top: 14px;
-    letter-spacing: 5px;
+    letter-spacing: 3px;
     transition: font-size 0.3s ease;
+    font-size: 1.4rem;
 }
 
 
@@ -484,7 +485,7 @@ ul li:hover {
     position: fixed;
     top: 5%;
     left: 25%;
-    bottom: 10%;
+    bottom: 15%;
     right: 25%;
     z-index: 20;
     
@@ -993,7 +994,7 @@ ul li:hover {
         height: 100%;
         text-align: center;
         top: 18px;
-        
+        font-size: 1.2rem;
         
     }
 
@@ -1410,7 +1411,7 @@ ul li:hover {
     #edit-task-container{
         
         position: fixed;
-        top: 7%;
+        top: 17%;
         left: 15%;
         bottom: 7%;
         right: 15%;
