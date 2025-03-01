@@ -119,11 +119,13 @@ async function renderTaskPage() {
     const taskDate = taskDateInput.value.trim();
 
     // Hide feedback message if it exists
-    if (feedbackDiv) feedbackDiv.style.display = 'none';
-
+    // if (feedbackDiv) feedbackDiv.style.display = 'none';
     // Clear previous task info
-    taskDayInfo.innerHTML = "";
-
+    // hideExtraPages();
+    document.querySelector('#feedb').style.display = 'none';
+    document.querySelector('#settings').style.display = 'none';
+    document.querySelector('#help').style.display = 'none';
+    clearTasks()
     // Ensure both task name and task date are provided
     if (!taskName || !taskDate) return;
 
@@ -160,8 +162,8 @@ async function renderTaskPage() {
                 </div>
                 <p>${taskNotes.replace(/\n/g, "<br>")}</p>
                 <div id="Edit-del-btn">
-                    <div id="Delete-task">Delete</div>
-                    <div id="Edit-task">Edit task</div>
+                    <div id="Delete-task" class="Delete-task">Delete</div>
+                    <div id="Edit-task" class="Edit-task">Edit task</div>
                 </div>
             </div>
         `;
@@ -175,20 +177,22 @@ async function renderTaskPage() {
     } catch (error) {
         console.error("Error creating task:", error.message);
     }
+
+    
+        
+    
+
 }
 
 // Attach event listener to submit button (only once)
-taskSubmitBtn.addEventListener('click', (event) => {
-    event.preventDefault();
-    renderTaskPage();
-});
+
 
 // Move event listeners outside to avoid adding them repeatedly
-document.getElementById('allTaskBtn')?.addEventListener('click', displayAllTasks);
-document.getElementById('completedTaskBtn')?.addEventListener('click', showCompletedTasks);
-document.getElementById('todayBtn')?.addEventListener('click', todayTasks);
-document.getElementById('tomorrowbtn')?.addEventListener('click', displayTomorrowTasks);
-document.getElementById('helpbtn')?.addEventListener('click', displayHelpPage);
+// document.getElementById('allTaskBtn')?.addEventListener('click', displayAllTasks);
+// document.getElementById('completedTaskBtn')?.addEventListener('click', showCompletedTasks);
+// document.getElementById('todayBtn')?.addEventListener('click', todayTasks);
+// document.getElementById('tomorrowbtn')?.addEventListener('click', displayTomorrowTasks);
+// document.getElementById('helpbtn')?.addEventListener('click', displayHelpPage);
 
 
 
@@ -283,6 +287,9 @@ function renderCalendar(year, month, date) {
     const tableBody = document.getElementById('table-body');
     tableBody.innerHTML = '';
 
+    
+
+
     //render the dates of the month in proper order
     let dateCounter = 1;
     for (let row = 0; row < 6; row++) { // Max 6 rows
@@ -314,13 +321,17 @@ function renderCalendar(year, month, date) {
 
 
 // Event Listener for Task Submission
-document.getElementById('create').addEventListener('click', () => {
+taskSubmitBtn.addEventListener('click', (event) => {
+    event.preventDefault();
     const taskDateInput = document.getElementById('task-date').value;
 
     if (!taskDateInput) return; // Prevent error if date is empty
 
+
     const [year, month, day] = taskDateInput.split('-').map(Number);
     renderCalendar(year, month, day);
+    
+    renderTaskPage();
 });
 
 // console.log(renderMonth)
@@ -614,11 +625,11 @@ function clearTasks() {
 }
 
 // Function to hide unnecessary pages (Help, Feedback, Settings)
-function hideExtraPages() {
-    document.getElementById('help')?.classList.add('visibility');
-    document.getElementById('feedb')?.classList.add('visibility');
-    document.getElementById('settings')?.classList.add('visibility');
-}
+// function hideExtraPages() {
+//     document.querySelector('#help')?.style.display = 'none';
+//     document.querySelector('#feedb')?.style.display = 'none';
+//     document.querySelector('#settings')?.style.display = 'none';
+// }
 
 
 
@@ -627,7 +638,7 @@ function getDataFromBackend(year, month, selectedDay) {
     // Remove help and settings pages
     // hideExtraPages();
     clearTasks();
-
+    // removeDateBg();
     document.querySelector('#feedb').style.display = 'none';
     document.querySelector('#settings').style.display = 'none';
     document.querySelector('#help').style.display = 'none';
@@ -666,8 +677,8 @@ function getDataFromBackend(year, month, selectedDay) {
                                 </div>
                                 <p>${task.taskNotes.replace(/\n/g, "<br>")}</p>
                                 <div id="Edit-del-btn">
-                                    <div id="Delete-task">Delete</div>
-                                    <div id="Edit-task">Edit task</div>
+                                    <div id="Delete-task" class="Delete-task">Delete</div>
+                                    <div id="Edit-task" class="Edit-task">Edit task</div>
                                 </div>
                             </div>`;
                            
@@ -698,7 +709,9 @@ function getDataFromBackend(year, month, selectedDay) {
 
 function handleDateClick(year, month, currentDay){
     let dateCells = document.querySelectorAll('#table-body td'); 
+    // remove prev styling
     
+    removeDateBg();
 
     dateCells.forEach((date) => {
         date.addEventListener('click',() => {
@@ -724,6 +737,12 @@ function handleDateClick(year, month, currentDay){
     })
 }
 
+
+function formatDate(dateString) {
+    let [year, month, day] = dateString.split('-'); // Split into parts
+    return `${year}-${parseInt(month)}-${parseInt(day)}`; // Convert to number to remove leading zeros
+}
+
 let dateCells = document.querySelectorAll('#table-body td')
 dateCells.forEach((day) => {
    
@@ -731,7 +750,7 @@ dateCells.forEach((day) => {
     day.style.backgroundColor = '';
     day.addEventListener('click', () => {
         // Reset all cells
-        dateCells.forEach(day => day.classList.remove('highlight'));
+        removeDateBg()
 
         // Highlight selected day
         day.style.backgroundColor = 'blue';
@@ -747,12 +766,24 @@ dateCells.forEach((day) => {
 
         let navHeader = document.querySelector('h2');
         let selectedDate = `${year}-${month}-${selectedDay}`;
-
+        // selectedDate = selectedDate.toISOString().split('T')[0];
         // Fix "TODAY" comparison
-        const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
+        let today = new Date().toISOString().split('T')[0];
+        let tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow = tomorrow.toISOString().split('T')[0];
+        // set the date in correct format for proper comparison
+        today = formatDate(today);
+        tomorrow = formatDate(tomorrow);
+        
+        console.log(tomorrow) // "YYYY-MM-DD"
+        console.log(selectedDate)
         if (selectedDate === today) {
-            navHeader.innerText = 'TODAY';
-        } else {
+            navHeader.innerText = 'Today';
+        }else if(selectedDate === tomorrow){
+            navHeader.innerText = 'Tommorow';
+        }
+         else {
             navHeader.innerText = selectedDate;
         }
 
@@ -818,8 +849,8 @@ function renderTasks(tasks, filterType) {
                 </div>
                 <p>${userNoteInput}</p>
                 <div id="Edit-del-btn">
-                    <div id="Delete-task">Delete</div>
-                    <div id="Edit-task">Edit task</div>
+                    <div id="Delete-task" class="Delete-task">Delete</div>
+                    <div id="Edit-task" class="Edit-task">Edit task</div>
                 </div>
             `;
         taskDayInfo.appendChild(taskDiv);
@@ -866,13 +897,13 @@ function fetchAndDisplayTasks(filterType) {
                                 <div class="head-checkbox">
                                     <h3>${task.taskName}</h3>
                                     <div class="checkbox">
-                                        <h4 class="task-done">${task.completed ? 'Task Done.' : ''}</h4>
+                                        <h4 class="task-done">${'Task Done.'}</h4>
                                     </div>
                                 </div>
                                 <p>${taskNotes}</p>
                                 <div id="Edit-del-btn">
-                                    <div id="Delete-task">Delete</div>
-                                    <div id="Edit-task">Edit task</div>
+                                    <div id="Delete-task" class="Delete-task">Delete</div>
+                                    <div id="Edit-task" class="Edit-task">Edit task</div>
                                 </div>
                             </div>`;
 
@@ -884,6 +915,9 @@ function fetchAndDisplayTasks(filterType) {
         });
 
     renderCalendarWRTCond(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+    const mediaQuery = window.matchMedia('(max-width:1280px)');
+    handleMediaQueryChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
 }
 
 
@@ -895,13 +929,12 @@ function setupTaskButton(buttonId, filterType) {
     let button = document.getElementById(buttonId);
     button.addEventListener('click', () => {
         fetchAndDisplayTasks(filterType);
-
+        removeDateBg();
         const mediaQuery = window.matchMedia('(max-width:1280px)');
         handleMediaQueryChange(mediaQuery);
         mediaQuery.addEventListener('change', handleMediaQueryChange);
     });
 }
-
 // Set up buttons for displaying all and completed tasks
 setupTaskButton('All-Tasks', 'all');
 setupTaskButton('completed', 'completed');
@@ -915,6 +948,9 @@ function renderCalendarWRTCond(year, month, day) {
     console.log(year, month, day);
     document.getElementById('month').innerText = months[month];
     document.getElementById('year').innerText = year;
+
+    //clear the prev datecells styles
+    removeDateBg();
 
     let dateCells = document.querySelectorAll('#table-body tr td');
     let trueIndex = 0;
@@ -969,6 +1005,9 @@ function todayTasks() {
             renderCalendarWRTCond(date.getFullYear(), date.getMonth(), date.getDate() - 1);
         })
         .catch(error => console.error('Error fetching tasks:', error));
+        const mediaQuery = window.matchMedia('(max-width:1280px)');
+    handleMediaQueryChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
 }
 document.getElementById('Today').addEventListener('click', todayTasks);
 
@@ -987,8 +1026,8 @@ function addTaskToUI(task, container) {
                 </div>
                 <p>${userNoteInput}</p>
                 <div id="Edit-del-btn">
-                    <div id="Delete-task">Delete</div>
-                    <div id="Edit-task">Edit task</div>
+                    <div id="Delete-task" class="Delete-task">Delete</div>
+                    <div id="Edit-task" class="Edit-task">Edit task</div>
                 </div>
             </div>`;
 
@@ -1039,6 +1078,17 @@ function editTask(taskID, taskName, taskNotes, taskDate) {
 }
 
 
+    let editTaskButton = document.querySelectorAll('.Edit-task');
+    editTaskButton.forEach((task) => {
+        console.log(editTaskButton)
+        task.addEventListener('click', editTask(task.taskID, task.taskName, task.taskNotes, task.taskDate) )
+    })
+
+
+
+   
+
+
 //  function that would delete all completed tasks when the delete completed btn is clicked
 
 function deleteCompletedTasks() {
@@ -1056,70 +1106,58 @@ function deleteCompletedTasks() {
         .catch(error => console.error('Error:', error));
 }
 
-// feedback form logic
 
+// function to remove bg from datecells whenb displaying settings anbd similar pages
 
-document.getElementById('feedback-link').onclick = () => showPage('feedb', 'Feedback');
-document.getElementById('help-link').onclick = () => showPage('help', 'Help');
-document.getElementById('settings-link').onclick = () => showPage('settings', 'Settings');
+function removeDateBg(){
+    let dateCells = document.querySelectorAll('#table-body tr td');
 
-
-
-function showPage(pageId, title) {
-    let navMenuLinks = document.getElementById('nav-menu-links');
-    let backbtn = document.getElementById('back-btn');
-    let toggleNavMenu = document.getElementById('toggle-nav-menu');
-    let taskDayInfo = document.getElementById('day-info');
-    let feedbackPage = document.getElementById('feedb');
-    let settingsPage = document.getElementById('settings');
-    let helpPage = document.getElementById('help');
-    let navHeader = document.querySelector('#nav-header h2');
-
-    // Hide all sections first
-    let taskDiv = taskDayInfo.querySelectorAll('.task-added');
-
-    taskDiv.forEach((div) => {
-
-        if (div) {
-            div.remove();
-        }
+    dateCells.forEach((date) => {
+        date.style.backgroundColor = 'aqua';
     })
 
-    if (feedbackPage) feedbackPage.style.display = 'none';
+}
+ 
 
-    if (settingsPage) settingsPage.style.display = 'none';
 
-    if (helpPage) helpPage.style.display = 'none';
 
+
+
+// feedback settings and help page display logic
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById('feedback-link').onclick = () => showPage('feedb', 'Feedback');
+    document.getElementById('help-link').onclick = () => showPage('help', 'Help');
+    document.getElementById('settings-link').onclick = () => showPage('settings', 'Settings');
+});
+
+function showPage(pageId, title) {
+    let navHeader = document.querySelector('#nav-header h2');
+    let pages = ['feedb', 'settings', 'help']; // List of page IDs
+
+    // Hide all tasks dynamically
+    
+    clearTasks();
+    removeDateBg();
     // Show the selected page
+    let selectedPage = document.getElementById(pageId);
+    if (!selectedPage) {
+        console.error(`Element with id '${pageId}' not found`);
+        return;
+    }
+    selectedPage.style.display = 'flex'; // Assuming flex works best
+    selectedPage.style.flexDirection = 'column';
 
+    // Update header
     navHeader.innerText = title;
-    document.getElementById(pageId).style.display = 'flex';
-
-
-    if (title == 'Feedback') {
-        feedbackPage.style.display = 'flex';
-        feedbackPage.style.flexDirection = 'column'
-
-    }
-    if (title == 'Help') {
-        helpPage.style.display = 'flex';
-    }
-
-    if (title == 'Settings') {
-        settingsPage.style.display = 'flex';
-    }
 
     // Hide nav menu after selection
-    navMenuLinks.classList.add('visibility');
-    backbtn.classList.add('visibility');
-    toggleNavMenu.classList.add('invisibility');
+    document.getElementById('nav-menu-links').classList.add('visibility');
+    document.getElementById('back-btn').classList.add('visibility');
+    document.getElementById('toggle-nav-menu').classList.add('invisibility');
 
+    // Handle media queries
     const mediaQuery = window.matchMedia('(max-width:1280px)');
     handleMediaQueryChange(mediaQuery);
     mediaQuery.addEventListener('change', handleMediaQueryChange);
-
 }
-
-
-

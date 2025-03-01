@@ -14,6 +14,7 @@ body {
 
 /*-----------------------------------------------------------navbar--------------------------------------------------   */
 nav {
+    z-index: 99;
     position: fixed;
     display: flex;
     width: 100vw;
@@ -945,7 +946,7 @@ ul li:hover {
         width: 50%;
         background-color: aqua;
        
-       
+        border: 2px solid black;
         text-align: center;
         padding: 2px;
         font-size: 1rem;
@@ -1005,6 +1006,7 @@ ul li:hover {
         width: 100%;
         position: fixed;
         top: 0;
+        z-index: 99;
     }
    
 
