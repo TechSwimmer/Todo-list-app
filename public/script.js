@@ -6,7 +6,7 @@
 
 // STORE LINKS
 
-console.log(CONFIG.backendUrl);
+// console.log(CONFIG.backendUrl);
 
 
 
@@ -93,7 +93,7 @@ function closeEditPage () {
     editTaskContainer.classList.add('visibility');
     overlayEdit.style.display = 'none';
     addTaskBtn.classList.remove('visibility');
-    overlayEdit.style.pointerEvents = 'none'
+    // overlayEdit.style.pointerEvents = 'none'
 }
 
 // Add event listener
