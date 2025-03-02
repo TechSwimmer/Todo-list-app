@@ -465,7 +465,9 @@ ul li:hover {
     background-color: rgba(0, 0, 1, 0.85);
     display: none;
    }
-
+   .hidden{
+    display: hidden;
+   }
    .visibility{
     display: none;
    }

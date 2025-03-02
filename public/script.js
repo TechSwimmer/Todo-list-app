@@ -13,7 +13,10 @@ console.log(CONFIG.backendUrl);
 // STORE ELEMENTS IN A VARIABLE FOR MULTIPLE USE
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const taskPageContainer = document.getElementById('taskPageContainer');
+const editTaskContainer = document.getElementById('edit-task-container');
+const editTaskPageContainer = document.getElementById('editTaskPageContainer');
 const overlayCreate = document.getElementById('overlay-create');
+const overlayEdit = document.getElementById('overlay-edit');
 const taskNameInput = document.getElementById('task-name');
 const taskNotesInput = document.getElementById('task-notes');
 const taskDateInput = document.getElementById('task-date');
@@ -85,6 +88,14 @@ function closeTaskPage() {
     addTaskBtn.classList.remove('visibility');
 }
 
+function closeEditPage () {
+    editTaskPageContainer.style.display = 'none';
+    editTaskContainer.classList.add('visibility');
+    overlayEdit.style.display = 'none';
+    addTaskBtn.classList.remove('visibility');
+    overlayEdit.style.pointerEvents = 'none'
+}
+
 // Add event listener
 addTaskBtn.addEventListener('click', openTaskPage);
 
@@ -101,7 +112,14 @@ overlaycreate.addEventListener('click', function () {
 overlaycreate.addEventListener('mouseenter', function () {
     overlaycreate.style.cursor = 'pointer';
 })
+// overlay edit click functionality
 
+overlayEdit.addEventListener('mouseenter', function() {
+    overlayEdit.style.cursor = 'pointer';
+})
+overlayEdit.addEventListener('click', function () {
+    closeEditPage()
+})
 
 // task page elements and behaviour to load them in the day-info page updating the day-info heading to the date supplied.
 
@@ -597,24 +615,37 @@ function openEditPage(taskName, taskNotes, taskDate, taskID) {
 
 document.getElementById('day-info').addEventListener('click', function(event) {
     if(event.target && event.target.classList.contains('Edit-task')){
-        const edittaskDiv = event.target.closest('.task-added')
+        const edittaskDiv = event.target.closest('.task-added');
         const taskID = edittaskDiv.getAttribute('data-id');
-        const taskDate = edittaskDiv.getAttribute('data-date');              // Get from data-date attribute
-        const taskName = edittaskDiv.querySelector('h3').innerText;          // Select <h3> for task name
-        const taskNotes = edittaskDiv.querySelector('p').innerHTML.replace(/<br>/g, "\n");
-        openEditPage(taskName, taskNotes, taskDate, taskID);
+        const edittaskDate = edittaskDiv.getAttribute('data-date');              // Get from data-date attribute
+        const edittaskName = edittaskDiv.querySelector('h3').innerText;          // Select <h3> for task name
+        const edittaskNotes = edittaskDiv.querySelector('p').innerHTML.replace(/<br>/g, "\n");
+
+       console.log(edittaskNotes)
+        openEditPage(edittaskName, edittaskNotes, edittaskDate, taskID);
+        const editBtn = document.getElementById('edit');
+        editBtn.replaceWith(editBtn.cloneNode(true)); // Remove old listeners
         document.getElementById('edit').addEventListener('click', () => {
-            const editedTaskNotes = document.getElementById('edit-task-notes').innerText;
-            let userNoteInput = editedTaskNotes.replace(/\n/g, "<br>")     
-            editTask(taskID, taskName, taskNotes, taskDate).then(() => {
+            let taskDate = document.querySelector('.edit-task-date').value;
+            let userNoteInput = document.querySelector('.edit-task-notes').value;
+
+            const taskObj = {
+                taskID,
+                taskName: document.querySelector('.edit-task-name').value,
+                taskNotes: userNoteInput,
+                taskDate: new Date(taskDate).toISOString().slice(0, 10)
+            };
+
+            console.log(taskObj);
+
+            editTask(taskObj.taskID, taskObj.taskName, taskObj.taskNotes, taskObj.taskDate).then(() => {
                 let taskDayInfo = document.getElementById('day-info');
-                addTaskToUI(edittaskDiv, taskDayInfo)
-            })
-            
-        })
+                addTaskToUI(taskObj, taskDayInfo);
+                closeEditPage();
+            });
+        });
     }
-})
-   
+});
 
 // Remove the specific task when a user clicks delete specific task
 
@@ -1125,10 +1156,10 @@ function deleteSpecificTask(taskID, taskDiv) {
 // a function that would edit task when user clicks edit task btn
 
 function editTask(taskID, taskName, taskNotes, taskDate) {
-    ;
-    const updatedTask = { taskName, taskNotes: userNoteInput, _id: taskID, taskDate };
+    
+    const updatedTask = { taskName, taskNotes, _id: taskID, taskDate };
 
-    fetch(`${CONFIG.backendUrl}/tasks/update/${taskID}`, {
+    return fetch(`${CONFIG.backendUrl}/tasks/update/${taskID}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(updatedTask)
