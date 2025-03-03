@@ -380,25 +380,28 @@ ul li:hover {
    .task-container{
         
        position: fixed;
-       top: 5%;
+       top: 17%;
        left: 25%;
        bottom: 10%;
        right: 25%;
        z-index: 20;
-       
+    
        justify-content: center;
        font-weight: bold;
-       height: 75%;
-       padding: 50px;
+       height: 65%;
+       padding: 25px;
        background-color: blueviolet;
        text-align: start;
        border-radius: 20px;
-       letter-spacing: 1.3px;
+       
    }
    .task-container h2{
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
     letter-spacing: 2px;
+    width: 100%;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
    }
 
    .task-container #task-form{
@@ -407,7 +410,7 @@ ul li:hover {
    }
    .task-container #task-name{
     width: 100%;
-    height: 20px;
+    height: 18px;
     padding: 5px;
     border-radius:6px ;
     border: 3px solid blue;
@@ -415,7 +418,7 @@ ul li:hover {
    }
    .task-container #task-notes{
     width: 100%;
-    height:23vh;
+    height:15vh;
     padding: 5px;
     border-radius: 6px;
     resize: none;
@@ -426,15 +429,16 @@ ul li:hover {
 
    .task-container #task-date{
     border: 3px solid blue;
-    height: 30px;
+    height: 27px;
     align-self: center;
-    padding: 5px;
+    padding: 3px;
     margin-left: 15px;
     border-radius: 6px;
    }
 
    .task-container #create{
     justify-content: center;
+    align-self: center;
     width: 100%;
     padding: 15px;
     border-radius: 10px;
@@ -506,7 +510,7 @@ ul li:hover {
   #edit-task-container{
         
     position: fixed;
-    top: 5%;
+    top: 15%;
     left: 25%;
     bottom: 15%;
     right: 25%;
@@ -514,17 +518,18 @@ ul li:hover {
     
     justify-content: center;
     font-weight: bold;
-    height: 75%;
+    height: 65%;
     padding: 50px;
     background-color: blueviolet;
     text-align: start;
     border-radius: 20px;
-    letter-spacing: 1.3px;
+    
 }
 #edit-task-container h2{
  text-align: center;
- margin-bottom: 35px;
+ margin-bottom: 15px;
  letter-spacing: 2px;
+ border-bottom: 2px solid black;
 }
 
 #edit-task-container #edit-task-form{
@@ -533,7 +538,7 @@ ul li:hover {
 }
 #edit-task-container #edit-task-name{
  width: 100%;
- height: 20px;
+ height: 18px;
  padding: 5px;
  border-radius:6px ;
  border: 3px solid blue;
@@ -541,7 +546,7 @@ ul li:hover {
 }
 #edit-task-container #edit-task-notes{
  width: 100%;
- height:23vh;
+ height:18vh;
  padding: 5px;
  border-radius: 6px;
  resize: none;
@@ -552,9 +557,9 @@ ul li:hover {
 
 #edit-task-container #edit-task-date{
  border: 3px solid blue;
- height: 30px;
+ height: 25px;
  align-self: center;
- padding: 5px;
+ padding: 3px;
  margin-left: 15px;
  border-radius: 6px;
 }
@@ -1350,7 +1355,7 @@ ul li:hover {
     .task-container{
         
         position: fixed;
-        top: 7%;
+        top: 17%;
         left: 10%;
         bottom: 7%;
         right: 10%;
@@ -1364,11 +1369,13 @@ ul li:hover {
         background-color: blueviolet;
         text-align: start;
         border-radius: 20px;
-        letter-spacing: 1.3px;
+        
     }
     .task-container h2{
      text-align: center;
-     margin-bottom: 30px;
+     margin-bottom: 15px;
+     border-bottom: 2px solid black;
+     padding-bottom: 7px;
      
     
     }
@@ -1379,7 +1386,7 @@ ul li:hover {
     }
     .task-container #task-name{
      width: 100%;
-     height: 20px;
+     height: 18px;
      padding: 5px;
      border-radius:6px ;
      border: 3px solid blue;
@@ -1387,7 +1394,7 @@ ul li:hover {
     }
     .task-container #task-notes{
      width: 100%;
-     height:23vh;
+     height:13vh;
      padding: 5px;
      border-radius: 6px;
      resize: none;
@@ -1397,7 +1404,7 @@ ul li:hover {
  
     .task-container #task-date{
      border: 3px solid blue;
-     height: 30px;
+     height: 25px;
      align-self: center;
      padding: 5px;
      margin-left: 15px;
@@ -1490,12 +1497,14 @@ ul li:hover {
         background-color: blueviolet;
         text-align: start;
         border-radius: 20px;
-        letter-spacing: 1.3px;
+        
     }
     #edit-task-container h2{
      text-align: center;
      margin-bottom: 15px;
      letter-spacing: 2px;
+     border-bottom: 2px solid black;
+     padding-bottom: 5px;
     
     }
  
@@ -1505,7 +1514,7 @@ ul li:hover {
     }
     #edit-task-container #edit-task-name{
      width: 100%;
-     height: 20px;
+     height: 18px;
      padding: 5px;
      border-radius:6px ;
      border: 3px solid blue;
@@ -1513,8 +1522,8 @@ ul li:hover {
     }
     #edit-task-container #edit-task-notes{
      width: 100%;
-     height:23vh;
-     padding: 5px;
+     height:13vh;
+     padding: 3px;
      border-radius: 6px;
      resize: none;
      overflow-y: auto;
@@ -1523,7 +1532,7 @@ ul li:hover {
  
     #edit-task-container #edit-task-date{
      border: 3px solid blue;
-     height: 30px;
+     height: 25px;
      align-self: center;
      padding: 3px;
      margin-left: 15px;

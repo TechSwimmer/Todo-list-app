@@ -119,6 +119,23 @@ const deleteCompleted = async(req,res)=> {
     }
 }
 
+
+
+//  handle feedback submissions from users and stores them in a MongoDB database.
+
+const submitFeedback = async(req,res) => {
+    try {
+        const newFeedback = new Feedback(req.body);                     // store the feedback data sent by user
+        await newFeedback.save();                                       // store feedback in db
+        res.status(201).json({message: "Feedback saved successfully!"})
+    }
+    catch(error){
+        res.status(500).json({ message : "Error saving fedback", error})
+    }
+}
+
+
+//export all
 module.exports = {
     getAllTasks,
     getSpecificTask,
@@ -126,5 +143,6 @@ module.exports = {
     updateTask,
     deleteTask,
     completedTask,
-    deleteCompleted
+    deleteCompleted,
+    submitFeedback
 }

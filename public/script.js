@@ -6,7 +6,7 @@
 
 // STORE LINKS
 
-console.log(CONFIG.backendUrl);
+// console.log(CONFIG.backendUrl);
 
 
 
@@ -101,7 +101,7 @@ function closeEditPage () {
     editTaskContainer.classList.add('visibility');
     overlayEdit.style.display = 'none';
     addTaskBtn.classList.remove('visibility');
-    overlayEdit.style.pointerEvents = 'none'
+    // overlayEdit.style.pointerEvents = 'none'
 }
 
 // Add event listener
@@ -2260,4 +2260,51 @@ function showPage(pageId, title) {
     handleMediaQueryChange(mediaQuery);
     mediaQuery.addEventListener('change', handleMediaQueryChange);
 }
+<<<<<<< HEAD
+>>>>>>> master
+=======
+
+
+// submit the feedback form to the db
+
+document.addEventListener("DOMContentLoaded", () => {
+    const feedbackForm = document.getElementById("feedbackForm");
+
+    feedbackForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const formData = {
+            name : document.getElementById("feedb-name").value.trim(),
+            email : document.getElementById("feedb-email").value.trim(),
+            experience : document.getElementById("feedb-experience").value,
+            satisfaction : document.getElementById("feedb-satisfaction").value,
+            improvement : document.getElementById("feedb-improvement").value.trim(),
+            issues : document.getElementById("feedb-issues").value.trim(),
+        }
+
+        try{
+            const response = await fetch(`${CONFIG.backendUrl}/submit-feedback`,{
+                method : "POST",
+                headers : {
+                    "content-Type": "application/json",
+                },
+                body : JSON.stringify(formData),
+            })
+
+            const result = await response.json();
+            if(response.ok){
+                alert("Feedback subnmitted successfully!")
+                feedbackForm.reset()
+                document.getElementById("feedbackModal").style.display = "none";
+            }
+            else{
+                alert("Error:" + result.message);
+            }
+        }
+        catch(error){
+            alert("Something went wrong.please try again.")
+            console.error("Error submitting feedback:", error)
+        }
+    })
+})
 >>>>>>> master
