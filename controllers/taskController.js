@@ -1,6 +1,7 @@
 const todoApp = require('../modals/app-modals.js');
 const express = require('express')
 const mongoose = require('mongoose')
+const nodemailer = require("nodemailer");
 
 //show all tasks
 const getAllTasks = async(req, res) => {
@@ -121,18 +122,54 @@ const deleteCompleted = async(req,res)=> {
 
 
 
+// Create a Nodemailer transporter
+const transporter = nodemailer.createTransport({
+    service: "gmail", // Use your email provider (Gmail, Outlook, etc.)
+    auth: {
+        user: process.env.EMAIL_USER, // Your email
+        pass: process.env.EMAIL_PASS, // App password or email password
+    },
+});
+
 //  handle feedback submissions from users and stores them in a MongoDB database.
 
 const submitFeedback = async(req,res) => {
-    try {
-        const newFeedback = new Feedback(req.body);                     // store the feedback data sent by user
-        await newFeedback.save();                                       // store feedback in db
-        res.status(201).json({message: "Feedback saved successfully!"})
+    try{
+        console.log("Feedback received: ", req.body);
+
+        const {name,email,experience, satisfaction, improvement,issues} = req.body;
+
+        if(!name){
+            return res.status(400).json({message: "Name is required"})
+        }
+
+        // send mail
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: "niku101095@gmail.com",
+            subject: "New feedback submission",
+            text:`
+                Name: ${name}
+                Email: ${email}
+                Experience: ${experience}
+                Satisfaction: ${satisfaction}
+                Improvement: ${improvement}
+                Issues: ${issues} 
+            
+            ` 
+
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(500).json({message: "Feedback submitted and email sent successfully!"})
     }
     catch(error){
-        res.status(500).json({ message : "Error saving fedback", error})
+        console.error("Error submitting feedback:", error);
+        res.status(500).json({message: "Error submitting feedback", error: error.message})
     }
-}
+};
+
 
 
 //export all

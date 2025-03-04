@@ -1279,14 +1279,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch(`${CONFIG.backendUrl}/submit-feedback`,{
                 method : "POST",
                 headers : {
-                    "content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body : JSON.stringify(formData),
             })
-
+            
             const result = await response.json();
+            console.log(result);
+            
             if(response.ok){
-                alert("Feedback subnmitted successfully!")
+                alert("Feedback submitted successfully!")
                 feedbackForm.reset()
                 document.getElementById("feedbackModal").style.display = "none";
             }
