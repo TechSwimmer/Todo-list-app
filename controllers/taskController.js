@@ -138,8 +138,10 @@ const submitFeedback = async(req,res) => {
         console.log("Feedback received: ", req.body);
 
         const {name,email,experience, satisfaction, improvement,issues} = req.body;
+        const newFeedback = new Feedback(req.body);
+        await newFeedback.save();
 
-        if(!name){
+        if(!req.body.name){
             return res.status(400).json({message: "Name is required"})
         }
 
@@ -162,10 +164,10 @@ const submitFeedback = async(req,res) => {
 
         await transporter.sendMail(mailOptions);
 
-        res.status(500).json({message: "Feedback submitted and email sent successfully!"})
+        res.status(201).json({message: "Feedback submitted and email sent successfully!"})
     }
     catch(error){
-        console.error("Error submitting feedback:", error);
+        // console.error("Error submitting feedback:", error);
         res.status(500).json({message: "Error submitting feedback", error: error.message})
     }
 };

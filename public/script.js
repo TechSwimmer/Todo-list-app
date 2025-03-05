@@ -1284,8 +1284,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 body : JSON.stringify(formData),
             })
             
-            const result = await response.json();
-            console.log(result);
+           
+            // console.log(result);
             
             if(response.ok){
                 alert("Feedback submitted successfully!")
@@ -1293,6 +1293,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("feedbackModal").style.display = "none";
             }
             else{
+                const result = await response.json();
                 alert("Error:" + result.message);
             }
         }
@@ -1302,3 +1303,62 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 })
+
+
+// Weather card logic
+
+document.addEventListener("DOMContentLoaded", () => {
+    const weatherContainer = document.getElementById("weather-card");
+    const apiKey = "385ebe3296094d3d87564644250503"; // Replace with your actual API key
+
+    // Function to get user's location and fetch weather
+    function fetchWeatherByLocation(lat, lon) {
+        const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const { location, current } = data;
+                const timeOnly = location.localtime.split(" ")[1]; // Extract only the time
+
+                weatherContainer.innerHTML = `
+                    <div class="weather-info">
+                        <h3>${location.name}, ${location.region}, ${location.country}</h3>
+                        <div class="weather-status">
+                            <div class="weather-status-condition">
+                                <p>${current.condition.text} <img src="https:${current.condition.icon}" alt="weather-icon"></p>
+                            </div>
+                            <div class="weather-status-info">
+                                <p>🌡️ Temperature: ${current.temp_c}°C</p>
+                                <p>🕒 Local Time: ${timeOnly}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            })
+            .catch(error => {
+                console.error("Weather fetch error:", error);
+                weatherContainer.innerHTML = "<p>Failed to load weather</p>";
+            });
+    }
+
+    // Get user's location
+    function getUserLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const { latitude, longitude } = position.coords;
+                    fetchWeatherByLocation(latitude, longitude);
+                },
+                error => {
+                    console.error("Geolocation error:", error);
+                    weatherContainer.innerHTML = "<p>Location access denied.</p>";
+                }
+            );
+        } else {
+            weatherContainer.innerHTML = "<p>Geolocation is not supported by your browser.</p>";
+        }
+    }
+
+    getUserLocation(); // Call the function when the page loads
+});

@@ -1,6 +1,6 @@
 const express = require('express');
 const todoApp = require("../modals/app-modals.js");
-const { getAllTasks,getSpecificTask,addTask,updateTask,deleteTask, completedTask, deleteCompleted, submitFeedback } = require('../controllers/taskController.js')
+const { getAllTasks,getSpecificTask,addTask,updateTask,deleteTask, completedTask, deleteCompleted,submitFeedback } = require('../controllers/taskController.js')
 const router = express.Router();
 const path = require('path')
 
