@@ -1313,7 +1313,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to get user's location and fetch weather
     function fetchWeatherByLocation(lat, lon) {
-        const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`;
+        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`;
 
         fetch(url)
             .then(response => response.json())
