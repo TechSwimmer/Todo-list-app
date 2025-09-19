@@ -1,10 +1,63 @@
 const express = require('express');
-const todoApp = require("../modals/app-modals.js");
-const { getAllTasks,getSpecificTask,addTask,updateTask,deleteTask, completedTask, deleteCompleted,submitFeedback } = require('../controllers/taskController.js')
+
+const { getAllTasks,getSpecificTask,addTask,updateTask,deleteTask, completedTask, deleteCompleted,submitFeedback,
+        getUserTasks,addUserTask,fetchUserTasks,deleteUserTask,getGuestTasks,addGuestTask,deleteGuestTask,getTodayTask,
+        deleteCompletedUsersTasks} = require('../controllers/taskController.js')
 const router = express.Router();
-const path = require('path')
+
+
+const authMiddleware = require("../Middleware/userAuthMiddleware.js");
+const guestAuthMiddleware = require("../Middleware/guestAuthMiddleware.js")
+// const guestAuthMiddleware =  require("../routes/auth.js");
+
+
 
 const bodyParser = require('body-parser');
+
+//                                          USER-ROUTES
+
+// Get users tasks
+router.get('/user/tasks',authMiddleware, getUserTasks);
+
+// get specific user tasks
+router.get('/user/tasks/fetch',authMiddleware, fetchUserTasks);
+
+// get all user specific tasks
+router.get('/user/tasks/alltasks',authMiddleware, getAllTasks);
+
+// add user tasks
+router.post('/user/tasks/add',authMiddleware, addUserTask);
+
+
+// delete user tasks
+router.delete('/user/tasks/delete/:id',authMiddleware, deleteUserTask);
+
+// delete user specific completed tasks
+router.delete('/tasks/delete-completed', authMiddleware,deleteCompletedUsersTasks)
+
+
+
+//                                          GUEST ROUTES
+
+
+// add guest tasks
+router.post('/guest/tasks/add', guestAuthMiddleware, addGuestTask)
+
+// get guest task
+router.get('/guest/tasks', guestAuthMiddleware, getGuestTasks)
+
+
+// get today task that the guest requests
+router.get('/user/tasks/today', authMiddleware, getTodayTask);
+
+// delete guest tasks
+router.delete('/guest/tasks/delete/:id', guestAuthMiddleware, deleteGuestTask);
+
+// delete  completed tasks
+router.delete('/guest/tasks/delete-completed', guestAuthMiddleware, deleteCompleted);
+
+
+
 
 // get all the tasks
 router.get('/tasks', getAllTasks);

@@ -1,18 +1,246 @@
-const todoApp = require('../modals/app-modals.js');
+const todoApp = require('../modals/app-modals');
 const express = require('express')
 const mongoose = require('mongoose')
 const nodemailer = require("nodemailer");
+const { updateSearchIndex } = require('../modals/user-modal');
+// const router = express.router();
 
-//show all tasks
-const getAllTasks = async(req, res) => {
-    try{
-        const alltasks = await todoApp.find({});
-        res.status(200).json(alltasks);
-    }
-    catch (error){
-        res.status(500).json({message: error.message})
+
+
+//                                        guest task
+
+
+
+// get guest tasks
+
+const getGuestTasks = async(req, res) => {
+    try {
+        // ✅ Extract guestID from query parameters
+        const guestID = req.headers["guest-id"] || req.body.guestID;  
+
+        if (!guestID) {
+            return res.status(400).json({ msg: "No guest ID provided" });
+        }
+
+        console.log("Fetching tasks for guestID:", guestID);
+
+        // ✅ Fetch tasks where guestID matches
+        const guestTasks = await todoApp.find({ guestID: guestID });
+
+        res.json(guestTasks);
+    } catch (error) {
+        console.error("Error fetching guest tasks:", error.message);
+        res.status(500).json({ message: error.message });
     }
 }
+
+
+// add a guest task
+
+const addGuestTask = async (req,res) => {
+    
+    try {
+        const {taskName, taskNotes, taskDate } = req.body;
+
+          // ✅ Extract guestID from headers or body
+          const guestID = req.headers["guest-id"] || req.body.guestID;
+
+          if (!guestID) {
+              return res.status(400).json({ message: "Guest ID is required" });
+          }
+
+          
+        const newTask = new todoApp({ guestID, taskName, taskNotes, taskDate})
+        await newTask.save();
+        res.json(newTask);
+    }
+    catch(error) {
+        res.status(500).json({message: error.message})
+    }
+  
+
+}
+
+// delete guest task
+
+const deleteGuestTask = async (req,res) => {
+    try {
+        await todoApp.findOneAndDelete({_id:req.params.id, guestID: req.guestID });
+        res.json({ msg: "Task deleted"});
+    }
+    catch(error){
+        res.status(500).json({ message : error.message });
+    }
+}
+
+
+// get specifc task that the guest requests
+
+const getTodayTask = async (req, res) => {
+    try {
+        const  guestID  = req.headers["guestID"] || req.guestID; // extract guestID from query params
+        const userID = req.headers["userID"] || req.userID;
+        // const { id } = req.params;
+        if(!guestID && !userID) {
+            return res.status(400).json({ msg: "No guestID or userID provided"});
+        }
+        console.log("Fetching tasks for guestID:", guestID);
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);   
+
+
+        // Fetch tasks associated with guestID
+        const Tasks = await todoApp.find(
+            {
+            $or : [{guestID: guestID,userID: userID}],
+            dueDate : {$gte: today, $lt: tomorrow},
+            });
+        if(!Tasks || Tasks.length === 0){ return res.status(404).json({ msg: "Task not found or unauthorized"})}
+        res.json(Tasks);
+    }
+    catch (error) {
+        console.error("Error fetching guest tasks: ", error.message);
+        res.status(500).json({ message: " Failed to fetch "});
+
+    }
+}
+
+
+
+
+
+
+
+
+// Get users's tasks
+
+const getUserTasks = async(req, res) => {
+    const userTasks = await todoApp.find({userID: req.user.id});
+    res.json(userTasks);
+}
+
+
+// add user specific task
+
+const addUserTask =  async(req, res) => {
+    
+    const { taskName, taskNotes, taskDate } =  req.body;
+    const userID = req.user.userID;
+    const newTask = new todoApp({ taskName, taskNotes, taskDate, userID});
+    await newTask.save();
+    res.json(newTask);
+
+} 
+
+
+// Delete user specific task
+
+const deleteUserTask = async (req,res) => {
+    await todoApp.findOneAndDelete({_id: req.params.id, userID: req.user.id});
+    res.json({msg: "Task deleted"});
+}
+
+// delete user specific completed tasks
+
+const deleteCompletedUsersTasks = async(req, res) => {
+    try {
+        let filter = {};
+
+        // check if user is logged in (via JWT token)
+        // if (req.user) {
+        //     filter.userID = req.user.userID;
+
+        // }
+        if(req.headers["userID"]){
+            filter.userID = req.headers["userID"]
+        }
+        // Else, check if guest is provided in headers
+        else if(req.headers["guestID"]){
+            filter.guestID = req.headers["guestID"];
+        }  
+        else{
+            return res.status(400).json({msg : "userID or guestID required."})
+        }
+
+        // delete the completed tasks
+        filter.completed = true;
+
+        // perform deletion
+        const result = await todoApp.deleteMany(filter);
+
+        res.json({ message: `Deleted ${result.dashboard} completed tasks.`})
+    }
+    catch(err){
+        console.error("Error deleting completed tasks:", err);
+        res.status(500).json({ message: "Internal server error." });
+    }
+}
+
+
+// fetch specific user tasks
+
+const fetchUserTasks = async (req,res) => {
+    try{
+        let filter = {};
+        if (req.headers["guestid"]){
+            filter.guestID = req.headers["guestid"];
+        }
+        else if(req.headers["userid"]){
+            filter.userID = req.headers["userid"]; 
+        }
+        else {
+            return res.status(400).json({msg : "userID or guestID required."})
+        }
+        
+
+        const { year, month, day } = req.query;
+        if (year && month && day) {
+            const startOfDay = new Date(Date.UTC(year, month - 1, day));
+            const endOfDay = new Date(Date.UTC(year, month - 1, day));
+            endOfDay.setUTCDate(endOfDay.getUTCDate() + 1);
+
+            filter.taskDate = {
+                $gte: startOfDay,
+                $lt: endOfDay
+            };
+        }
+
+        const result = await todoApp.find(filter);
+        console.log(result)
+        return res.status(200).json(result)
+    }
+    catch(err){
+        console.error("Error deleting completed tasks:", err);
+        res.status(500).json({ message: "Internal server error.", error: err.message });
+    }
+}
+// module.exports = router;
+
+
+
+
+
+
+
+
+
+// fetch all tasks wrt users
+const getAllTasks = async(req, res) => {
+    try{
+        const userId = req.headers.userid;
+        if(!userId){ return res.status(400).json({ msg: "No userID provided"})}
+        const filter = {userID: userId};
+        const result = await todoApp.find(filter);
+        console.log(result)
+    }
+    catch (err){
+        console.error("Error fetching tasks:", err);
+        res.status(500).json({message: "Internal server error.", error: err.message});
+    }
+};
 
 
 // show a specific task
@@ -105,7 +333,14 @@ const completedTask = async(req,res) => {
 
 const deleteCompleted = async(req,res)=> {
     try{
-        const result =  await todoApp.deleteMany({completed: true});
+        const  guestID  = req.body.guestID;
+
+        console.log(guestID);
+        if (!guestID) {
+            return res.status(400).json({ message: "Guest ID is required" });
+        }
+
+        const result =  await todoApp.deleteMany({completed: true,guestID: guestID});
         if(result.deletedCount > 0){
         res.status(200).send({message: `${result.deletedCount} tasks deleted sucessfully.`})
         }
@@ -183,5 +418,15 @@ module.exports = {
     deleteTask,
     completedTask,
     deleteCompleted,
-    submitFeedback
+    submitFeedback,
+    getUserTasks,
+    deleteUserTask,
+    addUserTask,
+    fetchUserTasks,
+    getGuestTasks,
+    addGuestTask,
+    deleteGuestTask,
+    getTodayTask,
+    deleteCompletedUsersTasks
+
 }

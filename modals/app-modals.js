@@ -1,10 +1,19 @@
-const { Timestamp } = require("mongodb");
+// const { timestamps } = require("mongodb");
 const mongoose = require("mongoose");
 
 // DB must check for these things when it adds anything in database
 
 const appSchema = mongoose.Schema(
   {
+    guestID: {
+      type: String,
+      required: false
+    },
+    userID: {
+      type:String, 
+      ref:"User",
+      required: false
+    },
     taskName: {
       type: String,
       required: [true, "Please enter task name"],

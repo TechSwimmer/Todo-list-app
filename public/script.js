@@ -88,7 +88,7 @@ function closeTaskPage() {
     addTaskBtn.classList.remove('visibility');
 }
 
-function closeEditPage () {
+function closeEditPage() {
     editTaskPageContainer.style.display = 'none';
     editTaskContainer.classList.add('visibility');
     overlayEdit.style.display = 'none';
@@ -114,7 +114,7 @@ overlaycreate.addEventListener('mouseenter', function () {
 })
 // overlay edit click functionality
 
-overlayEdit.addEventListener('mouseenter', function() {
+overlayEdit.addEventListener('mouseenter', function () {
     overlayEdit.style.cursor = 'pointer';
 })
 overlayEdit.addEventListener('click', function () {
@@ -140,38 +140,68 @@ async function renderTaskPage() {
     // if (feedbackDiv) feedbackDiv.style.display = 'none';
     // Clear previous task info
     // hideExtraPages();
-    document.querySelector('#feedb').style.display = 'none';
-    document.querySelector('#settings').style.display = 'none';
-    document.querySelector('#help').style.display = 'none';
+    let helpPage = document.getElementById('help');
+    if (helpPage) helpPage.style.display = 'none';
+
+    let feedbackDiv = document.querySelector('#feedb');
+    if (feedbackDiv) feedbackDiv.style.display = 'none';
+
+    let settingsPage = document.getElementById('settings');
+    if (settingsPage) settingsPage.style.display = 'none';
     clearTasks()
     // Ensure both task name and task date are provided
     if (!taskName || !taskDate) return;
 
-    // Prepare task object
-    const newTask = {
-        taskName,
-        taskNotes,
-        taskDate: new Date(taskDate).toISOString(), // Ensure proper format
-        completed: false
-    };
+    // Check if user is logged in (assume token is stored in localStorage)
+    const token = localStorage.getItem("authToken");
+    const userID = localStorage.getItem("userID");
+    console.log(token, userID)
+    let apiEndpoint;
+    let headers = { "Content-Type": "application/json" }
+    let taskData = { taskName, taskNotes, taskDate: new Date(taskDate).toISOString(), completed: false }
 
+    // if user is logged in set endpoint accordingly
+    if (userID) {
+        // for logged in user
+        apiEndpoint = `http://127.0.0.1:3000/api/user/tasks/add`;
+        headers["Authorization"] = `Bearer ${token}`;
+        headers["userID"] = userID;
+    }
+    else {
+        // for guest user set things accordingly
+        let guestID = localStorage.getItem("guestID");
+        if (!guestID) {
+            guestID = `guest_${Date.now()}`;
+            localStorage.setItem("guestID", guestID);
+        }
+        apiEndpoint = `http://127.0.0.1:3000/api/guest/tasks/add`;
+        taskData.guestID = guestID;
+        headers["Guest-ID"] = guestID;
+
+    }
+
+
+    // console.log(userID,guestID)
+    // Prepare task object
+
+    console.log(taskData)
     try {
         // Send the task to the server
-        const response = await fetch(`${CONFIG.backendUrl}/tasks/add`, {
+        const response = await fetch(apiEndpoint, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newTask)
+            headers: headers,
+            body: JSON.stringify(taskData)
         });
 
-        const taskData = await response.json();
+        const responseData = await response.json();
 
-        if (!response.ok) throw new Error(taskData.message);
+        if (!response.ok) throw new Error(responseData.message);
 
         // Create task UI
         const taskDiv = document.createElement('div');
-        taskDiv.setAttribute('data-id', taskData._id);
+        taskDiv.setAttribute('data-id', responseData._id);
         taskDiv.innerHTML = `
-            <div class="task-added" data-id="${taskData._id}" data-date="${taskDate}">
+            <div class="task-added" data-id="${responseData._id}" data-date="${taskDate}">
                 <div class="head-checkbox">
                     <h3>${taskName}</h3>
                     <div class="checkbox">
@@ -186,7 +216,7 @@ async function renderTaskPage() {
             </div>
         `;
 
-        console.log(taskDate, taskName, taskNotes, taskData._id);
+        console.log(taskDate, taskName, taskNotes, responseData._id);
         navHeader.innerText = taskDate;
         taskDayInfo.appendChild(taskDiv);
 
@@ -196,9 +226,9 @@ async function renderTaskPage() {
         console.error("Error creating task:", error.message);
     }
 
-    
-        
-    
+
+
+
 
 }
 
@@ -306,7 +336,7 @@ function renderCalendar(year, month, date) {
     tableBody.innerHTML = '';
     // remove bg styles for date cells
     removeDateBg();
-    
+
 
 
     //render the dates of the month in proper order
@@ -349,7 +379,7 @@ taskSubmitBtn.addEventListener('click', (event) => {
 
     const [year, month, day] = taskDateInput.split('-').map(Number);
     renderCalendar(year, month, day);
-    
+
     renderTaskPage();
 });
 
@@ -407,7 +437,7 @@ function renderRegularCalendar() {
                 // Highlight today's date
                 if (dayCounter === day) {
                     td.classList.add('highlight');
-                    if(dayCounter == day){document.querySelector('.nav-header h2').innerText = "Today";}
+                    if (dayCounter == day) { document.querySelector('.nav-header h2').innerText = "Today"; }
                     console.log(dayCounter, day)
                 }
 
@@ -418,7 +448,7 @@ function renderRegularCalendar() {
         }
         tableBody.appendChild(tr);
     }
-    
+
 }
 
 renderRegularCalendar();
@@ -598,30 +628,30 @@ rYearArrow.addEventListener('click', () => {
 // ----------------open the edit page with all the user info placed in the task editor-----------------
 
 function openEditPage(taskName, taskNotes, taskDate, taskID) {
-  
-   
+
+
     document.getElementById('edit-task-name').value = taskName;
-    document.getElementById('edit-task-notes').value =  taskNotes;
-    document.getElementById('edit-task-date').value = new Date(taskDate).toISOString().slice(0,10);
+    document.getElementById('edit-task-notes').value = taskNotes;
+    document.getElementById('edit-task-date').value = new Date(taskDate).toISOString().slice(0, 10);
     document.getElementById('overlay-edit').style.display = 'block';
     addTaskBtn.classList.add('visibility');
     document.getElementById('edit-task-container').classList.remove('visibility');
     let taskEditor = document.getElementById('editTaskPageContainer');
     taskEditor.style.display = 'block';
-     // Store the current task ID as a data attribute for future reference
-     document.getElementById('edit').setAttribute('data-id', taskID);
+    // Store the current task ID as a data attribute for future reference
+    document.getElementById('edit').setAttribute('data-id', taskID);
 
 }
 
-document.getElementById('day-info').addEventListener('click', function(event) {
-    if(event.target && event.target.classList.contains('Edit-task')){
+document.getElementById('day-info').addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('Edit-task')) {
         const edittaskDiv = event.target.closest('.task-added');
         const taskID = edittaskDiv.getAttribute('data-id');
         const edittaskDate = edittaskDiv.getAttribute('data-date');              // Get from data-date attribute
         const edittaskName = edittaskDiv.querySelector('h3').innerText;          // Select <h3> for task name
         const edittaskNotes = edittaskDiv.querySelector('p').innerHTML.replace(/<br>/g, "\n");
-
-       console.log(edittaskNotes)
+        edittaskDiv.remove();
+        console.log(edittaskNotes)
         openEditPage(edittaskName, edittaskNotes, edittaskDate, taskID);
         const editBtn = document.getElementById('edit');
         editBtn.replaceWith(editBtn.cloneNode(true)); // Remove old listeners
@@ -640,7 +670,7 @@ document.getElementById('day-info').addEventListener('click', function(event) {
 
             editTask(taskObj.taskID, taskObj.taskName, taskObj.taskNotes, taskObj.taskDate).then(() => {
                 let taskDayInfo = document.getElementById('day-info');
-                addTaskToUI(taskObj, taskDayInfo);
+                // addTaskToUI(taskObj, taskDayInfo);
                 closeEditPage();
             });
         });
@@ -649,12 +679,12 @@ document.getElementById('day-info').addEventListener('click', function(event) {
 
 // Remove the specific task when a user clicks delete specific task
 
-document.getElementById('day-info').addEventListener('click', function(event) {
-    if(event.target && event.target.classList.contains('Delete-task')){
-        
+document.getElementById('day-info').addEventListener('click', function (event) {
+    if (event.target && event.target.classList.contains('Delete-task')) {
+
         const deleteTaskDiv = event.target.closest('.task-added')
         let taskID = deleteTaskDiv.getAttribute('data-Id')
-        
+
         deleteSpecificTask(taskID, deleteTaskDiv)
     }
 })
@@ -734,30 +764,65 @@ function getDataFromBackend(year, month, selectedDay) {
     // hideExtraPages();
     clearTasks();
     // removeDateBg();
-    document.querySelector('#feedb').style.display = 'none';
-    document.querySelector('#settings').style.display = 'none';
-    document.querySelector('#help').style.display = 'none';
+    if (document.querySelector('#feedb')) document.querySelector('#feedb').style.display = 'none';
+    if (document.querySelector('#settings')) document.querySelector('#settings').style.display = 'none';
+    if (document.querySelector('#help')) document.querySelector('#help').style.display = 'none';
 
 
     let reqTaskDate = new Date(Date.UTC(year, month - 1, selectedDay)).toISOString().split('T')[0];
 
     let taskDayInfo = document.getElementById('day-info');
+    console.log(reqTaskDate)
+    console.log(selectedDay)
+
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) {
+        console.error("No auth token found. Guest not logged in.");
+        displayNoTasksMessage("Please log in as a guest to view tasks.");
+        return;
+    }
+    const userId = localStorage.getItem('userID');
+    console.log(userId)
+    console.log(authToken);
+
+    try {
+        const payload = JSON.parse(atob(authToken.split('.')[1])); // Decode JWT payload
+        // userId = payload.userID;
+
+        console.log(payload)
+        // console.log(guestID);
+    } catch (error) {
+        console.error("Failed to decode token:", error.message);
+        displayNoTasksMessage("Invalid session. Please log in again.");
+        return;
+    }
 
     // Clear previous tasks
     // document.querySelectorAll('#day-info .task-added').forEach(task => task.remove());
     // let noTasksDiv = document.querySelector('#day-info #no-tasks');
     // if (noTasksDiv) noTasksDiv.remove();
+    console.log("Token being sent:", authToken);
+    const url = `http://127.0.0.1:3000/api/user/tasks/fetch?year=${year}&month=${month}&day=${selectedDay}&userID=${userId}`;
 
-    const url = `${CONFIG.backendUrl}/tasks?year=${year}&month=${month}&day=${selectedDay}`;
+    fetch(url, {
+        method: 'GET',
 
-    fetch(url)
+        headers: { 'Authorization': `Bearer ${authToken}`, "userid": localStorage.getItem('userID') }       // Include token in headers
+    })
         .then(response => response.json())
         .then(data => {
-            let updatedTask = data.filter(task => task.taskDate.split('T')[0] === reqTaskDate);
+            console.log(data);
+            let updatedTask;
+            if (Array.isArray(data)) {
+                updatedTask = data.filter(task => task.taskDate.split('T')[0] === reqTaskDate);
+            }
+            else {
+                updatedTask = [data];
+            }
 
             if (updatedTask.length === 0) {
                 displayNoTasksMessage("No tasks for the day.");
-                
+
                 return;
             }
 
@@ -776,9 +841,9 @@ function getDataFromBackend(year, month, selectedDay) {
                                     <div id="Edit-task" class="Edit-task">Edit task</div>
                                 </div>
                             </div>`;
-                           
+
                     taskDayInfo.appendChild(taskDiv);
-              
+
                 }
             });
 
@@ -790,7 +855,7 @@ function getDataFromBackend(year, month, selectedDay) {
             console.error("Error fetching tasks:", error);
             displayNoTasksMessage("Failed to load tasks. Please try again.");
         });
-      
+
 }
 
 
@@ -802,14 +867,14 @@ function getDataFromBackend(year, month, selectedDay) {
 
 // Function to handle date selection from the calendar
 
-function handleDateClick(year, month, currentDay){
-    let dateCells = document.querySelectorAll('#table-body td'); 
+function handleDateClick(year, month, currentDay) {
+    let dateCells = document.querySelectorAll('#table-body td');
     // remove prev styling
-    
+
     removeDateBg();
 
     dateCells.forEach((date) => {
-        date.addEventListener('click',() => {
+        date.addEventListener('click', () => {
             // capture the month and year in a variable
             let currYear = Number(document.querySelector('#year').innerText);
             let currMonth = document.querySelector('#month').innerText.trim();
@@ -817,17 +882,17 @@ function handleDateClick(year, month, currentDay){
 
             let currMonthInNumber
 
-            
-            for(let i = 0 ; i <= months.length; i++){
-                if(currMonth == months[i]){
-                    currMonthInNumber = i+1;
+
+            for (let i = 0; i <= months.length; i++) {
+                if (currMonth == months[i]) {
+                    currMonthInNumber = i + 1;
                 }
             }
-            console.log(currYear,currMonthInNumber,currYear)
-            if(!selectedDate){ return;}
+            console.log(currYear, currMonthInNumber, currYear)
+            if (!selectedDate) { return; }
 
-            getDataFromBackend(currYear,currMonthInNumber,selectedDate);
-            
+            getDataFromBackend(currYear, currMonthInNumber, selectedDate);
+
         })
     })
 }
@@ -840,7 +905,7 @@ function formatDate(dateString) {
 
 let dateCells = document.querySelectorAll('#table-body td')
 dateCells.forEach((day) => {
-   
+
     let dateCells = document.querySelectorAll('#table-body td')
     day.style.backgroundColor = '';
     day.addEventListener('click', () => {
@@ -870,25 +935,25 @@ dateCells.forEach((day) => {
         // set the date in correct format for proper comparison
         today = formatDate(today);
         tomorrow = formatDate(tomorrow);
-        
+
         console.log(tomorrow) // "YYYY-MM-DD"
         console.log(selectedDate)
         if (selectedDate === today) {
             navHeader.innerText = 'Today';
-        }else if(selectedDate === tomorrow){
+        } else if (selectedDate === tomorrow) {
             navHeader.innerText = 'Tommorow';
         }
-         else {
+        else {
             navHeader.innerText = selectedDate;
         }
 
         // Fetch tasks for the selected date
-        console.log(year,month,selectedDay)
-       
+        console.log(year, month, selectedDay)
+
         getDataFromBackend(year, month, selectedDay);
 
-        
-       
+
+
     });
 });
 
@@ -952,35 +1017,95 @@ function renderTasks(tasks, filterType) {
     });
 }
 
+// display all tasks wrt the specific user
+
+const fetchAllUserTasks = async () => {
+    const url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
+    const authToken = localStorage.getItem("authToken");
+    const userId = localStorage.getItem("userID");
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`,
+                'userid': userId
+            }
+
+        })
+        const data = await response.json();
+
+        if (data.length === 0) {
+            displayNoTasksMessage("No tasks created.");
+            return;
+        }
+
+        renderTasks(data, 'all');
+    }
+    catch (error) {
+        console.error("Error fetching tasks:", error);
+        displayNoTasksMessage("failed to fetch tasks. Please try again.");
+    }
+};
+
+// call the fetchAllUserTasks function
+// const allTaskBtn = document.querySelector('#All-Tasks');
+// allTaskBtn.addEventListener('click', fetchAllUserTasks);
+
+
 function fetchAndDisplayTasks(filterType) {
     clearUI();
 
     let taskDayInfo = document.getElementById('day-info');
     let navHeader = document.querySelector('h2');
-
+    let url;
     let date = new Date();
     if (filterType === "tomorrow") {
         date.setDate(date.getDate() + 1);
         navHeader.innerText = 'Tomorrow';
-    } else if (filterType === "completed") {
+        url = 'http://127.0.0.1:3000/api/user/tasks';
+    }
+    else if (filterType === "completed") {
         navHeader.innerText = 'Completed';
-    } else {
+        url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
+    }
+    else if (filterType === "Today") {
+        navHeader.innerText = 'Today';
+        url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
+    }
+    else if (filterType === "All Tasks") {
         navHeader.innerText = 'All Tasks';
+        url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
     }
 
-    let targetDate = date.toISOString().split('T')[0];
+    let targetDate =date.toISOString().split('T')[0];
 
-    fetch(`${CONFIG.backendUrl}/tasks`)
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
+            "userid": localStorage.getItem("userID")
+        }
+    })
         .then(response => response.json())
         .then(data => {
+            console.log('Tasks retrieved:', data);
             let filteredTasks = data;
 
             if (filterType === "tomorrow") {
                 filteredTasks = data.filter(task => task.taskDate.split('T')[0] === targetDate);
+                console.log(targetDate)
             } else if (filterType === "completed") {
                 filteredTasks = data.filter(task => task.completed);
+                console.log(filteredTasks)
             }
-
+            else if (filterType === "All Tasks") {
+                filteredTasks = data.filter(task => task);
+                console.log(filteredTasks)
+            }
+            console.log('filtered tasks:',filteredTasks);
             if (filteredTasks.length > 0) {
                 filteredTasks.forEach(task => {
                     let taskDiv = document.createElement('div');
@@ -1001,8 +1126,9 @@ function fetchAndDisplayTasks(filterType) {
                                     <div id="Edit-task" class="Edit-task">Edit task</div>
                                 </div>
                             </div>`;
+                    console.log('Task div created:', taskDiv);
 
-                    taskDayInfo.appendChild(taskDiv);
+                    taskDayInfo.append(taskDiv);
                 });
             } else {
                 taskDayInfo.innerHTML = `<h4 id="no-tasks">No tasks found.</h4>`;
@@ -1031,13 +1157,15 @@ function setupTaskButton(buttonId, filterType) {
     });
 }
 // Set up buttons for displaying all and completed tasks
-setupTaskButton('All-Tasks', 'all');
+setupTaskButton('All-Tasks', 'All Tasks');
 setupTaskButton('completed', 'completed');
 
 // functionality for tomorrow button
 
 
 document.getElementById('Tomorrow').addEventListener('click', () => fetchAndDisplayTasks("tomorrow"));
+// document.getElementById('All-Tasks').addEventListener('click', () => fetchAndDisplayTasks("All Tasks"));
+
 
 function renderCalendarWRTCond(year, month, day) {
     console.log(year, month, day);
@@ -1064,7 +1192,7 @@ function renderCalendarWRTCond(year, month, day) {
 
 // Modify the display part of tasks  and display the tasks for present day
 
-function todayTasks() {
+async function todayTasks() {
     let helpPage = document.getElementById('help');
     if (helpPage) helpPage.style.display = 'none';
 
@@ -1080,33 +1208,79 @@ function todayTasks() {
     let date = new Date();
     let todayDateString = date.toISOString().split('T')[0];
 
-    
-    document.querySelector('h2').innerText = 'Today';
-    
-    fetch(`${CONFIG.backendUrl}/tasks`)
-        .then(response => response.json())
-        .then(data => {
-            let tasksForToday = data.filter(task => task.taskDate.split('T')[0] === todayDateString);
+    // ✅ Get guestID and authToken from localStorage
 
-            if (tasksForToday.length > 0) {
-                tasksForToday.forEach(task => {
-                    if (!task.completed) {
-                        addTaskToUI(task, taskDayInfo);
-                    }
-                });
-            } else {
-                taskDayInfo.innerHTML = `<h4 id="no-tasks">No tasks for today.</h4>`;
-            }
+    let guestID = localStorage.getItem("guestID");
 
-            renderCalendarWRTCond(date.getFullYear(), date.getMonth(), date.getDate() - 1);
-        })
-        .catch(error => console.error('Error fetching tasks:', error));
-        const mediaQuery = window.matchMedia('(max-width:1280px)');
-        handleMediaQueryChange(mediaQuery);
-        mediaQuery.addEventListener('change', handleMediaQueryChange);
+    let userID = localStorage.getItem("userID");
 
-    
-    
+    let authToken = localStorage.getItem("authToken")
+
+    console.log("guestID:", guestID);
+    console.log("userID:", userID);
+    console.log("authToken:", authToken);
+
+    if (!guestID && !userID) {
+        alert("No user or guest found.")
+        return;
+    }
+
+    let headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    if (userID) {
+        headers.append("Authorization", `Bearer ${authToken}`)
+        headers.append("userID", userID);
+    }
+    else if (guestID) {
+        headers.append("guestID", guestID);
+    }
+    headers.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+    });
+
+    try {
+        const response = await fetch('http://127.0.0.1:3000/api/user/tasks/today', {
+            method: "GET",
+            headers: headers,
+        });
+        console.log("Response status: ", response.status);
+        console.log("Response headers: ", response.headers);
+        // check if response is OK before parsing JSON
+        if (!response.ok) {
+            const errorMessage = await response.json();
+            throw new Error(errorMessage.msg || "Failed to fetch tasks");
+        }
+
+        const data = await response.json();
+        console.log("Today's Tasks: ", data);
+
+        if (!Array.isArray(data)) {
+            throw new Error("Invalid response format: Expected an array");
+        }
+        // render tasks in UI
+        if (data.length > 0) {
+            data.forEach(task => {
+                if (!task.completed) {
+                    addTaskToUI(todayTasks, taskDayInfo)
+                }
+            })
+        }
+        else {
+            taskDayInfo.innerHTML = `<h4 id="no-tasks">No tasks for today.</h4>`;
+        }
+        renderCalendarWRTCond(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+
+    }
+    catch (error) {
+        console.log("Error fetching tasks:", error)
+    }
+    const mediaQuery = window.matchMedia('(max-width:1280px)');
+    handleMediaQueryChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+
+
+
 }
 document.getElementById('Today').addEventListener('click', todayTasks);
 
@@ -1138,9 +1312,13 @@ function addTaskToUI(task, container) {
 function deleteSpecificTask(taskID, taskDiv) {
     if (!confirm('This task will be removed. This action is irreversible.')) return;
 
-    fetch(`${CONFIG.backendUrl}/tasks/delete/${taskID}`, {
+    fetch(`http://127.0.0.1:3000/api/guest/tasks/delete/${taskID}`, {
         method: 'DELETE',
-        headers: { 'content-type': 'application/json' }
+        headers: {
+            'content-type': 'application/json',
+            'Guest-ID': localStorage.getItem("guestID")
+        },
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
     })
         .then(response => {
             if (!response.ok) throw new Error(`Failed to delete task: ${response.statusText}`);
@@ -1155,8 +1333,8 @@ function deleteSpecificTask(taskID, taskDiv) {
 
 // a function that would edit task when user clicks edit task btn
 
-function editTask(taskID, taskName, taskNotes, taskDate) {
-    
+async function editTask(taskID, taskName, taskNotes, taskDate) {
+
     const updatedTask = { taskName, taskNotes, _id: taskID, taskDate };
 
     return fetch(`${CONFIG.backendUrl}/tasks/update/${taskID}`, {
@@ -1179,19 +1357,45 @@ function editTask(taskID, taskName, taskNotes, taskDate) {
 
 //  function that would delete all completed tasks when the delete completed btn is clicked
 
-function deleteCompletedTasks() {
+async function deleteCompletedTasks() {
     if (!confirm('Are you sure to delete all tasks? This action is irreversible.')) return;
 
-    fetch(`${CONFIG.backendUrl}/tasks/delete-completed`, {
-        method: 'DELETE',
-        headers: { 'content-type': 'application/json' }
-    })
-        .then(response => {
-            if (!response.ok) throw new Error('No completed tasks to delete');
-            alert('All completed tasks have been deleted.');
-            document.getElementById('day-info').innerHTML = '';
-        })
-        .catch(error => console.error('Error:', error));
+    let headers = { "Content-Type": "application/json" }
+    const token = localStorage.getItem('authToken');
+    const userID = localStorage.getItem('userID');
+    const guestID = localStorage.getItem('guestID');
+
+    if (userID) {
+        headers["Authorization"] = `Bearer ${token}`;
+        headers["userID"] = userID;  // Add userID in the headers
+        console.log(userID)
+    }
+    else if (guestID) {
+        headers["guestID"] = guestID;
+        console.log(guestID);
+    }
+    else {
+        alert("No active user or guest found.");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://127.0.0.1:3000/api/tasks/delete-completed', {
+            method: 'DELETE',
+            headers: headers
+        });
+
+        const data = await response.json();
+        console.log("Delete completed:", data);
+        alert(data.message);
+        document.getElementById('day-info').innerHTML = '';
+
+    }
+    catch (err) {
+        console.error("Error deleting completed tasks", err);
+    }
+
+
 }
 document.querySelector('#delete').addEventListener('click', () => {
     deleteCompletedTasks();
@@ -1199,7 +1403,7 @@ document.querySelector('#delete').addEventListener('click', () => {
 
 // function to remove bg from datecells whenb displaying settings anbd similar pages
 
-function removeDateBg(){
+function removeDateBg() {
     let dateCells = document.querySelectorAll('#table-body tr td');
 
     dateCells.forEach((date) => {
@@ -1207,7 +1411,7 @@ function removeDateBg(){
     })
 
 }
- 
+
 
 
 
@@ -1267,61 +1471,78 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
 
         const formData = {
-            name : document.getElementById("feedb-name").value.trim(),
-            email : document.getElementById("feedb-email").value.trim(),
-            experience : document.getElementById("feedb-experience").value,
-            satisfaction : document.getElementById("feedb-satisfaction").value,
-            improvement : document.getElementById("feedb-improvement").value.trim(),
-            issues : document.getElementById("feedb-issues").value.trim(),
+            name: document.getElementById("feedb-name").value.trim(),
+            email: document.getElementById("feedb-email").value.trim(),
+            experience: document.getElementById("feedb-experience").value,
+            satisfaction: document.getElementById("feedb-satisfaction").value,
+            improvement: document.getElementById("feedb-improvement").value.trim(),
+            issues: document.getElementById("feedb-issues").value.trim(),
         }
 
-        try{
-            const response = await fetch(`${CONFIG.backendUrl}/submit-feedback`,{
-                method : "POST",
-                headers : {
+        try {
+            const response = await fetch(`${CONFIG.backendUrl}/submit-feedback`, {
+                method: "POST",
+                headers: {
                     "Content-Type": "application/json",
                 },
-                body : JSON.stringify(formData),
+                body: JSON.stringify(formData),
             })
-            
-           
+
+
             // console.log(result);
-            
-            if(response.ok){
+
+            if (response.ok) {
                 alert("Feedback submitted successfully!")
                 feedbackForm.reset()
                 document.getElementById("feedbackModal").style.display = "none";
             }
-            else{
+            else {
                 const result = await response.json();
                 alert("Error:" + result.message);
             }
         }
-        catch(error){
+        catch (error) {
             alert("Something went wrong.please try again.")
             console.error("Error submitting feedback:", error)
         }
     })
 })
 
+// local time displayed if location access denied
 
-// Weather card logic
+function showLocalTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+}
 
-document.addEventListener("DOMContentLoaded", () => {
-    const weatherContainer = document.getElementById("weather-card");
-    const apiKey = "385ebe3296094d3d87564644250503"; // Replace with your actual API key
 
-    // Function to get user's location and fetch weather
-    function fetchWeatherByLocation(lat, lon) {
-        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`;
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                const { location, current } = data;
-                const timeOnly = location.localtime.split(" ")[1]; // Extract only the time
+function showLocalTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+}
 
-                weatherContainer.innerHTML = `
+async function fetchWeatherByLocation() {
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                const apiKey = "385ebe3296094d3d87564644250503";
+                const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`;
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error("Weather data not found");
+
+                    const data = await response.json();
+                    const { location, current } = data;
+                    const timeOnly = location.localtime.split(" ")[1];     // Extract only the time
+                    document.getElementById("weather-card").innerHTML = `
                     <div class="weather-info">
                         <h3>${location.name}, ${location.region}, ${location.country}</h3>
                         <div class="weather-status">
@@ -1335,30 +1556,329 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                 `;
-            })
-            .catch(error => {
-                console.error("Weather fetch error:", error);
-                weatherContainer.innerHTML = "<p>Failed to load weather</p>";
-            });
-    }
-
-    // Get user's location
-    function getUserLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    const { latitude, longitude } = position.coords;
-                    fetchWeatherByLocation(latitude, longitude);
-                },
-                error => {
-                    console.error("Geolocation error:", error);
-                    weatherContainer.innerHTML = "<p>Location access denied.</p>";
+                } catch (error) {
+                    console.error("Weather fetch error:", error);
+                    document.getElementById("weather-card").innerHTML = `<p>Failed to load weather</p>`;
                 }
-            );
-        } else {
-            weatherContainer.innerHTML = "<p>Geolocation is not supported by your browser.</p>";
-        }
+            },
+            (error) => {
+                console.warn("Location access denied, using system time.");
+                document.getElementById("weather-card").innerHTML = `
+                <div class="weather-denied-card">
+                    <h3 class="local-time">🕒 : ${showLocalTime()}</h3>
+                    <p class="access-denied">Location access denied.</p>
+                    <p class="weather-unavailable">Weather Unavailable</p>
+                </div>
+                `;
+            }
+        );
+    } else {
+        console.error("Geolocation not supported");
+        document.getElementById("weather-card").innerHTML = `<p>Geolocation not supported</p>`;
+    }
+}
+
+fetchWeatherByLocation();
+
+
+
+
+
+// login page and overlay logic 
+
+const loginNavBtn = document.querySelector('#login-signup-link');
+const overlayLogin = document.querySelector('.overlay-login');
+const loginPage = document.querySelector('.login-page');
+
+function closeOverlayLogin() {
+    overlayLogin.style.display = 'none';
+    loginPage.style.display = 'none';
+    const mediaQuery = window.matchMedia('(max-width:1280px)');
+    handleMediaQueryChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
+}
+
+loginNavBtn.addEventListener('click', openOverlayLogin)
+function openOverlayLogin() {
+    overlayLogin.style.display = 'block';
+    loginPage.style.display = 'flex';
+    const mediaQuery = window.matchMedia('(max-width:1280px)');
+    handleMediaQueryChange(mediaQuery);
+    mediaQuery.addEventListener('change', handleMediaQueryChange);
+}
+
+// const overlaylogin = document.getElementsByClassName('overlay-login');
+
+overlayLogin.addEventListener('click', closeOverlayLogin)
+
+
+// login btn functionality
+
+const loginBtn = document.querySelector('#login-button');
+const overlayLoginContainer = document.querySelector('.overlay-login-container');
+// console.log(loginBtn);
+
+// function to open user-login page
+function showLoginPage() {
+    const loginUserPage = document.querySelector('.login-container');
+    loginUserPage.style.display = 'flex';
+
+    loginPage.style.display = 'none';
+    overlayLoginContainer.style.display = 'block';
+    closeOverlayLogin();
+
+}
+// function to close user-login page
+function closeLoginPage() {
+    const loginUserPage = document.querySelector('.login-container');
+    loginUserPage.style.display = 'none';
+    overlayLoginContainer.style.display = 'none';
+}
+
+// const overlayLoginContainer = document.querySelector('.overlay-login-container');
+
+overlayLoginContainer.addEventListener('click', closeLoginPage);
+
+
+
+
+loginBtn.addEventListener('click', showLoginPage);
+
+
+//open signup page
+const signupContainer = document.querySelector('.signup-container');
+const overlaySignupContainer = document.querySelector('.overlay-signup-container');
+
+overlaySignupContainer.addEventListener('click', () => {
+    closeSignupPage();
+    closeLoginPage();
+})
+
+function openSignupPage() {
+    loginPage.style.display = 'none';
+    signupContainer.style.display = 'flex';
+    overlaySignupContainer.style.display = 'block';
+    overlayLogin.style.display = 'none';
+
+}
+
+
+
+
+//close signup page
+
+function closeSignupPage() {
+    signupContainer.style.display = 'none';
+    overlaySignupContainer.style.display = 'none';
+}
+
+// this is the first signup btn the user clicks it takes them to the sign up details page
+const signupBtn = document.querySelector('#signup-button');
+
+signupBtn.addEventListener('click', () => {
+    openSignupPage();
+    closeLoginPage();
+})
+
+
+
+
+// guest info page and it's overlay behaviour
+const guestInfoPage = document.querySelector('.guest-details');
+const guestPageOverlay = document.querySelector('.overlay-guest-details');
+
+function openGuestInfoPage() {
+    guestInfoPage.style.display = 'flex';
+    guestPageOverlay.style.display = 'block';
+    loginPage.style.display = 'none';
+    overlayLogin.style.display = 'none';
+}
+
+function closeGuestInfoPage() {
+    guestInfoPage.style.display = 'none';
+    guestPageOverlay.style.display = 'none';
+}
+
+guestPageOverlay.addEventListener('click', () => {
+    closeGuestInfoPage();
+})
+
+
+document.getElementById('guest-button').addEventListener('click', async () => {
+
+    openGuestInfoPage()
+
+})
+// submitting guest username and providing guestID  
+
+const submitUsernameBtn = document.getElementById('usernameForm');
+
+submitUsernameBtn.addEventListener('submit', async (event) => {
+
+    event.preventDefault();
+
+    // prepare username to send in db
+    let usernameValue = document.getElementById('username').value.trim();
+    if (usernameValue == "") {
+        alert("please enter a username");
+        return;
     }
 
-    getUserLocation(); // Call the function when the page loads
+    // Check if username already exists
+
+
+    // set guestId to send to db
+    let guestID = `guest_${Date.now()}`;
+    localStorage.removeItem("userID");
+    localStorage.setItem("guestID", guestID);
+
+    //  authToken
+    const authToken = localStorage.getItem("authToken");
+
+    // console.log('username submitted:', username);
+
+    try {
+        const response = await fetch('http://127.0.0.1:3000/api/auth/guest/guest', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json", "Guest-ID": localStorage.getItem("guestID")
+            },
+            body: JSON.stringify({ username: usernameValue })
+        })
+
+        if (!response.ok) {
+            const text = await response.text();
+            throw new Error(`Server Error: ${response.status} - ${text}`)
+        }
+
+        const data = await response.json();
+
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("guestID", data.guestID);
+        console.log(authToken, guestID)
+        alert(`Welcome ${data.username}! Your guestID is ${data.guestID}`);
+
+        closeGuestInfoPage();
+    }
+    catch (error) {
+        console.error("Guest Login Failed: ", error);
+        alert("Guest login failed. please try again")
+    }
+
+})
+
+// signup button functyionality
+
+const signupForm = document.querySelector('.signup-form');
+
+async function signupUser() {
+    localStorage.removeItem("guestID");
+    let usernameValue = document.querySelector('.signup-username').value.trim();
+
+    if (usernameValue == "") {
+        alert('please provide username');
+        return;
+    }
+    let userEmail = document.querySelector('.signup-email').value.trim();
+    if (!userEmail || !userEmail.includes('@')) {
+        alert('Please provide valid email.')
+        return;
+    }
+
+    let userPassword = document.querySelector('.signup-password').value.trim();
+    if (userPassword.length < 6) {
+        alert('password must cobntain 6 characters');
+        return;
+    }
+    let confirmPassword = document.querySelector('.signup-confirm-password').value.trim();
+    if (userPassword !== confirmPassword) {
+        alert('passwords do not match.')
+        return;
+    }
+
+
+    // prepare data
+    const userData = {
+        username: usernameValue,
+        email: userEmail,
+        password: userPassword.trim()
+    }
+    console.log(userData)
+    try {
+        const response = await fetch('http://127.0.0.1:3000/api/auth/user/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        });
+
+        let data = await response.json();
+        console.log(data)
+        if (!response.ok) {
+            alert(`Error: ${data.msg || 'Something went wrong'}`);
+            return;
+        }
+
+        // save token in local storage (for authentication)
+        localStorage.setItem('authToken', data.token);
+        alert('User registered successfully!');
+
+        // redirect to login 
+    }
+    catch (error) {
+        console.error('Error registering user:', error);
+        alert('Server error. please try again later.');
+
+    }
+}
+
+signupForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    signupUser();
+    showLoginPage();
+})
+
+
+// login users logic
+// Login function
+
+async function loginUser(email, password) {
+    localStorage.removeItem("guestID")
+    const editPassword = password.trim();
+    console.log(editPassword);
+    const res = await fetch("http://127.0.0.1:3000/api/auth/user/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password: editPassword }),
+    });
+    const data = await res.json();
+    console.log("response: ", data);
+    if (!res.ok) {
+        throw new Error(data.msg || "Login failed");
+    }
+    if (data.token && data.userID) {
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("userID", data.userID);
+        //   console.log(userID);
+        alert("Login successful!");
+        window.location.href = "http://127.0.0.1:5500/public/index.html";
+    } else {
+        alert(data.msg);
+    }
+
+
+}
+
+const loginUserForm = document.getElementById('loginForm');
+loginUserForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const email = document.querySelector('#email').value;
+
+    const password = document.querySelector('#password').value;
+    if (!email || !password) {
+        alert('Email or password field is missing.')
+        return;
+    }
+    console.log(email, password);
+    loginUser(email, password);
 });

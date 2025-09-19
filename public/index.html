@@ -1,245 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <title>TASKNEST</title>
-  </head>
-  <body>
-    <nav class="navbar">
-      <div class="nav-header" id="nav-header"><h2></h2></div>
 
-      <ul class="nav-menu-links" id="nav-menu-links">
-        <li><a class="nav-link" id="feedback-link" href="#">Feedback</a></li>
-        <li><a class="nav-link" id="help-link" href="#">Help</a></li>
-        <li><a class="nav-link list-right-div" id="settings-link" href="#">Settings</a></li>
-        <li><a class="nav-link list-left-div" id="completed" href="#">Completed tasks</a></li>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>TASKNEST</title>
+</head>
 
-        <li><a class="nav-link" id="All-Tasks" href="#">All Tasks</a></li>
-        <li><a class="nav-link" id="Tomorrow" href="#">Tomorrow</a></li>
-        <li><a class="nav-link" id="Today" href="#">Today</a></li>
-        <li><a class="nav-link" id="delete" href="#">Delete Completed</a></li>
-      </ul>
-
-      <btn id="toggle-nav-menu"
-        ><img
-          class="toggle-img"
-          src="./images/nav-menu-img.jpg"
-          alt="image for menu"
-      /></btn>
-      <btn class="nav-menu-links" id="back-btn"><h2>BACK</h2></btn>
-    </nav>
-    <div class="content">
-      <div class="day-info" id="day-info">
-        <div  id="settings">
-          <ul id="settings-list">
-            <li>Task reminders</li>
-            <li id="theme-btn">Theme</li>
-            <li>Task categories</li>
-            <li>Task priority levels</li>
-            <li>Account settings</li>
-            
-          </ul>
+<body>
+  <nav class="navbar">
+    <div class="nav-header" id="nav-header">
+      <h2></h2>
+    </div>
+    <div class="overlay-signup-container"></div>
+    <div class="signup-container">
+      <h2>Sign Up</h2>
+      <form class="signup-form">
+        <input type="text" class="signup-username" placeholder="Username" required>
+        <input type="email" class="signup-email" placeholder="Email" required>
+        <input type="password" class="signup-password" placeholder="Password" required>
+        <input type="password" class="signup-confirm-password" placeholder="Confirm Password" required>
+        <button type="submit">Sign Up</button>
+      </form>
+      <p>Already have an account? <a href="#" id="login-link">Login</a></p>
+    </div>
+    <div class="overlay-login-container"></div>
+    <div class="login-container">
+      <h2>Login to TaskNest</h2>
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="email">Email : </label>
+          <input type="email" id="email" placeholder="Enter your email" required>
         </div>
-        <div  id="feedb">
-          <form id="feedbackForm"  method="POST">
-            <!-- User Information -->
-            <label for="name">Name (Optional):</label>
-            <input type="text" id="feedb-name" name="name">
-            <br>
-            <label for="email">Email (Optional):</label>
-            <input type="email" id="feedb-email" name="email">
-    
-            <br>
-    
-            <label for="experience">How would you rate your overall experience?</label>
-            <select id="feedb-experience" name="experience">
-                <option value="1">1 - Very Poor</option>
-                <option value="2">2 - Poor</option>
-                <option value="3">3 - Neutral</option>
-                <option value="4">4 - Good</option>
-                <option value="5">5 - Excellent</option>
-            </select>
-            <br>
-          
-            <label for="satisfaction">How satisfied are you with the calendar feature?</label>
-            <select id="feedb-satisfaction" name="satisfaction">
-                <option value="1">1 - Very Unsatisfied</option>
-                <option value="2">2 - Unsatisfied</option>
-                <option value="3">3 - Neutral</option>
-                <option value="4">4 - Satisfied</option>
-                <option value="5">5 - Very Satisfied</option>
-            </select>
-    
-            <br>   
-            <!-- Suggestions for Improvement -->
-            <label for="improvement">What would make this app better for you?</label>
-            <textarea id="feedb-improvement" name="improvement" rows="4" cols="50" placeholder="what would you like to see in a todo-app?"></textarea>
-            <br>
-            <label for="issues">Did you encounter any bugs or issues?</label>
-            <textarea id="feedb-issues" name="issues" rows="4" cols="50" placeholder="Help me become a better developer."></textarea>
-    
-            <!-- User Satisfaction -->
-            <br>
-    
-            <!-- Submit Button -->
-            <button type="submit" id="feedb-submit">Submit Feedback</button>
-        </form>
-        </div>
-        <div id="help">
-          <div class="faq-images">
-            <div class="add-task-img"></div>
-            <div class="mark-task-img"></div>
-            <div class="delete-task-img"></div>
-            <div class="theme-change-img"></div>
-            <div class="edit-task-img"></div>
-            <div class="access-specific-task-img"></div>
+
+        <div class="input-group">
+          <label for="password">Password : </label>
+          <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
           </div>
-          <div class="faq">
-            <details>
+        </div>
+
+        <button type="submit">Login</button>
+        <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+      </form>
+    </div>
+    <div class="overlay-login" id="overlay-login"></div>
+    <div class="login-page">
+      <div class="login-signup-cards">
+        <div class="login-card">
+          <p>Welcome back! Log in to access your tasks and stay organized effortlessly.</p>
+          <button type="click" id="login-button" class="login-page-buttons">Login</button>
+        </div>
+
+        <div class="signup-card">
+
+
+          <button type="click" id="signup-button" class="login-page-buttons">Signup</button>
+          <p>New here? Create an account to save and manage your tasks across devices.</p>
+        </div>
+
+      </div>
+
+
+      <div class="guest-card">
+        <button type="click" id="guest-button" class="login-page-buttons">Guest</button>
+        <p>Just exploring? Try TaskNest as a guest – no sign-up needed!</p>
+
+      </div>
+    </div>
+    <div class="overlay-guest-details"></div>
+    <div class="guest-details">
+      <form id="usernameForm">
+        <div class="guest-username">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <button type="submit" class="guest-username-btn">Submit</button>
+      </form>
+    </div>
+    <ul class="nav-menu-links" id="nav-menu-links">
+      <li><a class="nav-link" id="login-signup-link" href="#">Login/Signup</a></li>
+      <li><a class="nav-link" id="feedback-link" href="#">Feedback</a></li>
+      <li><a class="nav-link" id="help-link" href="#">Help</a></li>
+      <li><a class="nav-link list-right-div" id="settings-link" href="#">Settings</a></li>
+      <li><a class="nav-link list-left-div" id="completed" href="#">Completed tasks</a></li>
+
+      <li><a class="nav-link" id="All-Tasks" href="#">All Tasks</a></li>
+      <li><a class="nav-link" id="Tomorrow" href="#">Tomorrow</a></li>
+      <li><a class="nav-link" id="Today" href="#">Today</a></li>
+      <li><a class="nav-link" id="delete" href="#">Delete Completed</a></li>
+    </ul>
+
+    <btn id="toggle-nav-menu"><img class="toggle-img" src="./images/nav-menu-img.jpg" alt="image for menu" /></btn>
+    <btn class="nav-menu-links" id="back-btn">
+      <h2>BACK</h2>
+    </btn>
+  </nav>
+  <div class="content">
+    <div class="day-info" id="day-info">
+      <div id="settings">
+        <ul id="settings-list">
+          <li>Task reminders</li>
+          <li id="theme-btn">Theme</li>
+          <li>Task categories</li>
+          <li>Task priority levels</li>
+          <li>Account settings</li>
+
+        </ul>
+      </div>
+      <div id="feedb">
+        <form id="feedbackForm" method="POST">
+          <!-- User Information -->
+          <label for="name">Name (Optional):</label>
+          <input type="text" id="feedb-name" name="name">
+          <br>
+          <label for="email">Email (Optional):</label>
+          <input type="email" id="feedb-email" name="email">
+
+          <br>
+
+          <label for="experience">How would you rate your overall experience?</label>
+          <select id="feedb-experience" name="experience">
+            <option value="1">1 - Very Poor</option>
+            <option value="2">2 - Poor</option>
+            <option value="3">3 - Neutral</option>
+            <option value="4">4 - Good</option>
+            <option value="5">5 - Excellent</option>
+          </select>
+          <br>
+
+          <label for="satisfaction">How satisfied are you with the calendar feature?</label>
+          <select id="feedb-satisfaction" name="satisfaction">
+            <option value="1">1 - Very Unsatisfied</option>
+            <option value="2">2 - Unsatisfied</option>
+            <option value="3">3 - Neutral</option>
+            <option value="4">4 - Satisfied</option>
+            <option value="5">5 - Very Satisfied</option>
+          </select>
+
+          <br>
+          <!-- Suggestions for Improvement -->
+          <label for="improvement">What would make this app better for you?</label>
+          <textarea id="feedb-improvement" name="improvement" rows="4" cols="50"
+            placeholder="what would you like to see in a todo-app?"></textarea>
+          <br>
+          <label for="issues">Did you encounter any bugs or issues?</label>
+          <textarea id="feedb-issues" name="issues" rows="4" cols="50"
+            placeholder="Help me become a better developer."></textarea>
+
+          <!-- User Satisfaction -->
+          <br>
+
+          <!-- Submit Button -->
+          <button type="submit" id="feedb-submit">Submit Feedback</button>
+        </form>
+      </div>
+      <div id="help">
+        <div class="faq-images">
+          <div class="add-task-img"></div>
+          <div class="mark-task-img"></div>
+          <div class="delete-task-img"></div>
+          <div class="theme-change-img"></div>
+          <div class="edit-task-img"></div>
+          <div class="access-specific-task-img"></div>
+        </div>
+        <div class="faq">
+          <details>
             <summary>How to add a task?</summary>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae corrupti sapiente hic distinctio, optio veniam maxime magni quia fugiat ducimus, exercitationem sint fuga officia enim doloribus expedita officiis non adipisci, amet nostrum atque rerum voluptates eligendi! Repellendus, beatae sed deleniti tenetur laborum qui ipsam odit reiciendis eaque doloremque, modi iure, maxime optio labore amet nam at</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae corrupti sapiente hic distinctio, optio
+              veniam maxime magni quia fugiat ducimus, exercitationem sint fuga officia enim doloribus expedita officiis
+              non adipisci, amet nostrum atque rerum voluptates eligendi! Repellendus, beatae sed deleniti tenetur
+              laborum qui ipsam odit reiciendis eaque doloremque, modi iure, maxime optio labore amet nam at</p>
           </details>
           <details>
             <summary>How to mark a task as completed?</summary>
-            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid sunt reprehenderit magni perferendis consequatur molestias quod laborum fuga amet totam quaerat nobis, perspiciatis ut rem itaque ab enim, facilis repellat..</p>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid sunt reprehenderit magni perferendis
+              consequatur molestias quod laborum fuga amet totam quaerat nobis, perspiciatis ut rem itaque ab enim,
+              facilis repellat..</p>
           </details>
           <details>
             <summary>How to delete a task?</summary>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt aut repudiandae distinctio eum reprehenderit dolores praesentium culpa non expedita, voluptatibus repellat quo? Possimus molestias eveniet ducimus animi unde consequatur nam omnis quia, labore tempore incidunt veniam vel ratione error ipsam id a expedita vero cupiditate culpa minima! Commodi, ipsam architecto..</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt aut repudiandae distinctio eum
+              reprehenderit dolores praesentium culpa non expedita, voluptatibus repellat quo? Possimus molestias
+              eveniet ducimus animi unde consequatur nam omnis quia, labore tempore incidunt veniam vel ratione error
+              ipsam id a expedita vero cupiditate culpa minima! Commodi, ipsam architecto..</p>
           </details>
           <details>
             <summary>How to change the theme for the app?</summary>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo omnis officia quaerat cum non quos placeat repudiandae labore, assumenda inventore quibusdam autem tempore expedita voluptatem vel, dolorum natus in necessitatibus voluptas iusto ex minima pariatur facilis. Repellat.</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo omnis officia quaerat cum non quos placeat
+              repudiandae labore, assumenda inventore quibusdam autem tempore expedita voluptatem vel, dolorum natus in
+              necessitatibus voluptas iusto ex minima pariatur facilis. Repellat.</p>
           </details>
           <details>
             <summary>How to edit a task?</summary>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus doloribus ut distinctio eligendi in incidunt consectetur.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus doloribus ut distinctio eligendi in
+              incidunt consectetur.</p>
           </details>
           <details>
             <summary>How to access a task saved on a specific date?</summary>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, optio sapiente odit fugiat quasi ullam sunt cupiditate ipsam nobis saepe placeat maiores reiciendis quas quo eius. Tempora, quibusdam.</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, optio sapiente odit fugiat quasi
+              ullam sunt cupiditate ipsam nobis saepe placeat maiores reiciendis quas quo eius. Tempora, quibusdam.</p>
           </details>
-          </div>
         </div>
       </div>
-      <div class="extras">
-        <div id="calendar">
-          <table>
-            <caption>
-              <div class="caption-flex-part">
+    </div>
+    <div class="extras">
+      <div id="calendar">
+        <table>
+          <caption>
+            <div class="caption-flex-part">
               <span id="l-arrow-year"></span>
               <span id="year">2024</span>
               <span id="r-arrow-year"></span>
-              </div>
-              <div class="caption-flex-part">
+            </div>
+            <div class="caption-flex-part">
               <span id="l-arrow-month"></span>
               <span id="month">APRIL</span>
               <span id="r-arrow-month"></span>
-              </div>
-            </caption>
-            <thead id="table-head">
-              <tr>
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>    
-              </tr>
-            </thead>
-            <tbody id="table-body">
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div id="weather-card-container">
-          <div id="weather-card" class="weather-card">
-            <p>Loading weather...</p>
-        </div>
+            </div>
+          </caption>
+          <thead id="table-head">
+            <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="weather-card-container">
+        <div id="weather-card" class="weather-card">
+          <p>Loading weather...</p>
         </div>
       </div>
     </div>
-    <div class="task-page-container" id="taskPageContainer"></div>
-    <div class="task-container visibility">
-      <h2>CREATE TASK</h2>
-      <form id="task-form">
+  </div>
+  <div class="task-page-container" id="taskPageContainer"></div>
+  <div class="task-container visibility">
+    <h2>CREATE TASK</h2>
+    <form id="task-form">
       <label for="task-name">Task Name:</label><br>
-      <input type="text" id="task-name" name="task-name" required maxlength="150" placeholder="Maximum 150 characters"><br><br>
+      <input type="text" id="task-name" name="task-name" required maxlength="150"
+        placeholder="Maximum 150 characters"><br><br>
       <label for="task-notes">Task Notes:</label><br>
       <textarea id="task-notes" name="task-notes" placeholder="Notes here" rows="5"></textarea><br><br><br>
-      <label for ="task-date">Date:</label>
+      <label for="task-date">Date:</label>
       <input type="date" id="task-date" required><br><br>
       <button type="button" id="create">CREATE</button>
     </form>
-    </div>
-  
+  </div>
 
-    <div class="overlay-create" id="overlay-create"></div>
-    <div class="edit-task-page-container" id="editTaskPageContainer"></div>
-    <div id="edit-task-container" class="visibility">
-      <h2>EDIT TASK</h2>
-      <form id="edit-task-form">
+
+  <div class="overlay-create" id="overlay-create"></div>
+  <div class="edit-task-page-container" id="editTaskPageContainer"></div>
+  <div id="edit-task-container" class="visibility">
+    <h2>EDIT TASK</h2>
+    <form id="edit-task-form">
       <label for="task-name">Task Name:</label><br>
-      <input type="text" id="edit-task-name" class="edit-task-name" name="task-name" required maxlength="150" placeholder="Maximum 150 characters"><br><br>
+      <input type="text" id="edit-task-name" class="edit-task-name" name="task-name" required maxlength="150"
+        placeholder="Maximum 150 characters"><br><br>
       <label for="task-notes">Task Notes:</label><br>
-      <textarea id="edit-task-notes" class="edit-task-notes" name="task-notes" placeholder="Notes here" rows="5"></textarea><br><br><br>
-      <label for ="task-date">Date:</label>
+      <textarea id="edit-task-notes" class="edit-task-notes" name="task-notes" placeholder="Notes here"
+        rows="5"></textarea><br><br><br>
+      <label for="task-date">Date:</label>
       <input type="date" id="edit-task-date" class="edit-task-date" required><br><br>
       <button type="button" id="edit">UPDATE</button>
     </form>
-    </div>
-  
-
-    <div class="overlay-edit" id="overlay-edit"></div>
   </div>
-    <button class="add-task-icon"></button>
-    <script src="CONFIG.js"></script>
-    <script src="script.js"></script>
-  </body>
+
+
+  <div class="overlay-edit" id="overlay-edit"></div>
+  </div>
+  <button class="add-task-icon"></button>
+  <script src="CONFIG.js"></script>
+  <script src="script.js"></script>
+</body>
+
 </html>

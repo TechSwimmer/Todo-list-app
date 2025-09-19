@@ -39,8 +39,8 @@ nav ul {
 }
 
 nav ul li {
-    margin-left: 12px;
-    margin-right: 12px;
+    margin-left: 10px;
+    margin-right: 10px;
     text-decoration: none;
     transition: font-size 0.3s ease;
     transition: background-color 0.5s ease;
@@ -61,10 +61,10 @@ ul li a {
 ul li:hover {
     background-color: rgb(240, 202, 202);
     cursor: pointer;
-    font-size: 1.1rem;
+    
     font-weight: bold;
     box-shadow: 5px 0px 5px 0px rgba(25, 10, 0.5, 0.5);
-    transition: background-color 2s ease;
+    transition: background-color 0.5s ease;
 }
 
 .nav-header {
@@ -578,6 +578,146 @@ ul li:hover {
  display: none;
 }
 
+/*---------------------------------------login-user-page ---------------------------------------------*/
+
+
+
+.overlay-login-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 1, 0.85);
+    display: none;
+}
+
+.login-container{
+    display: none;
+    z-index: 152;
+ 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:violet;
+    position: fixed;
+    top:20%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    border-radius: 15px;
+}
+.login-container h2{
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid black;
+    font-size: 1.7rem;
+}
+
+#loginForm{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 15px;
+}
+.input-group {
+    display: flex;
+    justify-content: left;
+    text-align: left;
+    font-size: 1.2rem;
+}
+
+.input-group #email{
+    margin-left: 35px;
+
+    padding: 3px;
+}
+.input-group #password{
+    margin-left: 3px;
+    padding: 3px;
+}
+
+#loginForm button{
+    padding: 6px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+#loginForm button:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+
+#loginForm .signup-link{
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+
+.overlay-signup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 1, 0.85);
+    display: none;
+}
+
+.signup-container {
+    z-index: 99;
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    top:27.5%;
+    left: 27%;
+    width: 45%;
+    height: 40%;
+    background-color: silver;
+    border-radius: 15px;
+}
+
+
+.signup-container h2 {
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid black;
+    padding-bottom: 7px;
+}
+.signup-form{
+    margin-top: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;   
+    width: 80%;
+    height: 100%;
+}
+
+.signup-form input{
+    width: 70%;
+    padding: 6px;
+    border-radius: 10px;
+}
+
+.signup-form button {
+    width: 60%;
+    font-size: 1.2rem;
+    color: aliceblue;
+    background-color: blue;
+    padding: 6px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+
+
+
    /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
 
    .content .day-info{
@@ -931,6 +1071,29 @@ ul li:hover {
     height: 50px;
     vertical-align: middle;
 }
+.weather-denied-card{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+
+}
+
+.weather-unavailable {
+    margin-bottom: 12px;
+    color: aliceblue;
+}
+.access-denied {
+    margin-top: 12px;
+    color: aliceblue;
+}
+.local-time {
+    color: aliceblue;
+    font-weight: bold;
+    font-size: 1.8rem;
+}
 
 /* Optional: Add animation */
 @keyframes fadeIn {
@@ -949,10 +1112,485 @@ ul li:hover {
     padding-top: 10px;
 }
 
+/*----------------------------------------styling for login page and its overlay-------------------------*/
+
+.overlay-login{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 1, 0.85);
+    display: none; 
+    z-index: 49;
+}
+
+
+.login-page{
+    position: fixed;
+     top: 0;
+     left: 10%;
+     width: 80%;
+     height: 100%;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     z-index: 51;
+     display: none;
+    
+}
+
+
+.login-signup-cards{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    align-items: center;
+    justify-content:center;
+   
+}
+
+
+.login-card{
+    margin-right: 10px;
+    background-color:silver;
+    padding: 70px 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    border-radius: 18px;
+}
+.signup-card{
+    margin-left: 10px;
+    background-color:silver;
+    padding: 70px 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    border-radius: 18px;
+    text-align: end;
+}
+.guest-card{
+    background-color: silver;
+    padding: 30px;
+    border-radius: 10px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 93%;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+}
+#guest-button{
+    width: 100%;
+    padding: 10px;
+    background-color: blue;
+    color: aliceblue;
+    margin: 5px;
+    font-size: 1.8rem;
+    border-radius: 10px;
+}
+
+.login-page-buttons{
+    width: 62%;
+    padding: 10px;
+    background-color: blue;
+    color: aliceblue;
+    margin: 5px;
+    font-size: 1.8rem;
+    border-radius: 50%;
+}
+.login-page-buttons:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+#guest-button:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+
+/*-----------------------------------------------guest-details-page--------------------------------------------*/
+
+.overlay-guest-details{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 1, 0.85);
+    display:none; 
+    z-index: 49;
+
+}
+.guest-details{
+    display: none;
+    z-index: 152;
+ 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:silver;
+    position: fixed;
+    top:26%;
+    left: 15%;
+    bottom: 35%;
+    width: 70%;
+    height: 35%;
+    border-radius: 15px;
+}
+#usernameForm{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1.2rem;
+    
+}
+.guest-username{
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+}
+#usernameForm input{
+    padding: 5px;
+   
+}
+#usernameForm button {
+    width: 80%;
+    padding: 5px;
+    font-size: 1.2rem;
+    background-color: blue;
+    color: aliceblue;
+    border-radius: 15px;
+    
+}
+.guest-username-btn:hover{
+
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+
+
+
+
+
+
 
 }
 
 @media screen and (max-width: 1280px) {
+
+    .overlay-signup-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+    }
+    
+    .signup-container {
+        z-index: 99;
+        position: fixed;
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        top:25%;
+        left: 20.5%;
+        width: 65%;
+        height: 50%;
+        background-color: silver;
+        border-radius: 15px;
+    }
+    
+    
+    .signup-container h2 {
+        width: 100%;
+        text-align: center;
+        border-bottom: 2px solid black;
+        padding-bottom: 7px;
+    }
+    .signup-form{
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;   
+        width: 80%;
+        height: 100%;
+    }
+    
+    .signup-form input{
+        width: 90%;
+        padding: 6px;
+        border-radius: 10px;
+    }
+    
+    .signup-form button {
+        width: 90%;
+        font-size: 1rem;
+        color: aliceblue;
+        background-color: blue;
+        padding: 6px;
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+    .signup-container p {
+        margin-top: 5px;
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+    .overlay-signup-container:hover{
+        cursor: pointer;
+    }
+    
+
+    
+.overlay-login{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 1, 0.85);
+    display: none; 
+    z-index: 49;
+}
+.overlay-login:hover{
+    cursor: pointer;
+}
+
+
+.login-page{
+     position: fixed;
+     top: 10%;
+     left: 10%;
+     
+     
+     width: 80%;
+     height: 80%;
+     display: none;
+     flex-direction: column;
+     justify-content: space-around;
+     align-items: center;
+    z-index: 51;
+    
+    
+}
+
+
+.login-signup-cards{
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+    justify-content:center;
+   
+}
+
+
+.login-card{
+    font-size: 1rem;
+    background-color:silver;
+    padding: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+}
+.signup-card{
+    margin-top: 20px;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    border-radius: 10px;
+    background-color:silver;
+    text-align: center;
+}
+.guest-card{
+    background-color: silver;
+    padding: 30px;
+    border-radius: 10px;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+#guest-button{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: blue;
+    color: aliceblue;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+/*-----------------------------------------------guest-details-page--------------------------------------------*/
+
+.overlay-guest-details{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 1, 0.85);
+    display:none; 
+    z-index: 49;
+
+}
+.guest-details{
+    display: none;
+    z-index: 152;
+ 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:silver;
+    position: fixed;
+    top:26%;
+    left: 5%;
+    bottom: 35%;
+    width: 90%;
+    height: 35%;
+    border-radius: 15px;
+}
+#usernameForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1.2rem;
+    
+}
+#usernameForm input{
+    padding: 3px;
+    width: 60%;
+}
+#usernameForm button {
+    width: 80%;
+    padding: 5px;
+    font-size: 1.2rem;
+    background-color: blue;
+    color: aliceblue;
+    border-radius: 15px;
+}
+.guest-username-btn:hover{
+
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+
+
+
+
+.login-page-buttons{
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: blue;
+    color: aliceblue;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.login-page-buttons:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+#guest-button:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+
+
+/*----------------------------------------user-login-page-styles------------------------------------*/
+.overlay-login-container{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 1, 0.85);
+    display: none;
+}
+
+.login-container{
+    display: none;
+    z-index: 152;
+ 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:violet;
+    position: fixed;
+    top:15%;
+    left: 5%;
+    width: 90%;
+    height: 60%;
+    border-radius: 15px;
+}
+.login-container h2{
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid black;
+    font-size: 1.7rem;
+    padding-bottom: 10px;
+}
+
+#loginForm{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 15px;
+}
+.input-group {
+    display: flex;
+    justify-content: left;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.input-group #email{
+    margin-left: 32px;
+
+    padding: 3px;
+}
+.input-group #password{
+    margin-left: 3px;
+    padding: 3px;
+}
+
+#loginForm button{
+    padding: 6px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+#loginForm button:hover{
+    cursor: pointer;
+    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+}
+
+#loginForm .signup-link{
+    text-align: center;
+    font-size: 1rem;
+}
+
+
     body {
         overflow-x: hidden;
         background-color: aqua;
@@ -1346,6 +1984,8 @@ ul li:hover {
     padding: 10px;
     text-align: center;
     font-size: 14px;
+    display: flex;
+    justify-content: center;
 }
 /* Weather Card Styling */
 .weather-info {
@@ -1359,6 +1999,10 @@ ul li:hover {
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease-in-out;
+
+    display: flex;
+    flex-direction: column;
+    
     
 
 }
@@ -1372,6 +2016,10 @@ ul li:hover {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
+    width: 100%;
+    margin-top: 0;
+    
+    
 }
 
 .weather-info p {
@@ -1387,6 +2035,26 @@ ul li:hover {
     height: 50px;
     vertical-align: middle;
 }
+.weather-denied-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items:center;
+}
+.weather-unavailable {
+    margin-bottom: 12px;
+    color: aliceblue;
+}
+.access-denied {
+    margin-top: 12px;
+    color: aliceblue;
+}
+.local-time {
+    color: aliceblue;
+    font-weight: bold;
+    font-size: 1.8rem;
+}
+
 
 /* Optional: Add animation */
 @keyframes fadeIn {
