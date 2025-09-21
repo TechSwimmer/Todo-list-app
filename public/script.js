@@ -1845,7 +1845,7 @@ async function loginUser(email, password) {
     localStorage.removeItem("guestID")
     const editPassword = password.trim();
     console.log(editPassword);
-    const res = await fetch("http://127.0.0.1:3000/api/auth/user/login", {
+    const res = await fetch(`${CONFIG.backendUrl}/api/auth/user/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password: editPassword }),
