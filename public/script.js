@@ -163,7 +163,7 @@ async function renderTaskPage() {
     // if user is logged in set endpoint accordingly
     if (userID) {
         // for logged in user
-        apiEndpoint = `http://127.0.0.1:3000/api/user/tasks/add`;
+        apiEndpoint = `${CONFIG.backendUrl}/api/user/tasks/add`;
         headers["Authorization"] = `Bearer ${token}`;
         headers["userID"] = userID;
     }
@@ -174,7 +174,7 @@ async function renderTaskPage() {
             guestID = `guest_${Date.now()}`;
             localStorage.setItem("guestID", guestID);
         }
-        apiEndpoint = `http://127.0.0.1:3000/api/guest/tasks/add`;
+        apiEndpoint = `${CONFIG.backendUrl}/api/guest/tasks/add`;
         taskData.guestID = guestID;
         headers["Guest-ID"] = guestID;
 
@@ -703,11 +703,12 @@ document.getElementById('day-info').addEventListener('click', function (event) {
         if (!taskDiv) return; // Ensure taskDiv exists
 
         const taskID = taskDiv.getAttribute('data-id');
-
-        fetch(`${CONFIG.backendUrl}/tasks/completed/${taskID}`, {
+        let token = localStorage.getItem('authToken')
+        fetch(`${CONFIG.backendUrl}/api/tasks/completed/${taskID}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ completed: true })
+            headers: { 'Content-Type': 'application/json','Authorization':`Bearer ${token}` },
+            body: JSON.stringify({ completed: true }),
+            
         })
             .then(response => {
                 if (!response.ok) throw new Error("Failed to update task");
@@ -718,7 +719,7 @@ document.getElementById('day-info').addEventListener('click', function (event) {
                 taskDiv.remove(); // Remove only after confirmation
             })
             .catch(error => {
-                console.error("Error updating tasks:", error);
+                console.error("Error updating tasks:", error.message);
                 alert("Failed to mark task as completed. Please try again.");
             });
     }
@@ -802,7 +803,7 @@ function getDataFromBackend(year, month, selectedDay) {
     // let noTasksDiv = document.querySelector('#day-info #no-tasks');
     // if (noTasksDiv) noTasksDiv.remove();
     console.log("Token being sent:", authToken);
-    const url = `http://127.0.0.1:3000/api/user/tasks/fetch?year=${year}&month=${month}&day=${selectedDay}&userID=${userId}`;
+    const url = `${CONFIG.backendUrl}/api/user/tasks/fetch?year=${year}&month=${month}&day=${selectedDay}&userID=${userId}`;
 
     fetch(url, {
         method: 'GET',
@@ -1020,7 +1021,7 @@ function renderTasks(tasks, filterType) {
 // display all tasks wrt the specific user
 
 const fetchAllUserTasks = async () => {
-    const url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
+    const url = `${CONFIG.backendUrl}/api/user/tasks/alltasks`;
     const authToken = localStorage.getItem("authToken");
     const userId = localStorage.getItem("userID");
 
@@ -1059,28 +1060,12 @@ function fetchAndDisplayTasks(filterType) {
 
     let taskDayInfo = document.getElementById('day-info');
     let navHeader = document.querySelector('h2');
-    let url;
-    let date = new Date();
-    if (filterType === "tomorrow") {
-        date.setDate(date.getDate() + 1);
-        navHeader.innerText = 'Tomorrow';
-        url = 'http://127.0.0.1:3000/api/user/tasks';
+    let url = `${CONFIG.backendUrl}/api/user/tasks/alltasks`;
+    
+    let calenderDate = new Date()
+    if(filterType == "tomorrow"){
+        calenderDate.setDate(calenderDate.getDate() + 1);
     }
-    else if (filterType === "completed") {
-        navHeader.innerText = 'Completed';
-        url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
-    }
-    else if (filterType === "Today") {
-        navHeader.innerText = 'Today';
-        url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
-    }
-    else if (filterType === "All Tasks") {
-        navHeader.innerText = 'All Tasks';
-        url = 'http://127.0.0.1:3000/api/user/tasks/alltasks';
-    }
-
-    let targetDate =date.toISOString().split('T')[0];
-
     fetch(url, {
         method: 'GET',
         headers: {
@@ -1093,15 +1078,30 @@ function fetchAndDisplayTasks(filterType) {
         .then(data => {
             console.log('Tasks retrieved:', data);
             let filteredTasks = data;
-
+            if(filterType === "Today"){
+                navHeader.innerText = 'Today';
+                const today = new Date();
+                const year = today.getFullYear()
+                const month = String((today.getMonth() + 1)).padStart(2, '0')
+                const day = String((today.getDate())).padStart(2,'0');
+                const todayDate = `${year}-${month}-${day}`
+                filteredTasks = data.filter(task => task.taskDate.split('T')[0] == todayDate &&  task.completed == false)
+            }
             if (filterType === "tomorrow") {
-                filteredTasks = data.filter(task => task.taskDate.split('T')[0] === targetDate);
+                let date = new Date();
+                date.setDate(date.getDate() + 1);
+                let targetDate =date.toISOString().split('T')[0];
+                
+                navHeader.innerText = 'Tomorrow';
+                filteredTasks = data.filter(task => task.taskDate.split('T')[0] == targetDate && task.completed == false);
                 console.log(targetDate)
             } else if (filterType === "completed") {
+                navHeader.innerText = 'Completed';
                 filteredTasks = data.filter(task => task.completed);
                 console.log(filteredTasks)
             }
             else if (filterType === "All Tasks") {
+                navHeader.innerText = 'All Tasks';
                 filteredTasks = data.filter(task => task);
                 console.log(filteredTasks)
             }
@@ -1135,7 +1135,7 @@ function fetchAndDisplayTasks(filterType) {
             }
         });
 
-    renderCalendarWRTCond(date.getFullYear(), date.getMonth(), date.getDate() - 1);
+    renderCalendarWRTCond(calenderDate.getFullYear(), calenderDate.getMonth(), calenderDate.getDate() - 1);
     const mediaQuery = window.matchMedia('(max-width:1280px)');
     handleMediaQueryChange(mediaQuery);
     mediaQuery.addEventListener('change', handleMediaQueryChange);
@@ -1159,11 +1159,13 @@ function setupTaskButton(buttonId, filterType) {
 // Set up buttons for displaying all and completed tasks
 setupTaskButton('All-Tasks', 'All Tasks');
 setupTaskButton('completed', 'completed');
+setupTaskButton('Tomorrow', 'tomorrow');
+setupTaskButton('Today', 'Today')
 
 // functionality for tomorrow button
 
 
-document.getElementById('Tomorrow').addEventListener('click', () => fetchAndDisplayTasks("tomorrow"));
+// document.getElementById('Tomorrow').addEventListener('click', () => fetchAndDisplayTasks("tomorrow"));
 // document.getElementById('All-Tasks').addEventListener('click', () => fetchAndDisplayTasks("All Tasks"));
 
 
@@ -1192,97 +1194,7 @@ function renderCalendarWRTCond(year, month, day) {
 
 // Modify the display part of tasks  and display the tasks for present day
 
-async function todayTasks() {
-    let helpPage = document.getElementById('help');
-    if (helpPage) helpPage.style.display = 'none';
 
-    let feedbackDiv = document.querySelector('#feedb');
-    if (feedbackDiv) feedbackDiv.style.display = 'none';
-
-    let settingsPage = document.getElementById('settings');
-    if (settingsPage) settingsPage.style.display = 'none';
-
-    let taskDayInfo = document.getElementById('day-info');
-    taskDayInfo.innerHTML = ''; // Clear previous tasks
-
-    let date = new Date();
-    let todayDateString = date.toISOString().split('T')[0];
-
-    // ✅ Get guestID and authToken from localStorage
-
-    let guestID = localStorage.getItem("guestID");
-
-    let userID = localStorage.getItem("userID");
-
-    let authToken = localStorage.getItem("authToken")
-
-    console.log("guestID:", guestID);
-    console.log("userID:", userID);
-    console.log("authToken:", authToken);
-
-    if (!guestID && !userID) {
-        alert("No user or guest found.")
-        return;
-    }
-
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    if (userID) {
-        headers.append("Authorization", `Bearer ${authToken}`)
-        headers.append("userID", userID);
-    }
-    else if (guestID) {
-        headers.append("guestID", guestID);
-    }
-    headers.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-    });
-
-    try {
-        const response = await fetch('http://127.0.0.1:3000/api/user/tasks/today', {
-            method: "GET",
-            headers: headers,
-        });
-        console.log("Response status: ", response.status);
-        console.log("Response headers: ", response.headers);
-        // check if response is OK before parsing JSON
-        if (!response.ok) {
-            const errorMessage = await response.json();
-            throw new Error(errorMessage.msg || "Failed to fetch tasks");
-        }
-
-        const data = await response.json();
-        console.log("Today's Tasks: ", data);
-
-        if (!Array.isArray(data)) {
-            throw new Error("Invalid response format: Expected an array");
-        }
-        // render tasks in UI
-        if (data.length > 0) {
-            data.forEach(task => {
-                if (!task.completed) {
-                    addTaskToUI(todayTasks, taskDayInfo)
-                }
-            })
-        }
-        else {
-            taskDayInfo.innerHTML = `<h4 id="no-tasks">No tasks for today.</h4>`;
-        }
-        renderCalendarWRTCond(date.getFullYear(), date.getMonth(), date.getDate() - 1);
-
-    }
-    catch (error) {
-        console.log("Error fetching tasks:", error)
-    }
-    const mediaQuery = window.matchMedia('(max-width:1280px)');
-    handleMediaQueryChange(mediaQuery);
-    mediaQuery.addEventListener('change', handleMediaQueryChange);
-
-
-
-
-}
-document.getElementById('Today').addEventListener('click', todayTasks);
 
 // a function used to add tasks to UI 
 
@@ -1312,7 +1224,7 @@ function addTaskToUI(task, container) {
 function deleteSpecificTask(taskID, taskDiv) {
     if (!confirm('This task will be removed. This action is irreversible.')) return;
 
-    fetch(`http://127.0.0.1:3000/api/guest/tasks/delete/${taskID}`, {
+    fetch(`${CONFIG.backendurl}/api/guest/tasks/delete/${taskID}`, {
         method: 'DELETE',
         headers: {
             'content-type': 'application/json',
@@ -1360,29 +1272,27 @@ async function editTask(taskID, taskName, taskNotes, taskDate) {
 async function deleteCompletedTasks() {
     if (!confirm('Are you sure to delete all tasks? This action is irreversible.')) return;
 
-    let headers = { "Content-Type": "application/json" }
+    // let headers = { "Content-Type": "application/json" }
     const token = localStorage.getItem('authToken');
-    const userID = localStorage.getItem('userID');
-    const guestID = localStorage.getItem('guestID');
+    // const userID = localStorage.getItem('userID');
+    
 
-    if (userID) {
-        headers["Authorization"] = `Bearer ${token}`;
-        headers["userID"] = userID;  // Add userID in the headers
-        console.log(userID)
-    }
-    else if (guestID) {
-        headers["guestID"] = guestID;
-        console.log(guestID);
-    }
-    else {
-        alert("No active user or guest found.");
-        return;
-    }
+    // if (userID) {
+    //     headers["Authorization"] = `Bearer ${token}`;
+    //     // headers["userID"] = userID;  // Add userID in the headers
+    //     // console.log(userID)
+    // }
+   
+    // else {
+    //     alert("No active user found.");
+    //     return;
+    // }
+    // console.log(headers)
 
     try {
-        const response = await fetch('http://127.0.0.1:3000/api/tasks/delete-completed', {
+        const response = await fetch(`${CONFIG.backendUrl}/api/tasks/delete-completed`, {
             method: 'DELETE',
-            headers: headers
+            headers: {"Content-Type": "application/json", "Authorization": `Bearer ${token}`}
         });
 
         const data = await response.json();
@@ -1738,7 +1648,9 @@ submitUsernameBtn.addEventListener('submit', async (event) => {
     // console.log('username submitted:', username);
 
     try {
-        const response = await fetch('http://127.0.0.1:3000/api/auth/guest/guest', {
+        const response = await fetch(`${CONFIG.backendUrl
+            
+        }/api/auth/guest/guest`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json", "Guest-ID": localStorage.getItem("guestID")
@@ -1805,7 +1717,7 @@ async function signupUser() {
     }
     console.log(userData)
     try {
-        const response = await fetch('http://127.0.0.1:3000/api/auth/user/register', {
+        const response = await fetch(`${CONFIG.backendUrl}/api/auth/user/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)

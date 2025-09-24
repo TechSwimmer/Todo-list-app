@@ -2,7 +2,7 @@ const express = require('express');
 
 const { getAllTasks,getSpecificTask,addTask,updateTask,deleteTask, completedTask, deleteCompleted,submitFeedback,
         getUserTasks,addUserTask,fetchUserTasks,deleteUserTask,getGuestTasks,addGuestTask,deleteGuestTask,getTodayTask,
-        deleteCompletedUsersTasks} = require('../controllers/taskController.js')
+        deleteCompletedUsersTasks,userCompletedTask} = require('../controllers/taskController.js')
 const router = express.Router();
 
 
@@ -28,6 +28,8 @@ router.get('/user/tasks/alltasks',authMiddleware, getAllTasks);
 // add user tasks
 router.post('/user/tasks/add',authMiddleware, addUserTask);
 
+// mark a users task as completed
+router.patch('/tasks/completed/:id', authMiddleware,userCompletedTask)
 
 // delete user tasks
 router.delete('/user/tasks/delete/:id',authMiddleware, deleteUserTask);

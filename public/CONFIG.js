@@ -1,6 +1,6 @@
 
 
 const CONFIG = {
-    backendUrl: 'https://todo-list-app-tp2v.onrender.com',
+    backendUrl: 'http://127.0.0.1:3000',
 
 }

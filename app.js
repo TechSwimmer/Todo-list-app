@@ -38,7 +38,7 @@ app.use(express.urlencoded({extended: false}))
 
 app.use("/api/auth/user",authRoutes);
 app.use("/api/auth/guest", authRoutes);
-app.use("/api",userAuthMiddleware, taskRoutes);
+app.use("/api", taskRoutes);
 
 
                            
