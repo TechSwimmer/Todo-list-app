@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");  // use express-valid to validate user
 const User = require("../modals/user-modal");
-const Guest = require("../modals/guest-modal");
+
 require('dotenv').config()
 
 
@@ -19,13 +19,13 @@ const authMiddleware = (req, res, next) => {
 
   const token = req.header("Authorization")?.split(" ")[1];
   const userID = req.header("userID") || req.header("userid");
-  const guestID = req.header("guestID") ||req.header("guestid");
+  
 
   console.log("token:", token);
   console.log("userID:", userID);
-  console.log("guestID:", guestID);
   
-  if (!token && !guestID) {return res.status(401).json({ msg: "Unauthorized: No token or user ID provided" })};
+  
+  if (!token) {return res.status(401).json({ msg: "Unauthorized: No token or user ID provided" })};
 
   if(token) {
     try{
@@ -43,10 +43,7 @@ const authMiddleware = (req, res, next) => {
     req.userID = userID;
     return next();
   }
-  if(guestID){
-    req.guestID = guestID;
-    return next();
-  }
+ 
 
   return res.status(401).json({ msg: "Unauthorized: No token or ID provided" })
 };

@@ -10,7 +10,7 @@ const taskRoutes = require('./routes/taskRoutes.js');
 const authRoutes = require('./routes/authRoutes.js')
 
 const userAuthMiddleware = require("./Middleware/userAuthMiddleware.js")
-const guestAuthRoutes = require("./Middleware/guestAuthMiddleware.js")
+
 const mongoURI = process.env.MONGO_URI;
 const app = express();
 
@@ -37,7 +37,7 @@ app.use(express.urlencoded({extended: false}))
 
 
 app.use("/api/auth/user",authRoutes);
-app.use("/api/auth/guest", authRoutes);
+
 app.use("/api", taskRoutes);
 
 

@@ -1,12 +1,7 @@
-// function to render a calender when site starts
 
-// const { response } = require("express");
 
-// const { application } = require("express");
 
 // STORE LINKS
-
-// console.log(CONFIG.backendUrl);
 
 
 
@@ -56,12 +51,6 @@ arrowElements.forEach(({ element, defaultWidth }) => {
 
 
 
-
-//   function to load tyhe current day tasks right in tyyhe beginning 
-
-
-// let numOfDays = new Date(2024,3,32).getDate();
-// console.log(numOfDays)
 
 
 // ------------------------------------------------add-task-icon btn use and add-task page dynamism.-----------------------------------------
@@ -136,19 +125,10 @@ async function renderTaskPage() {
     const taskNotes = taskNotesInput.value.trim() || "No Task Notes.";
     const taskDate = taskDateInput.value.trim();
 
-    // Hide feedback message if it exists
-    // if (feedbackDiv) feedbackDiv.style.display = 'none';
-    // Clear previous task info
-    // hideExtraPages();
-    let helpPage = document.getElementById('help');
-    if (helpPage) helpPage.style.display = 'none';
+    
+    // Clear previous task info & hideExtraPages();
+    clearUI()
 
-    let feedbackDiv = document.querySelector('#feedb');
-    if (feedbackDiv) feedbackDiv.style.display = 'none';
-
-    let settingsPage = document.getElementById('settings');
-    if (settingsPage) settingsPage.style.display = 'none';
-    clearTasks()
     // Ensure both task name and task date are provided
     if (!taskName || !taskDate) return;
 
@@ -167,24 +147,13 @@ async function renderTaskPage() {
         headers["Authorization"] = `Bearer ${token}`;
         headers["userID"] = userID;
     }
-    else {
-        // for guest user set things accordingly
-        let guestID = localStorage.getItem("guestID");
-        if (!guestID) {
-            guestID = `guest_${Date.now()}`;
-            localStorage.setItem("guestID", guestID);
-        }
-        apiEndpoint = `${CONFIG.backendUrl}/api/guest/tasks/add`;
-        taskData.guestID = guestID;
-        headers["Guest-ID"] = guestID;
-
-    }
 
 
-    // console.log(userID,guestID)
+
+    
     // Prepare task object
 
-    console.log(taskData)
+    console.log(apiEndpoint)
     try {
         // Send the task to the server
         const response = await fetch(apiEndpoint, {
@@ -231,17 +200,6 @@ async function renderTaskPage() {
 
 
 }
-
-// Attach event listener to submit button (only once)
-
-
-// Move event listeners outside to avoid adding them repeatedly
-// document.getElementById('allTaskBtn')?.addEventListener('click', displayAllTasks);
-// document.getElementById('completedTaskBtn')?.addEventListener('click', showCompletedTasks);
-// document.getElementById('todayBtn')?.addEventListener('click', todayTasks);
-// document.getElementById('tomorrowbtn')?.addEventListener('click', displayTomorrowTasks);
-// document.getElementById('helpbtn')?.addEventListener('click', displayHelpPage);
-
 
 
 // function to handle the visibility of the navbar buttons 
@@ -383,18 +341,6 @@ taskSubmitBtn.addEventListener('click', (event) => {
     renderTaskPage();
 });
 
-// console.log(renderMonth)
-// console.log(renderYear)
-// console.log(taskDateCalendar);
-
-
-// logic to apply the edit task function when the button is clicked
-
-
-
-
-
-
 
 
 // render a calender with today's date when  you first start the page and ensure tht there is a csslender loaded in all scenarios the calender should indicate thhe scenario 
@@ -452,14 +398,6 @@ function renderRegularCalendar() {
 }
 
 renderRegularCalendar();
-
-
-
-
-
-// TASK DONE CLICK BEHAVIOUR
-
-
 
 
 
@@ -684,10 +622,11 @@ document.getElementById('day-info').addEventListener('click', function (event) {
 
         const deleteTaskDiv = event.target.closest('.task-added')
         let taskID = deleteTaskDiv.getAttribute('data-Id')
-
+        console.log(taskID)
         deleteSpecificTask(taskID, deleteTaskDiv)
     }
 })
+
 
 
 
@@ -750,12 +689,6 @@ function clearTasks() {
     if (noTasksDiv) noTasksDiv.remove();
 }
 
-// Function to hide unnecessary pages (Help, Feedback, Settings)
-// function hideExtraPages() {
-//     document.querySelector('#help')?.style.display = 'none';
-//     document.querySelector('#feedb')?.style.display = 'none';
-//     document.querySelector('#settings')?.style.display = 'none';
-// }
 
 
 
@@ -763,11 +696,7 @@ function clearTasks() {
 function getDataFromBackend(year, month, selectedDay) {
     // Remove help and settings pages
     // hideExtraPages();
-    clearTasks();
-    // removeDateBg();
-    if (document.querySelector('#feedb')) document.querySelector('#feedb').style.display = 'none';
-    if (document.querySelector('#settings')) document.querySelector('#settings').style.display = 'none';
-    if (document.querySelector('#help')) document.querySelector('#help').style.display = 'none';
+    clearUI()
 
 
     let reqTaskDate = new Date(Date.UTC(year, month - 1, selectedDay)).toISOString().split('T')[0];
@@ -778,8 +707,8 @@ function getDataFromBackend(year, month, selectedDay) {
 
     const authToken = localStorage.getItem('authToken');
     if (!authToken) {
-        console.error("No auth token found. Guest not logged in.");
-        displayNoTasksMessage("Please log in as a guest to view tasks.");
+        console.error("No auth token found.not logged in.");
+        displayNoTasksMessage("Please log in to view tasks.");
         return;
     }
     const userId = localStorage.getItem('userID');
@@ -791,7 +720,7 @@ function getDataFromBackend(year, month, selectedDay) {
         // userId = payload.userID;
 
         console.log(payload)
-        // console.log(guestID);
+        
     } catch (error) {
         console.error("Failed to decode token:", error.message);
         displayNoTasksMessage("Invalid session. Please log in again.");
@@ -858,12 +787,6 @@ function getDataFromBackend(year, month, selectedDay) {
         });
 
 }
-
-
-
-
-
-
 
 
 // Function to handle date selection from the calendar
@@ -1018,41 +941,8 @@ function renderTasks(tasks, filterType) {
     });
 }
 
-// display all tasks wrt the specific user
 
-const fetchAllUserTasks = async () => {
-    const url = `${CONFIG.backendUrl}/api/user/tasks/alltasks`;
-    const authToken = localStorage.getItem("authToken");
-    const userId = localStorage.getItem("userID");
 
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`,
-                'userid': userId
-            }
-
-        })
-        const data = await response.json();
-
-        if (data.length === 0) {
-            displayNoTasksMessage("No tasks created.");
-            return;
-        }
-
-        renderTasks(data, 'all');
-    }
-    catch (error) {
-        console.error("Error fetching tasks:", error);
-        displayNoTasksMessage("failed to fetch tasks. Please try again.");
-    }
-};
-
-// call the fetchAllUserTasks function
-// const allTaskBtn = document.querySelector('#All-Tasks');
-// allTaskBtn.addEventListener('click', fetchAllUserTasks);
 
 
 function fetchAndDisplayTasks(filterType) {
@@ -1165,8 +1055,6 @@ setupTaskButton('Today', 'Today')
 // functionality for tomorrow button
 
 
-// document.getElementById('Tomorrow').addEventListener('click', () => fetchAndDisplayTasks("tomorrow"));
-// document.getElementById('All-Tasks').addEventListener('click', () => fetchAndDisplayTasks("All Tasks"));
 
 
 function renderCalendarWRTCond(year, month, day) {
@@ -1192,7 +1080,7 @@ function renderCalendarWRTCond(year, month, day) {
     });
 }
 
-// Modify the display part of tasks  and display the tasks for present day
+
 
 
 
@@ -1223,14 +1111,14 @@ function addTaskToUI(task, container) {
 
 function deleteSpecificTask(taskID, taskDiv) {
     if (!confirm('This task will be removed. This action is irreversible.')) return;
-
-    fetch(`${CONFIG.backendurl}/api/guest/tasks/delete/${taskID}`, {
+    let url = `${CONFIG.backendUrl}/api/tasks/delete/${taskID}`;
+    fetch(url, {
         method: 'DELETE',
         headers: {
             'content-type': 'application/json',
-            'Guest-ID': localStorage.getItem("guestID")
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         },
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        
     })
         .then(response => {
             if (!response.ok) throw new Error(`Failed to delete task: ${response.statusText}`);
@@ -1247,11 +1135,11 @@ function deleteSpecificTask(taskID, taskDiv) {
 
 async function editTask(taskID, taskName, taskNotes, taskDate) {
 
-    const updatedTask = { taskName, taskNotes, _id: taskID, taskDate };
-
-    return fetch(`${CONFIG.backendUrl}/tasks/update/${taskID}`, {
+    const updatedTask = { taskName, taskNotes, taskDate };
+    console.log(taskID);
+    return fetch(`${CONFIG.backendUrl}/api/user/tasks/update/${taskID}`, {
         method: 'PUT',
-        headers: { 'content-type': 'application/json' },
+        headers: { 'content-type': 'application/json',"Authorization":`Bearer ${localStorage.getItem('authToken')}` },
         body: JSON.stringify(updatedTask)
     })
         .then(response => {
@@ -1272,22 +1160,12 @@ async function editTask(taskID, taskName, taskNotes, taskDate) {
 async function deleteCompletedTasks() {
     if (!confirm('Are you sure to delete all tasks? This action is irreversible.')) return;
 
-    // let headers = { "Content-Type": "application/json" }
+    
     const token = localStorage.getItem('authToken');
-    // const userID = localStorage.getItem('userID');
+  ;
     
 
-    // if (userID) {
-    //     headers["Authorization"] = `Bearer ${token}`;
-    //     // headers["userID"] = userID;  // Add userID in the headers
-    //     // console.log(userID)
-    // }
-   
-    // else {
-    //     alert("No active user found.");
-    //     return;
-    // }
-    // console.log(headers)
+
 
     try {
         const response = await fetch(`${CONFIG.backendUrl}/api/tasks/delete-completed`, {
@@ -1517,7 +1395,6 @@ function openOverlayLogin() {
     mediaQuery.addEventListener('change', handleMediaQueryChange);
 }
 
-// const overlaylogin = document.getElementsByClassName('overlay-login');
 
 overlayLogin.addEventListener('click', closeOverlayLogin)
 
@@ -1526,7 +1403,6 @@ overlayLogin.addEventListener('click', closeOverlayLogin)
 
 const loginBtn = document.querySelector('#login-button');
 const overlayLoginContainer = document.querySelector('.overlay-login-container');
-// console.log(loginBtn);
 
 // function to open user-login page
 function showLoginPage() {
@@ -1545,7 +1421,7 @@ function closeLoginPage() {
     overlayLoginContainer.style.display = 'none';
 }
 
-// const overlayLoginContainer = document.querySelector('.overlay-login-container');
+
 
 overlayLoginContainer.addEventListener('click', closeLoginPage);
 
@@ -1593,98 +1469,11 @@ signupBtn.addEventListener('click', () => {
 
 
 
-// guest info page and it's overlay behaviour
-const guestInfoPage = document.querySelector('.guest-details');
-const guestPageOverlay = document.querySelector('.overlay-guest-details');
-
-function openGuestInfoPage() {
-    guestInfoPage.style.display = 'flex';
-    guestPageOverlay.style.display = 'block';
-    loginPage.style.display = 'none';
-    overlayLogin.style.display = 'none';
-}
-
-function closeGuestInfoPage() {
-    guestInfoPage.style.display = 'none';
-    guestPageOverlay.style.display = 'none';
-}
-
-guestPageOverlay.addEventListener('click', () => {
-    closeGuestInfoPage();
-})
-
-
-document.getElementById('guest-button').addEventListener('click', async () => {
-
-    openGuestInfoPage()
-
-})
-// submitting guest username and providing guestID  
-
-const submitUsernameBtn = document.getElementById('usernameForm');
-
-submitUsernameBtn.addEventListener('submit', async (event) => {
-
-    event.preventDefault();
-
-    // prepare username to send in db
-    let usernameValue = document.getElementById('username').value.trim();
-    if (usernameValue == "") {
-        alert("please enter a username");
-        return;
-    }
-
-    // Check if username already exists
-
-
-    // set guestId to send to db
-    let guestID = `guest_${Date.now()}`;
-    localStorage.removeItem("userID");
-    localStorage.setItem("guestID", guestID);
-
-    //  authToken
-    const authToken = localStorage.getItem("authToken");
-
-    // console.log('username submitted:', username);
-
-    try {
-        const response = await fetch(`${CONFIG.backendUrl
-            
-        }/api/auth/guest/guest`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json", "Guest-ID": localStorage.getItem("guestID")
-            },
-            body: JSON.stringify({ username: usernameValue })
-        })
-
-        if (!response.ok) {
-            const text = await response.text();
-            throw new Error(`Server Error: ${response.status} - ${text}`)
-        }
-
-        const data = await response.json();
-
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("guestID", data.guestID);
-        console.log(authToken, guestID)
-        alert(`Welcome ${data.username}! Your guestID is ${data.guestID}`);
-
-        closeGuestInfoPage();
-    }
-    catch (error) {
-        console.error("Guest Login Failed: ", error);
-        alert("Guest login failed. please try again")
-    }
-
-})
-
-// signup button functyionality
 
 const signupForm = document.querySelector('.signup-form');
 
 async function signupUser() {
-    localStorage.removeItem("guestID");
+    
     let usernameValue = document.querySelector('.signup-username').value.trim();
 
     if (usernameValue == "") {
@@ -1754,7 +1543,7 @@ signupForm.addEventListener('submit', (event) => {
 // Login function
 
 async function loginUser(email, password) {
-    localStorage.removeItem("guestID")
+   
     const editPassword = password.trim();
     console.log(editPassword);
     const res = await fetch(`${CONFIG.backendUrl}/api/auth/user/login`, {

@@ -3,10 +3,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");  // use express-valid to validate user
 const User = require("../modals/user-modal");
-const Guest = require("../modals/guest-modal");
+
 
 const userAuthMiddleware = require('../Middleware/userAuthMiddleware');
-const guestAuthMiddleware = require('../Middleware/guestAuthMiddleware');
+
 require('dotenv').config()
 
 const JWT_SECRET = process.env.SECRET_KEY;
@@ -91,40 +91,7 @@ router.post(
     }
   );
   
-  //  Guest Access (No Auth Required)
-  router.post('/guest', async (req, res) => {
-    try {
-      const { username } = req.body
-      if(!username){
-        return res.status(400).json({ error: "Username is required!"})
-       }
-         // Check if username already exists
-    const existingGuest = await Guest.findOne({ username });
-    if (existingGuest) {
-      return res.status(400).json({ error: "Username already taken! Choose another." });
-    }
-      const timeStamp = Date.now();
-      const guestID = `guest_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
-        const guestUser = new Guest({
-            username,
-            guestID
-            
-        });
-  
-        await guestUser.save();
-        const token = jwt.sign({ id: guestUser._id,guestID: guestID }, JWT_SECRET, { expiresIn: '24h' });
-  
-        res.json({ token, username: guestUser.username,guestID });
-    } catch (error) {
-        console.error("Guest login error:", error.message);
-        res.status(500).json({ error: "Guest login failed" });
-    }
-  });
-  
-  //  Protected Route Example (Requires Authentication)
-  // router.get("/protected", authMiddleware, (req, res) => {
-  //   res.json({ msg: "You have accessed a protected route", user: req.user });
-  // });
+ 
 
 
   module.exports = router;
