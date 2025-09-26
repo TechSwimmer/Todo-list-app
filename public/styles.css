@@ -1172,27 +1172,7 @@ ul li:hover {
     border-radius: 18px;
     text-align: end;
 }
-.guest-card{
-    background-color: silver;
-    padding: 30px;
-    border-radius: 10px;
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 93%;
-    font-size: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-}
-#guest-button{
-    width: 100%;
-    padding: 10px;
-    background-color: blue;
-    color: aliceblue;
-    margin: 5px;
-    font-size: 1.8rem;
-    border-radius: 10px;
-}
+
 
 .login-page-buttons{
     width: 62%;
@@ -1207,40 +1187,11 @@ ul li:hover {
     cursor: pointer;
     box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
 }
-#guest-button:hover{
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
-}
+
 
 /*-----------------------------------------------guest-details-page--------------------------------------------*/
 
-.overlay-guest-details{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display:none; 
-    z-index: 49;
 
-}
-.guest-details{
-    display: none;
-    z-index: 152;
- 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color:silver;
-    position: fixed;
-    top:26%;
-    left: 15%;
-    bottom: 35%;
-    width: 70%;
-    height: 35%;
-    border-radius: 15px;
-}
 #usernameForm{
     display: flex;
     flex-direction: column;
@@ -1251,11 +1202,7 @@ ul li:hover {
     font-size: 1.2rem;
     
 }
-.guest-username{
-    display: flex;
-    justify-content: space-around;
-    width: 50%;
-}
+
 #usernameForm input{
     padding: 5px;
    
@@ -1268,11 +1215,6 @@ ul li:hover {
     color: aliceblue;
     border-radius: 15px;
     
-}
-.guest-username-btn:hover{
-
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
 }
 
 
@@ -1416,54 +1358,7 @@ ul li:hover {
     background-color:silver;
     text-align: center;
 }
-.guest-card{
-    background-color: silver;
-    padding: 30px;
-    border-radius: 10px;
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-}
-#guest-button{
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: blue;
-    color: aliceblue;
-    font-size: 1.3rem;
-    font-weight: bold;
-}
 
-/*-----------------------------------------------guest-details-page--------------------------------------------*/
-
-.overlay-guest-details{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display:none; 
-    z-index: 49;
-
-}
-.guest-details{
-    display: none;
-    z-index: 152;
- 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color:silver;
-    position: fixed;
-    top:26%;
-    left: 5%;
-    bottom: 35%;
-    width: 90%;
-    height: 35%;
-    border-radius: 15px;
-}
 #usernameForm{
     display: flex;
     flex-direction: column;
@@ -1486,11 +1381,7 @@ ul li:hover {
     color: aliceblue;
     border-radius: 15px;
 }
-.guest-username-btn:hover{
 
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
-}
 
 
 
@@ -1508,10 +1399,7 @@ ul li:hover {
     cursor: pointer;
     box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
 }
-#guest-button:hover{
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
-}
+
 
 
 /*----------------------------------------user-login-page-styles------------------------------------*/
