@@ -1298,20 +1298,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // local time displayed if location access denied
 
-function showLocalTime() {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
-}
 
-
-
-function showLocalTime() {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
+function startLocalTimeClock() {
+    // Get all elements with class 'local-time'
+    const elements = document.getElementsByClassName('local-time');
+    
+    function updateTime() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, "0");
+        const minutes = now.getMinutes().toString().padStart(2, "0");
+        const seconds = now.getSeconds().toString().padStart(2, "0"); // Fixed: "0" instead of 0
+        
+        // Update ALL elements with class 'local-time'
+        for (let element of elements) {
+            element.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+    }
+    
+    // Update immediately and then every second
+    updateTime();
+    setInterval(updateTime, 1000);
 }
 
 async function fetchWeatherByLocation() {
@@ -1339,11 +1345,13 @@ async function fetchWeatherByLocation() {
                             </div>
                             <div class="weather-status-info">
                                 <p>🌡️ Temperature: ${current.temp_c}°C</p>
-                                <p>🕒 Local Time: ${timeOnly}</p>
+                                <p class="">🕒 Local Time:<span class="local-time">${timeOnly}</span></p>
                             </div>
                         </div>
                     </div>
                 `;
+                startLocalTimeClock();
+                
                 } catch (error) {
                     console.error("Weather fetch error:", error);
                     document.getElementById("weather-card").innerHTML = `<p>Failed to load weather</p>`;
@@ -1353,20 +1361,23 @@ async function fetchWeatherByLocation() {
                 console.warn("Location access denied, using system time.");
                 document.getElementById("weather-card").innerHTML = `
                 <div class="weather-denied-card">
-                    <h3 class="local-time">🕒 : ${showLocalTime()}</h3>
+                    <h3 class="">🕒 :<span class="local-time">Loading...</span></h3>
                     <p class="access-denied">Location access denied.</p>
                     <p class="weather-unavailable">Weather Unavailable</p>
                 </div>
                 `;
+                startLocalTimeClock();
             }
         );
     } else {
         console.error("Geolocation not supported");
         document.getElementById("weather-card").innerHTML = `<p>Geolocation not supported</p>`;
+        startLocalTimeClock();
     }
 }
 
 fetchWeatherByLocation();
+
 
 
 
