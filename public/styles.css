@@ -309,7 +309,7 @@ ul li:hover {
 
     #table-body tr td {
         flex-basis: calc(100% / 8.7);
-        padding: 7.5px 5.8px;
+        padding: 6px 5px;
         text-align: center;
         width: calc(100%/7);
     
