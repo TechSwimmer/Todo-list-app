@@ -1,36 +1,57 @@
-
-
-
-// STORE LINKS
-
+// =====================
+// GLOBAL DOM CACHE
+// =====================
+const DOM = {
+    navMenuLinks : document.getElementById('nav-menu-links'),
+    backbtn : document.getElementById('back-btn'),
+    toggleNavMenu : document.getElementById('toggle-nav-menu'),
+    taskDayInfo : document.getElementById('day-info'),
+    feedbackPage : document.getElementById('feedb'),
+    settingsPage : document.getElementById('settings'),
+    helpPage : document.getElementById('help'),
+    
+    taskPageContainer : document.getElementById('taskPageContainer'),
+    editTaskPageContainer : document.getElementById('editTaskPageContainer'),
+    editTaskContainer : document.getElementById('edit-task-container'),
+    overlayCreate : document.getElementById('overlay-create'),
+    overlayEdit : document.getElementById('overlay-edit'),
+    taskNameInput : document.getElementById('task-name'),
+    taskNameInput : document.getElementById('task-name'),
+    taskNotesInput : document.getElementById('task-notes'),
+    taskDateInput : document.getElementById('task-date'),
+    taskContainer : document.querySelector('.task-container'),
+    addTaskBtn : document.querySelector('.add-task-icon'),
+    taskSubmitBtn : document.getElementById('create'),
+    // the msg to be displayed when no tass noTasksDiv
+    noTasksDiv : document.querySelector('#day-info #no-tasks'),
+    // calendar related
+    lMonthArrow : document.getElementById('l-arrow-month'),
+    currMonth : document.getElementById('month'),
+    rMonthArrow : document.getElementById('r-arrow-month'),
+    currYear : document.getElementById('year'),
+    lYearArrow : document.getElementById('l-arrow-year'),
+    rYearArrow : document.getElementById('r-arrow-year'),
+    tableBody : document.getElementById("table-body"),
+    // navbar related
+    navLinks : document.querySelector('ul'),
+    listButton : document.querySelector('#toggle-nav-menu'),
+    backbtn : document.querySelector('#back-btn'),
+    navHeader : document.querySelector('#nav-header h2')
+}
 
 
 // STORE ELEMENTS IN A VARIABLE FOR MULTIPLE USE
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const taskPageContainer = document.getElementById('taskPageContainer');
-const editTaskContainer = document.getElementById('edit-task-container');
-const editTaskPageContainer = document.getElementById('editTaskPageContainer');
-const overlayCreate = document.getElementById('overlay-create');
-const overlayEdit = document.getElementById('overlay-edit');
-const taskNameInput = document.getElementById('task-name');
-const taskNotesInput = document.getElementById('task-notes');
-const taskDateInput = document.getElementById('task-date');
-const taskContainer = document.querySelector('.task-container');
-const addTaskBtn = document.querySelector('.add-task-icon');
-
-const navLinks = document.querySelector('ul');
-const listButton = document.querySelector('#toggle-nav-menu');
-const backbtn = document.querySelector('#back-btn')
 
 // Toggle navigation menu
 function toggleNav(open) {
-    navLinks.classList.toggle("nav-menu-links", !open);
-    listButton.classList.toggle("nav-menu-links", open);
-    backbtn.classList.toggle("nav-menu-links", !open);
+    DOM.navLinks.classList.toggle("nav-menu-links", !open);
+    DOM.listButton.classList.toggle("nav-menu-links", open);
+    DOM.backbtn.classList.toggle("nav-menu-links", !open);
 }
 
-listButton.addEventListener("click", () => toggleNav(true));
-backbtn.addEventListener("click", () => toggleNav(false));
+DOM.listButton.addEventListener("click", () => toggleNav(true));
+DOM.backbtn.addEventListener("click", () => toggleNav(false));
 
 // Arrow Hover Effects (Optimized)
 const arrowElements = [
@@ -59,54 +80,53 @@ arrowElements.forEach(({ element, defaultWidth }) => {
 
 function openTaskPage() {
     // Use CSS classes for visibility 
-    taskPageContainer.classList.remove('hidden');
-    overlayCreate.classList.add('block');
-    taskContainer.classList.remove('visibility');
-    addTaskBtn.classList.add('visibility');
+    DOM.taskPageContainer.classList.remove('hidden');
+    DOM.overlayCreate.classList.add('block');
+    DOM.taskContainer.classList.remove('visibility');
+    DOM.addTaskBtn.classList.add('visibility');
 
     // Reset input fields
-    taskNameInput.value = "";
-    taskNotesInput.value = "";
-    taskDateInput.value = "";
+    DOM.taskNameInput.value = "";
+    DOM.taskNotesInput.value = "";
+    DOM.taskDateInput.value = "";
 }
 
 function closeTaskPage() {
-    taskPageContainer.classList.add('hidden');
-    overlayCreate.classList.remove('block');
-    taskContainer.classList.add('visibility');
-    addTaskBtn.classList.remove('visibility');
+    DOM.taskPageContainer.classList.add('hidden');
+    DOM.overlayCreate.classList.remove('block');
+    DOM.taskContainer.classList.add('visibility');
+    DOM.addTaskBtn.classList.remove('visibility');
 }
 
 function closeEditPage() {
-    editTaskPageContainer.style.display = 'none';
-    editTaskContainer.classList.add('visibility');
-    overlayEdit.style.display = 'none';
-    addTaskBtn.classList.remove('visibility');
+    DOM.editTaskPageContainer.style.display = 'none';
+    DOM.editTaskContainer.classList.add('visibility');
+    DOM.overlayEdit.style.display = 'none';
+    DOM.addTaskBtn.classList.remove('visibility');
     // overlayEdit.style.pointerEvents = 'none'
 }
 
 // Add event listener
-addTaskBtn.addEventListener('click', openTaskPage);
+DOM.addTaskBtn.addEventListener('click', openTaskPage);
 
 
 // overlay mouse pointer behaviour when create task page is open
 
 
-let overlaycreate = document.getElementById('overlay-create');
-overlaycreate.addEventListener('click', function () {
-    closeTaskPage();
 
+DOM.overlayCreate.addEventListener('click', function () {
+    closeTaskPage();
 });
 
-overlaycreate.addEventListener('mouseenter', function () {
-    overlaycreate.style.cursor = 'pointer';
+DOM.overlayCreate.addEventListener('mouseenter', function () {
+   DOM.overlayCreate.style.cursor = 'pointer';
 })
 // overlay edit click functionality
 
-overlayEdit.addEventListener('mouseenter', function () {
-    overlayEdit.style.cursor = 'pointer';
+DOM.overlayEdit.addEventListener('mouseenter', function () {
+    DOM.overlayEdit.style.cursor = 'pointer';
 })
-overlayEdit.addEventListener('click', function () {
+DOM.overlayEdit.addEventListener('click', function () {
     closeEditPage()
 })
 
@@ -115,17 +135,12 @@ overlayEdit.addEventListener('click', function () {
 // elements required for rendering the task page
 
 
-const taskDayInfo = document.getElementById('day-info');
-const navHeader = document.querySelector('h2');
-const feedbackDiv = document.querySelector('#feedb');
-const taskSubmitBtn = document.getElementById('create');
 
 async function renderTaskPage() {
-    const taskName = taskNameInput.value.trim();
-    const taskNotes = taskNotesInput.value.trim() || "No Task Notes.";
-    const taskDate = taskDateInput.value.trim();
+    const taskName = DOM.taskNameInput.value.trim();
+    const taskNotes = DOM.taskNotesInput.value.trim() || "No Task Notes.";
+    const taskDate = DOM.taskDateInput.value.trim();
 
-    
     // Clear previous task info & hideExtraPages();
     clearUI()
 
@@ -148,9 +163,6 @@ async function renderTaskPage() {
         headers["userID"] = userID;
     }
 
-
-
-    
     // Prepare task object
 
     console.log(apiEndpoint)
@@ -186,19 +198,14 @@ async function renderTaskPage() {
         `;
 
         console.log(taskDate, taskName, taskNotes, responseData._id);
-        navHeader.innerText = taskDate;
-        taskDayInfo.appendChild(taskDiv);
+        DOM.navHeader.innerText = taskDate;
+        DOM.taskDayInfo.appendChild(taskDiv);
 
         // Close task page
         closeTaskPage();
     } catch (error) {
         console.error("Error creating task:", error.message);
     }
-
-
-
-
-
 }
 
 
@@ -206,56 +213,47 @@ async function renderTaskPage() {
 // w.r.t  when it is clicked and at what screen width   
 
 function handleMediaQueryChange(e) {
-    let navMenuLinks = document.getElementById('nav-menu-links');
-    let backbtn = document.getElementById('back-btn');
-    let toggleNavMenu = document.getElementById('toggle-nav-menu');
-    let taskDayInfo = document.getElementById('day-info');
-    let feedbackPage = document.getElementById('feedb');
-    let settingsPage = document.getElementById('settings');
-    let helpPage = document.getElementById('help');
-    let navHeader = document.querySelector('#nav-header h2');
-
     // Ensure taskDayInfo is visible by default
-    taskDayInfo.style.display = 'block';
+    DOM.taskDayInfo.style.display = 'block';
 
     if (e.matches) {
         // Hide nav menu links and show back button when screen width is ≤ 1280px
-        navMenuLinks.classList.add('visibility');
-        backbtn.classList.add('visibility');
-        toggleNavMenu.classList.add('invisibility');
+        DOM.navMenuLinks.classList.add('visibility');
+        DOM.backbtn.classList.add('visibility');
+        DOM.toggleNavMenu.classList.add('invisibility');
 
         // Prevent multiple event listeners from being added
-        toggleNavMenu.onclick = () => {
-            navMenuLinks.classList.remove('visibility');
-            backbtn.classList.remove('visibility');
-            toggleNavMenu.classList.remove('invisibility');
+        DOM.toggleNavMenu.onclick = () => {
+            DOM.navMenuLinks.classList.remove('visibility');
+            DOM.backbtn.classList.remove('visibility');
+            DOM.toggleNavMenu.classList.remove('invisibility');
 
             // Hide the current section when opening the nav menu
-            if (feedbackPage) feedbackPage.style.display = 'none';
-            if (settingsPage) settingsPage.style.display = 'none';
-            if (helpPage) helpPage.style.display = 'none';
-            taskDayInfo.style.display = 'none';
+            if (DOM.feedbackPage) DOM.feedbackPage.style.display = 'none';
+            if (DOM.settingsPage) DOM.settingsPage.style.display = 'none';
+            if (DOM.helpPage) DOM.helpPage.style.display = 'none';
+            DOM.taskDayInfo.style.display = 'none';
         };
 
-        backbtn.onclick = () => {
+        DOM.backbtn.onclick = () => {
             // Ensure the last active section remains visible
-            if (feedbackPage && feedbackPage.style.display === 'block') {
-                navHeader.innerText = 'Feedback';
-            } else if (settingsPage && settingsPage.style.display === 'block') {
-                navHeader.innerText = 'Settings';
-            } else if (helpPage && helpPage.style.display === 'flex') {
-                navHeader.innerText = 'Help';
+            if (DOM.feedbackPage && DOM.feedbackPage.style.display === 'block') {
+                DOM.navHeader.innerText = 'Feedback';
+            } else if (DOM.settingsPage && DOM.settingsPage.style.display === 'block') {
+                DOM.navHeader.innerText = 'Settings';
+            } else if (DOM.helpPage && DOM.helpPage.style.display === 'flex') {
+                DOM.navHeader.innerText = 'Help';
             }
 
             // Hide the menu and show the correct section
-            navMenuLinks.classList.add('visibility');
-            backbtn.classList.add('visibility');
-            toggleNavMenu.classList.add('invisibility');
-            taskDayInfo.style.display = 'block';
+            DOM.navMenuLinks.classList.add('visibility');
+            DOM.backbtn.classList.add('visibility');
+            DOM.toggleNavMenu.classList.add('invisibility');
+            DOM.taskDayInfo.style.display = 'block';
         };
     } else {
         // Desktop view: Show nav menu links
-        navMenuLinks.style.display = 'flex';
+        DOM.navMenuLinks.style.display = 'flex';
     }
 }
 
@@ -267,8 +265,8 @@ function renderCalendar(year, month, date) {
     // the year and monthh on whichh the task is added must be displayed in calender
     // ELEMENTS REQUIRED FOR CALENDER MODIFICATIONS
 
-    let taskDate = document.getElementById('task-date').value;
-    let taskName = document.getElementById('task-name').value;
+    let taskDate = DOM.taskDateInput.value;
+    let taskName = DOM.taskNameInput.value;
 
     // Guard clause: Ensure required inputs are provided
     if (!taskDate || !taskName) {
@@ -277,21 +275,16 @@ function renderCalendar(year, month, date) {
         return;
     }
 
-    const calendar = document.getElementById('calendar');
-    const renderMonth = document.getElementById('month');
-    const renderYear = document.getElementById('year');
-
     // Update displayed month & year
-    renderMonth.innerText = months[month - 1];
-    renderYear.innerText = year;
+    DOM.currMonth.innerText = months[month - 1];
+    DOM.currYear.innerText = year;
 
     // Get first day of the month and total days in the month
     const startOfMonth = new Date(year, month - 1, 1).getDay();
     const numOfDays = new Date(year, month, 0).getDate();
 
     // Clear previous calendar rows
-    const tableBody = document.getElementById('table-body');
-    tableBody.innerHTML = '';
+    DOM.tableBody.innerHTML = '';
     // remove bg styles for date cells
     removeDateBg();
 
@@ -321,31 +314,25 @@ function renderCalendar(year, month, date) {
 
             tr.appendChild(td);
         }
-        tableBody.appendChild(tr);
+        DOM.tableBody.appendChild(tr);
     }
 
 }
 
 
 // Event Listener for Task Submission
-taskSubmitBtn.addEventListener('click', (event) => {
+DOM.taskSubmitBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    const taskDateInput = document.getElementById('task-date').value;
+    
+    if (!DOM.taskDateInput.value) return; // Prevent error if date is empty
 
-    if (!taskDateInput) return; // Prevent error if date is empty
-
-
-    const [year, month, day] = taskDateInput.split('-').map(Number);
+    const [year, month, day] = DOM.taskDateInput.value.split('-').map(Number);
     renderCalendar(year, month, day);
-
     renderTaskPage();
 });
 
 
-
 // render a calender with today's date when  you first start the page and ensure tht there is a csslender loaded in all scenarios the calender should indicate thhe scenario 
-
-
 
 function renderRegularCalendar() {
     const currentDate = new Date();
@@ -353,19 +340,15 @@ function renderRegularCalendar() {
     const month = currentDate.getMonth() + 1; // Correct month index
     const day = currentDate.getDate();
 
-    const renderMonth = document.getElementById('month');
-    const renderYear = document.getElementById('year');
-
-    renderMonth.innerText = months[month - 1]; // Display month name
-    renderYear.innerText = year;
+    DOM.currMonth.innerText = months[month - 1]; // Display month name
+    DOM.currYear.innerText = year;
 
     // Get total days in the current month
     const daysInMonth = new Date(year, month, 0).getDate();
     const monthStartDay = new Date(year, month - 1, 1).getDay(); // Start day (0=Sunday)
 
     // Clear previous calendar
-    const tableBody = document.getElementById('table-body');
-    tableBody.innerHTML = '';
+    DOM.tableBody.innerHTML = '';
 
     let dayCounter = 1;
     for (let row = 0; row < 6; row++) { // Max 6 rows in a calendar
@@ -392,7 +375,7 @@ function renderRegularCalendar() {
 
             tr.appendChild(td);
         }
-        tableBody.appendChild(tr);
+        DOM.tableBody.appendChild(tr);
     }
 
 }
@@ -405,43 +388,33 @@ renderRegularCalendar();
 // ---------------------------------------------------------------CALENDER BUTTONS FUNCTIONAlITY----------------------------------------------------------
 
 //-------------------------------------------------------------left button functionality
-let lMonthArrow = document.getElementById('l-arrow-month');
+
 
 function monthLeftbtn() {
-    //get the arrow btns and the elements that must be changed
-
-
-    let yearChange = document.getElementById('year');
-    let yearNumber = parseInt(yearChange.innerText);
-    //get the month div
-
-    let currMonth = document.getElementById('month');
-
-    // month array to change according to current month position
-
+   
+    let yearNumber = parseInt(DOM.currYear.innerText);
+    
     // change the year if we click btn on january and set the month to dec
-    if (currMonth.textContent == months[0]) {
-        yearChange.textContent = yearNumber - 1;
-        currMonth.textContent = months[11];
-        daysLoader(parseInt(yearChange.textContent), months.indexOf(currMonth.textContent))
+    if (DOM.currMonth.textContent == months[0]) {
+        DOM.currYear.textContent = yearNumber - 1;
+        DOM.currMonth.textContent = months[11];
+        daysLoader(parseInt(DOM.currYear.textContent), months.indexOf(DOM.currMonth.textContent))
     }
     else {
         for (let i = 0; i < months.length; i++) {
-            if (currMonth.textContent === months[i]) {
-                currMonth.textContent = months[i - 1];
-                daysLoader(parseInt(yearChange.textContent), months.indexOf(currMonth.textContent));
+            if (DOM.currMonth.textContent === months[i]) {
+                DOM.currMonth.textContent = months[i - 1];
+                daysLoader(parseInt(DOM.currYear.textContent), months.indexOf(DOM.currMonth.textContent));
             }
         }
     }
 
-
 }
 
 
-lMonthArrow.addEventListener('click', () => {
+DOM.lMonthArrow.addEventListener('click', () => {
     monthLeftbtn();
 })
-
 
 
 // function that will fill days in the table cells according to the current month and date that is set
@@ -450,8 +423,7 @@ function daysLoader(year, month) {
     let numOfDays = 32 - new Date(year, month, 32).getDate();
     let startOfMonth = new Date(year, month, 1).getDay();
 
-    let tableBody = document.getElementById("table-body");
-    tableBody.innerHTML = ""; // Clear the previous table
+    DOM.tableBody.innerHTML = ""; // Clear the previous table
 
     let date = new Date();
     let thismonth = date.getMonth();
@@ -478,11 +450,9 @@ function daysLoader(year, month) {
                 currentDay++;
 
             }
-
             row.appendChild(cell);
         }
-
-        tableBody.appendChild(row);
+        DOM.tableBody.appendChild(row);
     }
 }
 
@@ -492,73 +462,51 @@ function daysLoader(year, month) {
 
 //-----------------------------------------------------------------------------right month button behaviour
 
-let rMonthArrow = document.getElementById('r-arrow-month');
+
 
 function rightMonthbtn() {
-    let currMonth = document.getElementById('month');
-    let currYear = document.getElementById('year');
-
-
-
-
-    if (currMonth.textContent === months[11]) {
-        let yearChange = parseInt(currYear.textContent) + 1;
-        currYear.textContent = yearChange;
-        currMonth.textContent = months[0];
-        daysLoader(yearChange, months.indexOf(currMonth.textContent))
+  
+    if (DOM.currMonth.textContent === months[11]) {
+        let yearNumber = parseInt(DOM.currYear.textContent) + 1;
+        DOM.currYear.textContent = yearNumber;
+        DOM.currMonth.textContent = months[0];
+        daysLoader(yearNumber, months.indexOf(DOM.currMonth.textContent))
     }
     else {
-        let presentYear = parseInt(currYear.textContent);
-        let changeMonth = months.indexOf(currMonth.textContent) + 1;
-        currMonth.textContent = months[changeMonth];
-        daysLoader(presentYear, months.indexOf(currMonth.textContent));
+        let yearNumber = parseInt(DOM.currYear.textContent);
+        let changeMonth = months.indexOf(DOM.currMonth.textContent) + 1;
+        DOM.currMonth.textContent = months[changeMonth];
+        daysLoader(yearNumber, months.indexOf(DOM.currMonth.textContent));
     }
 }
 
 
-rMonthArrow.addEventListener('click', () => {
+DOM.rMonthArrow.addEventListener('click', () => {
     rightMonthbtn();
 })
 
-
+ 
 
 //------------------------------------------------buttons for year---------------------------------------------------------------------
 
-//------------------------------------------------left year button
-
-let lYearArrow = document.getElementById('l-arrow-year')
-
 function leftYearBtn() {
-    let year = document.getElementById('year');
-    let changeYear = parseInt(year.innerText);
-    let month = document.getElementById('month');
-
-    year.textContent = changeYear - 1;
-
-    daysLoader(changeYear - 1, months.indexOf(month.textContent));
+    let changeYear = parseInt(DOM.currYear.innerText);
+    DOM.currYear.textContent = changeYear - 1;
+    daysLoader(changeYear - 1, months.indexOf(DOM.currMonth.textContent));
 }
 
-lYearArrow.addEventListener("click", () => {
+DOM.lYearArrow.addEventListener("click", () => {
     leftYearBtn()
 })
 
 
-//------------------------------------------------------right arrow button
-
-
-let rYearArrow = document.getElementById('r-arrow-year');
-
 function rightYearBtn() {
-    let year = document.getElementById('year');
-    let changeYear = parseInt(year.innerText);
-    let month = document.getElementById('month');
-
-    year.textContent = changeYear + 1;
-
-    daysLoader(parseInt(year.textContent), months.indexOf(month.textContent));
+    let changeYear = parseInt(DOM.currYear.innerText);
+    DOM.currYear.textContent = changeYear + 1;
+    daysLoader(parseInt(DOM.currYear.textContent), months.indexOf(DOM.currMonth.textContent));
 }
 
-rYearArrow.addEventListener('click', () => {
+DOM.rYearArrow.addEventListener('click', () => {
     rightYearBtn();
 })
 
@@ -571,11 +519,10 @@ function openEditPage(taskName, taskNotes, taskDate, taskID) {
     document.getElementById('edit-task-name').value = taskName;
     document.getElementById('edit-task-notes').value = taskNotes;
     document.getElementById('edit-task-date').value = new Date(taskDate).toISOString().slice(0, 10);
-    document.getElementById('overlay-edit').style.display = 'block';
-    addTaskBtn.classList.add('visibility');
-    document.getElementById('edit-task-container').classList.remove('visibility');
-    let taskEditor = document.getElementById('editTaskPageContainer');
-    taskEditor.style.display = 'block';
+    DOM.overlayEdit.style.display = 'block';
+    DOM.addTaskBtn.classList.add('visibility');
+    DOM.editTaskContainer.classList.remove('visibility');
+    DOM.editTaskPageContainer.style.display = 'block';
     // Store the current task ID as a data attribute for future reference
     document.getElementById('edit').setAttribute('data-id', taskID);
 
@@ -607,8 +554,6 @@ document.getElementById('day-info').addEventListener('click', function (event) {
             console.log(taskObj);
 
             editTask(taskObj.taskID, taskObj.taskName, taskObj.taskNotes, taskObj.taskDate).then(() => {
-                let taskDayInfo = document.getElementById('day-info');
-                // addTaskToUI(taskObj, taskDayInfo);
                 closeEditPage();
             });
         });
@@ -626,10 +571,6 @@ document.getElementById('day-info').addEventListener('click', function (event) {
         deleteSpecificTask(taskID, deleteTaskDiv)
     }
 })
-
-
-
-
 
 
 //---------------------------- REMOVE THE ADDED TASK DIV WHEN USER CLICKS CHECKBOX------------------------------------------
@@ -675,18 +616,15 @@ document.getElementById('day-info').addEventListener('click', function (event) {
 
 
 function displayNoTasksMessage(message) {
-    let taskDayInfo = document.getElementById('day-info');
     let taskDiv = document.createElement('div');
     taskDiv.innerHTML = `<h4 id="no-tasks">${message}</h4>`;
-    taskDayInfo.appendChild(taskDiv);
+    DOM.taskDayInfo.appendChild(taskDiv);
 }
 
 function clearTasks() {
     let taskDivs = document.querySelectorAll('.task-added');
     taskDivs.forEach(task => task.remove());
-
-    let noTasksDiv = document.querySelector('#day-info #no-tasks');
-    if (noTasksDiv) noTasksDiv.remove();
+    if (DOM.noTasksDiv) DOM.noTasksDiv.remove();
 }
 
 
@@ -698,10 +636,8 @@ function getDataFromBackend(year, month, selectedDay) {
     // hideExtraPages();
     clearUI()
 
-
     let reqTaskDate = new Date(Date.UTC(year, month - 1, selectedDay)).toISOString().split('T')[0];
 
-    let taskDayInfo = document.getElementById('day-info');
     console.log(reqTaskDate)
     console.log(selectedDay)
 
@@ -727,10 +663,6 @@ function getDataFromBackend(year, month, selectedDay) {
         return;
     }
 
-    // Clear previous tasks
-    // document.querySelectorAll('#day-info .task-added').forEach(task => task.remove());
-    // let noTasksDiv = document.querySelector('#day-info #no-tasks');
-    // if (noTasksDiv) noTasksDiv.remove();
     console.log("Token being sent:", authToken);
     const url = `${CONFIG.backendUrl}/api/user/tasks/fetch?year=${year}&month=${month}&day=${selectedDay}&userID=${userId}`;
 
@@ -772,7 +704,7 @@ function getDataFromBackend(year, month, selectedDay) {
                                 </div>
                             </div>`;
 
-                    taskDayInfo.appendChild(taskDiv);
+                    DOM.taskDayInfo.appendChild(taskDiv);
 
                 }
             });
@@ -848,7 +780,7 @@ dateCells.forEach((day) => {
         // Convert month name to number efficiently
         month = months.indexOf(month) + 1;
 
-        let navHeader = document.querySelector('h2');
+        
         let selectedDate = `${year}-${month}-${selectedDay}`;
         // selectedDate = selectedDate.toISOString().split('T')[0];
         // Fix "TODAY" comparison
@@ -863,12 +795,12 @@ dateCells.forEach((day) => {
         console.log(tomorrow) // "YYYY-MM-DD"
         console.log(selectedDate)
         if (selectedDate === today) {
-            navHeader.innerText = 'Today';
+            DOM.navHeader.innerText = 'Today';
         } else if (selectedDate === tomorrow) {
-            navHeader.innerText = 'Tommorow';
+            DOM.navHeader.innerText = 'Tommorow';
         }
         else {
-            navHeader.innerText = selectedDate;
+            DOM.navHeader.innerText = selectedDate;
         }
 
         // Fetch tasks for the selected date
@@ -889,32 +821,29 @@ function clearUI() {
         if (element) element.style.display = 'none';
     });
 
-    let taskDayInfo = document.getElementById('day-info');
     document.querySelectorAll('.task-added').forEach(task => task.remove());
 
-    let noTasksDiv = document.querySelector('#day-info #no-tasks');
-    if (noTasksDiv) noTasksDiv.remove();
+    if (DOM.noTasksDiv) DOM.noTasksDiv.remove();
 
     let dateCells = document.querySelectorAll('#table-body tr td');
     dateCells.forEach(cell => cell.style.backgroundColor = 'aqua');
 }
 
 function renderTasks(tasks, filterType) {
-    let taskDayInfo = document.getElementById('day-info');
-    let navHeader = document.querySelector('h2');
+   
     let filteredTasks = tasks;
 
     if (filterType === 'completed') {
-        navHeader.innerText = "Completed";
+        DOM.navHeader.innerText = "Completed";
         filteredTasks = tasks.filter(task => task.completed);
     } else {
-        navHeader.innerText = "All Tasks";
+        DOM.navHeader.innerText = "All Tasks";
     }
 
     if (filteredTasks.length === 0) {
         let taskDiv = document.createElement('div');
         taskDiv.innerHTML = `<h4 id="no-tasks">${filterType === 'completed' ? "No tasks completed" : "No tasks created."}</h4>`;
-        taskDayInfo.appendChild(taskDiv);
+        DOM.taskDayInfo.appendChild(taskDiv);
         return;
     }
 
@@ -937,7 +866,7 @@ function renderTasks(tasks, filterType) {
                     <div id="Edit-task" class="Edit-task">Edit task</div>
                 </div>
             `;
-        taskDayInfo.appendChild(taskDiv);
+        DOM.taskDayInfo.appendChild(taskDiv);
     });
 }
 
@@ -948,8 +877,6 @@ function renderTasks(tasks, filterType) {
 function fetchAndDisplayTasks(filterType) {
     clearUI();
 
-    let taskDayInfo = document.getElementById('day-info');
-    let navHeader = document.querySelector('h2');
     let url = `${CONFIG.backendUrl}/api/user/tasks/alltasks`;
     
     let calenderDate = new Date()
@@ -969,7 +896,7 @@ function fetchAndDisplayTasks(filterType) {
             console.log('Tasks retrieved:', data);
             let filteredTasks = data;
             if(filterType === "Today"){
-                navHeader.innerText = 'Today';
+                DOM.navHeader.innerText = 'Today';
                 const today = new Date();
                 const year = today.getFullYear()
                 const month = String((today.getMonth() + 1)).padStart(2, '0')
@@ -982,16 +909,16 @@ function fetchAndDisplayTasks(filterType) {
                 date.setDate(date.getDate() + 1);
                 let targetDate =date.toISOString().split('T')[0];
                 
-                navHeader.innerText = 'Tomorrow';
+                DOM.navHeader.innerText = 'Tomorrow';
                 filteredTasks = data.filter(task => task.taskDate.split('T')[0] == targetDate && task.completed == false);
                 console.log(targetDate)
             } else if (filterType === "completed") {
-                navHeader.innerText = 'Completed';
+                DOM.navHeader.innerText = 'Completed';
                 filteredTasks = data.filter(task => task.completed);
                 console.log(filteredTasks)
             }
             else if (filterType === "All Tasks") {
-                navHeader.innerText = 'All Tasks';
+                DOM.navHeader.innerText = 'All Tasks';
                 filteredTasks = data.filter(task => task);
                 console.log(filteredTasks)
             }
@@ -1018,10 +945,10 @@ function fetchAndDisplayTasks(filterType) {
                             </div>`;
                     console.log('Task div created:', taskDiv);
 
-                    taskDayInfo.append(taskDiv);
+                    DOM.taskDayInfo.append(taskDiv);
                 });
             } else {
-                taskDayInfo.innerHTML = `<h4 id="no-tasks">No tasks found.</h4>`;
+                DOM.taskDayInfo.innerHTML = `<h4 id="no-tasks">No tasks found.</h4>`;
             }
         });
 
@@ -1148,8 +1075,8 @@ async function editTask(taskID, taskName, taskNotes, taskDate) {
         })
         .then(data => {
             console.log('Task updated successfully:', data);
-            let taskDayInfo = document.getElementById('day-info');
-            addTaskToUI(updatedTask, taskDayInfo);
+           
+            addTaskToUI(updatedTask, DOM.taskDayInfo);
         })
         .catch(error => console.error('Error updating task:', error));
 }
@@ -1214,7 +1141,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function showPage(pageId, title) {
-    let navHeader = document.querySelector('#nav-header h2');
     let pages = ['feedb', 'settings', 'help']; // List of page IDs
     pages.forEach(id => {
         let page = document.getElementById(id);
@@ -1236,7 +1162,7 @@ function showPage(pageId, title) {
     selectedPage.style.flexDirection = 'column';
 
     // Update header
-    navHeader.innerText = title;
+    DOM.navHeader.innerText = title;
 
     // Hide nav menu after selection
     document.getElementById('nav-menu-links').classList.add('visibility');
@@ -1572,7 +1498,7 @@ async function loginUser(email, password) {
         localStorage.setItem("userID", data.userID);
         //   console.log(userID);
         alert("Login successful!");
-        window.location.href = "http://127.0.0.1:5500/public/index.html";
+        window.location.href = "/";
     } else {
         alert(data.msg);
     }
