@@ -1268,6 +1268,7 @@ async function fetchWeatherByLocation() {
                 } catch (error) {
                     console.error("Weather fetch error:", error);
                     document.getElementById("weather-card").innerHTML = `<p>Failed to load weather</p>`;
+                    startLocalTimeClock();
                 }
             },
             (error) => {
