@@ -1124,14 +1124,18 @@ ul li:hover {
     display: none; 
     z-index: 49;
 }
+.overlay-login:hover{
+    cursor: pointer;
+}
 
 
 .login-page{
-    position: fixed;
-     top: 0;
+    position: fixed;    
+     top: 40%;
+     bottom: 40%;
      left: 10%;
      width: 80%;
-     height: 100%;
+    
      flex-direction: column;
      justify-content: center;
      align-items: center;
@@ -1147,7 +1151,7 @@ ul li:hover {
     padding: 10px;
     align-items: center;
     justify-content:center;
-   
+   height: auto;
 }
 
 
@@ -1160,6 +1164,8 @@ ul li:hover {
     justify-content: space-between;
     font-size: 1.5rem;
     border-radius: 18px;
+    height: auto;
+    
 }
 .signup-card{
     margin-left: 10px;
@@ -1171,6 +1177,7 @@ ul li:hover {
     font-size: 1.5rem;
     border-radius: 18px;
     text-align: end;
+     height: auto;
 }
 
 
@@ -1312,19 +1319,16 @@ ul li:hover {
 
 .login-page{
      position: fixed;
-     top: 10%;
-     left: 10%;
-     
-     
-     width: 80%;
-     height: 80%;
+     top: 30%;
+     bottom: 30%;
+     left: 20%;
+     right: 20%;
+     width: 60%;
      display: none;
      flex-direction: column;
      justify-content: space-around;
      align-items: center;
     z-index: 51;
-    
-    
 }
 
 
@@ -1334,7 +1338,7 @@ ul li:hover {
     
     align-items: center;
     justify-content:center;
-   
+   height: auto;
 }
 
 
@@ -1347,6 +1351,8 @@ ul li:hover {
     flex-direction: column;
     justify-content: space-around;
     text-align: center;
+    height: 100%;
+    width: 100%;
 }
 .signup-card{
     margin-top: 20px;
@@ -1357,6 +1363,8 @@ ul li:hover {
     border-radius: 10px;
     background-color:silver;
     text-align: center;
+    height: 100%;
+    width: 100%;
 }
 
 #usernameForm{

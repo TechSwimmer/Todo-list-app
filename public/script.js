@@ -22,6 +22,10 @@ const DOM = {
     taskContainer : document.querySelector('.task-container'),
     addTaskBtn : document.querySelector('.add-task-icon'),
     taskSubmitBtn : document.getElementById('create'),
+    // edit-task DOM
+    editTaskName : document.getElementById('edit-task-name'),
+    editTaskNotes : document.getElementById('edit-task-notes'),
+    editTaskDate : document.getElementById('edit-task-date'),
     // the msg to be displayed when no tass noTasksDiv
     noTasksDiv : document.querySelector('#day-info #no-tasks'),
     // calendar related
@@ -36,7 +40,32 @@ const DOM = {
     navLinks : document.querySelector('ul'),
     listButton : document.querySelector('#toggle-nav-menu'),
     backbtn : document.querySelector('#back-btn'),
-    navHeader : document.querySelector('#nav-header h2')
+    navHeader : document.querySelector('#nav-header h2'),
+    feedbackLink : document.getElementById('feedback-link'),
+    helpLink : document.getElementById('help-link'),
+    settingsLink : document.getElementById('settings-link'),
+    
+    //feedback-form
+    feebdName :   document.getElementById("feedb-name"), 
+    feedbEmail : document.getElementById("feedb-email"),
+    feedbExperience :  document.getElementById("feedb-experience"),
+    feedbSatisfaction : document.getElementById("feedb-satisfaction"),
+    feedbImprovement : document.getElementById("feedb-improvement"),
+    feedbIssues : document.getElementById("feedb-issues"),
+    // nav btns logn/signup DOMs
+    loginNavBtn : document.querySelector('#login-signup-link'),
+    overlayLogin : document.querySelector('.overlay-login'),
+    loginPage : document.querySelector('.login-page'),
+
+    //signup DOMs 
+    signupContainer : document.querySelector('.signup-container'),
+    overlaySignupContainer : document.querySelector('.overlay-signup-container'),
+    signupBtn : document.querySelector('#signup-button'),
+
+    // login DOMs
+    loginBtn : document.querySelector('#login-button'),
+    overlayLoginContainer : document.querySelector('.overlay-login-container'),
+    loginUserPage : document.querySelector('.login-container')
 }
 
 
@@ -288,8 +317,6 @@ function renderCalendar(year, month, date) {
     // remove bg styles for date cells
     removeDateBg();
 
-
-
     //render the dates of the month in proper order
     let dateCounter = 1;
     for (let row = 0; row < 6; row++) { // Max 6 rows
@@ -515,10 +542,9 @@ DOM.rYearArrow.addEventListener('click', () => {
 
 function openEditPage(taskName, taskNotes, taskDate, taskID) {
 
-
-    document.getElementById('edit-task-name').value = taskName;
-    document.getElementById('edit-task-notes').value = taskNotes;
-    document.getElementById('edit-task-date').value = new Date(taskDate).toISOString().slice(0, 10);
+    DOM.editTaskName.value = taskName;
+    DOM.editTaskNotes.value = taskNotes;
+    DOM.editTaskDate.value = new Date(taskDate).toISOString().slice(0, 10);
     DOM.overlayEdit.style.display = 'block';
     DOM.addTaskBtn.classList.add('visibility');
     DOM.editTaskContainer.classList.remove('visibility');
@@ -606,28 +632,18 @@ document.getElementById('day-info').addEventListener('click', function (event) {
 });
 
 
-
-
-
-
-
-
-
-
-
 function displayNoTasksMessage(message) {
-    let taskDiv = document.createElement('div');
-    taskDiv.innerHTML = `<h4 id="no-tasks">${message}</h4>`;
-    DOM.taskDayInfo.appendChild(taskDiv);
+    let noTasksDiv = document.createElement('div');
+    noTasksDiv.innerHTML = `<h4 id="no-tasks">${message}</h4>`;
+    DOM.taskDayInfo.appendChild(noTasksDiv);
 }
 
 function clearTasks() {
     let taskDivs = document.querySelectorAll('.task-added');
     taskDivs.forEach(task => task.remove());
-    if (DOM.noTasksDiv) DOM.noTasksDiv.remove();
+    let noTasksDiv = document.querySelectorAll('#no-tasks');
+    noTasksDiv.forEach(task => task.remove());
 }
-
-
 
 
 // Function to display tasks for a selected date
@@ -635,11 +651,8 @@ function getDataFromBackend(year, month, selectedDay) {
     // Remove help and settings pages
     // hideExtraPages();
     clearUI()
-
+    clearTasks()
     let reqTaskDate = new Date(Date.UTC(year, month - 1, selectedDay)).toISOString().split('T')[0];
-
-    console.log(reqTaskDate)
-    console.log(selectedDay)
 
     const authToken = localStorage.getItem('authToken');
     if (!authToken) {
@@ -648,14 +661,10 @@ function getDataFromBackend(year, month, selectedDay) {
         return;
     }
     const userId = localStorage.getItem('userID');
-    console.log(userId)
-    console.log(authToken);
-
+    
     try {
         const payload = JSON.parse(atob(authToken.split('.')[1])); // Decode JWT payload
         // userId = payload.userID;
-
-        console.log(payload)
         
     } catch (error) {
         console.error("Failed to decode token:", error.message);
@@ -663,7 +672,6 @@ function getDataFromBackend(year, month, selectedDay) {
         return;
     }
 
-    console.log("Token being sent:", authToken);
     const url = `${CONFIG.backendUrl}/api/user/tasks/fetch?year=${year}&month=${month}&day=${selectedDay}&userID=${userId}`;
 
     fetch(url, {
@@ -673,7 +681,6 @@ function getDataFromBackend(year, month, selectedDay) {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             let updatedTask;
             if (Array.isArray(data)) {
                 updatedTask = data.filter(task => task.taskDate.split('T')[0] === reqTaskDate);
@@ -684,7 +691,6 @@ function getDataFromBackend(year, month, selectedDay) {
 
             if (updatedTask.length === 0) {
                 displayNoTasksMessage("No tasks for the day.");
-
                 return;
             }
 
@@ -726,18 +732,16 @@ function getDataFromBackend(year, month, selectedDay) {
 function handleDateClick(year, month, currentDay) {
     let dateCells = document.querySelectorAll('#table-body td');
     // remove prev styling
-
     removeDateBg();
-
+    
     dateCells.forEach((date) => {
         date.addEventListener('click', () => {
             // capture the month and year in a variable
-            let currYear = Number(document.querySelector('#year').innerText);
-            let currMonth = document.querySelector('#month').innerText.trim();
+            let currYear = Number(DOM.currYear.innerText);
+            let currMonth = DOM.currMonth.innerText.trim();
             let selectedDate = date.innerText.trim();
 
             let currMonthInNumber
-
 
             for (let i = 0; i <= months.length; i++) {
                 if (currMonth == months[i]) {
@@ -746,7 +750,7 @@ function handleDateClick(year, month, currentDay) {
             }
             console.log(currYear, currMonthInNumber, currYear)
             if (!selectedDate) { return; }
-
+           
             getDataFromBackend(currYear, currMonthInNumber, selectedDate);
 
         })
@@ -807,9 +811,6 @@ dateCells.forEach((day) => {
         console.log(year, month, selectedDay)
 
         getDataFromBackend(year, month, selectedDay);
-
-
-
     });
 });
 
@@ -871,12 +872,9 @@ function renderTasks(tasks, filterType) {
 }
 
 
-
-
-
 function fetchAndDisplayTasks(filterType) {
     clearUI();
-
+    clearTasks();
     let url = `${CONFIG.backendUrl}/api/user/tasks/alltasks`;
     
     let calenderDate = new Date()
@@ -986,8 +984,8 @@ setupTaskButton('Today', 'Today')
 
 function renderCalendarWRTCond(year, month, day) {
     console.log(year, month, day);
-    document.getElementById('month').innerText = months[month];
-    document.getElementById('year').innerText = year;
+    DOM.currMonth.innerText = months[month];
+    DOM.currYear.innerText = year;
 
     //clear the prev datecells styles
     removeDateBg();
@@ -1063,7 +1061,6 @@ function deleteSpecificTask(taskID, taskDiv) {
 async function editTask(taskID, taskName, taskNotes, taskDate) {
 
     const updatedTask = { taskName, taskNotes, taskDate };
-    console.log(taskID);
     return fetch(`${CONFIG.backendUrl}/api/user/tasks/update/${taskID}`, {
         method: 'PUT',
         headers: { 'content-type': 'application/json',"Authorization":`Bearer ${localStorage.getItem('authToken')}` },
@@ -1081,19 +1078,13 @@ async function editTask(taskID, taskName, taskNotes, taskDate) {
         .catch(error => console.error('Error updating task:', error));
 }
 
-
 //  function that would delete all completed tasks when the delete completed btn is clicked
 
 async function deleteCompletedTasks() {
     if (!confirm('Are you sure to delete all tasks? This action is irreversible.')) return;
 
-    
     const token = localStorage.getItem('authToken');
-  ;
     
-
-
-
     try {
         const response = await fetch(`${CONFIG.backendUrl}/api/tasks/delete-completed`, {
             method: 'DELETE',
@@ -1131,13 +1122,12 @@ function removeDateBg() {
 
 
 
-
 // feedback settings and help page display logic
 
 document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById('feedback-link').onclick = () => showPage('feedb', 'Feedback');
-    document.getElementById('help-link').onclick = () => showPage('help', 'Help');
-    document.getElementById('settings-link').onclick = () => showPage('settings', 'Settings');
+    DOM.feedbackLink.onclick = () => showPage('feedb', 'Feedback');
+    DOM.helpLink.onclick = () => showPage('help', 'Help');
+    DOM.settingsLink.onclick = () => showPage('settings', 'Settings');
 });
 
 function showPage(pageId, title) {
@@ -1185,26 +1175,23 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
 
         const formData = {
-            name: document.getElementById("feedb-name").value.trim(),
-            email: document.getElementById("feedb-email").value.trim(),
-            experience: document.getElementById("feedb-experience").value,
-            satisfaction: document.getElementById("feedb-satisfaction").value,
-            improvement: document.getElementById("feedb-improvement").value.trim(),
-            issues: document.getElementById("feedb-issues").value.trim(),
+            name: DOM.feebdName.value.trim(),
+            email: DOM.feedbEmail.value.trim(),
+            experience: DOM.feedbExperience.value,
+            satisfaction: DOM.feedbSatisfaction.value,
+            improvement: DOM.feedbImprovement.value.trim(),
+            issues: DOM.feedbIssues.value.trim(),
         }
 
         try {
-            const response = await fetch(`${CONFIG.backendUrl}/submit-feedback`, {
+            const response = await fetch(`${CONFIG.backendUrl}/api/submit-feedback`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
             })
-
-
-            // console.log(result);
-
+        
             if (response.ok) {
                 alert("Feedback submitted successfully!")
                 feedbackForm.reset()
@@ -1311,100 +1298,80 @@ fetchWeatherByLocation();
 
 // login page and overlay logic 
 
-const loginNavBtn = document.querySelector('#login-signup-link');
-const overlayLogin = document.querySelector('.overlay-login');
-const loginPage = document.querySelector('.login-page');
-
 function closeOverlayLogin() {
-    overlayLogin.style.display = 'none';
-    loginPage.style.display = 'none';
+    DOM.overlayLogin.style.display = 'none';
+    DOM.loginPage.style.display = 'none';
     const mediaQuery = window.matchMedia('(max-width:1280px)');
     handleMediaQueryChange(mediaQuery);
     mediaQuery.addEventListener('change', handleMediaQueryChange);
 }
 
-loginNavBtn.addEventListener('click', openOverlayLogin)
+DOM.loginNavBtn.addEventListener('click', openOverlayLogin)
 function openOverlayLogin() {
-    overlayLogin.style.display = 'block';
-    loginPage.style.display = 'flex';
+    DOM.overlayLogin.style.display = 'block';
+    DOM.loginPage.style.display = 'flex';
     const mediaQuery = window.matchMedia('(max-width:1280px)');
     handleMediaQueryChange(mediaQuery);
     mediaQuery.addEventListener('change', handleMediaQueryChange);
 }
 
 
-overlayLogin.addEventListener('click', closeOverlayLogin)
+DOM.overlayLogin.addEventListener('click', closeOverlayLogin)
 
 
 // login btn functionality
 
-const loginBtn = document.querySelector('#login-button');
-const overlayLoginContainer = document.querySelector('.overlay-login-container');
+
+
 
 // function to open user-login page
 function showLoginPage() {
-    const loginUserPage = document.querySelector('.login-container');
-    loginUserPage.style.display = 'flex';
-
-    loginPage.style.display = 'none';
-    overlayLoginContainer.style.display = 'block';
+    DOM.loginUserPage.style.display = 'flex';
+    DOM.loginPage.style.display = 'none';
+    DOM.overlayLoginContainer.style.display = 'block';
     closeOverlayLogin();
 
 }
 // function to close user-login page
 function closeLoginPage() {
-    const loginUserPage = document.querySelector('.login-container');
-    loginUserPage.style.display = 'none';
-    overlayLoginContainer.style.display = 'none';
+    DOM.loginUserPage.style.display = 'none';
+    DOM.overlayLoginContainer.style.display = 'none';
 }
 
+DOM.overlayLoginContainer.addEventListener('click', closeLoginPage);
 
 
-overlayLoginContainer.addEventListener('click', closeLoginPage);
-
-
-
-
-loginBtn.addEventListener('click', showLoginPage);
+DOM.loginBtn.addEventListener('click', showLoginPage);
 
 
 //open signup page
-const signupContainer = document.querySelector('.signup-container');
-const overlaySignupContainer = document.querySelector('.overlay-signup-container');
 
-overlaySignupContainer.addEventListener('click', () => {
+DOM.overlaySignupContainer.addEventListener('click', () => {
     closeSignupPage();
     closeLoginPage();
 })
 
 function openSignupPage() {
-    loginPage.style.display = 'none';
-    signupContainer.style.display = 'flex';
-    overlaySignupContainer.style.display = 'block';
-    overlayLogin.style.display = 'none';
-
+    DOM.loginPage.style.display = 'none';
+    DOM.signupContainer.style.display = 'flex';
+    DOM.overlaySignupContainer.style.display = 'block';
+    closeOverlayLogin()
 }
-
-
-
 
 //close signup page
 
 function closeSignupPage() {
-    signupContainer.style.display = 'none';
-    overlaySignupContainer.style.display = 'none';
+    DOM.signupContainer.style.display = 'none';
+    DOM.overlaySignupContainer.style.display = 'none';
 }
 
 // this is the first signup btn the user clicks it takes them to the sign up details page
-const signupBtn = document.querySelector('#signup-button');
 
-signupBtn.addEventListener('click', () => {
+
+DOM.signupBtn.addEventListener('click', () => {
     openSignupPage();
     closeLoginPage();
 })
-
-
-
 
 
 const signupForm = document.querySelector('.signup-form');
