@@ -1240,7 +1240,7 @@ async function fetchWeatherByLocation() {
                 const lat = position.coords.latitude;
                 const lon = position.coords.longitude;
                 const apiKey = "385ebe3296094d3d87564644250503";
-                const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`;
+                const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${lat},${lon}`;
 
                 try {
                     const response = await fetch(url);
