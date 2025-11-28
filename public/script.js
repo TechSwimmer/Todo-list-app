@@ -1465,7 +1465,7 @@ async function loginUser(email, password) {
         localStorage.setItem("userID", data.userID);
         //   console.log(userID);
         alert("Login successful!");
-        window.location.href = "/";
+        window.location.href = "https://todotasknest.netlify.app/";
     } else {
         alert(data.msg);
     }
