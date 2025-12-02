@@ -37,7 +37,10 @@ const addUserTask =  async(req, res) => {
 // Delete user specific task
 
 const deleteUserTask = async (req,res) => {
-    await todoApp.findOneAndDelete({_id: req.params.id, userID: req.user.id});
+    let result =  await todoApp.findOneAndDelete({_id: req.params.id, userID: req.headers.userid});
+    if (!result) {
+    return res.status(404).json({ msg: "Task not found or not authorized" });
+}
     res.json({msg: "Task deleted"});
 }
 
