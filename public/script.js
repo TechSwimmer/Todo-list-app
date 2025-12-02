@@ -3,7 +3,7 @@
 // =====================
 const DOM = {
     navMenuLinks : document.getElementById('nav-menu-links'),
-    backbtn : document.getElementById('back-btn'),
+    
     toggleNavMenu : document.getElementById('toggle-nav-menu'),
     taskDayInfo : document.getElementById('day-info'),
     feedbackPage : document.getElementById('feedb'),
@@ -16,12 +16,14 @@ const DOM = {
     overlayCreate : document.getElementById('overlay-create'),
     overlayEdit : document.getElementById('overlay-edit'),
     taskNameInput : document.getElementById('task-name'),
-    taskNameInput : document.getElementById('task-name'),
+    
     taskNotesInput : document.getElementById('task-notes'),
     taskDateInput : document.getElementById('task-date'),
     taskContainer : document.querySelector('.task-container'),
     addTaskBtn : document.querySelector('.add-task-icon'),
     taskSubmitBtn : document.getElementById('create'),
+    // edit-tas btn
+    editBtn : document.getElementById('edit'),
     // edit-task DOM
     editTaskName : document.getElementById('edit-task-name'),
     editTaskNotes : document.getElementById('edit-task-notes'),
@@ -97,15 +99,7 @@ arrowElements.forEach(({ element, defaultWidth }) => {
 });
 
 
-//------------------------exp----------------------------
-
-
-
-
-
 // ------------------------------------------------add-task-icon btn use and add-task page dynamism.-----------------------------------------
-
-
 
 function openTaskPage() {
     // Use CSS classes for visibility 
@@ -473,7 +467,7 @@ function daysLoader(year, month) {
                 if (currentDay === todayDate && year === thisyear && month === thismonth) {
                     cell.classList.add("highlight"); // Apply highlight class
                 }
-                cell.addEventListener('click', () => handleDateClick(year, month, currentDay)); // Fix event loss
+               
                 currentDay++;
 
             }
@@ -550,11 +544,11 @@ function openEditPage(taskName, taskNotes, taskDate, taskID) {
     DOM.editTaskContainer.classList.remove('visibility');
     DOM.editTaskPageContainer.style.display = 'block';
     // Store the current task ID as a data attribute for future reference
-    document.getElementById('edit').setAttribute('data-id', taskID);
+    DOM.editBtn.setAttribute('data-id', taskID);
 
 }
 
-document.getElementById('day-info').addEventListener('click', function (event) {
+DOM.taskDayInfo.addEventListener('click', function (event) {
     if (event.target && event.target.classList.contains('Edit-task')) {
         const edittaskDiv = event.target.closest('.task-added');
         const taskID = edittaskDiv.getAttribute('data-id');
@@ -564,15 +558,15 @@ document.getElementById('day-info').addEventListener('click', function (event) {
         edittaskDiv.remove();
         console.log(edittaskNotes)
         openEditPage(edittaskName, edittaskNotes, edittaskDate, taskID);
-        const editBtn = document.getElementById('edit');
-        editBtn.replaceWith(editBtn.cloneNode(true)); // Remove old listeners
+        // const editBtn = document.getElementById('edit');
+        DOM.editBtn.replaceWith(DOM.editBtn.cloneNode(true)); // Remove old listeners
         document.getElementById('edit').addEventListener('click', () => {
-            let taskDate = document.querySelector('.edit-task-date').value;
-            let userNoteInput = document.querySelector('.edit-task-notes').value;
+            let taskDate = DOM.editTaskDate.value;
+            let userNoteInput = DOM.editTaskNotes.value;
 
             const taskObj = {
                 taskID,
-                taskName: document.querySelector('.edit-task-name').value,
+                taskName: DOM.editTaskName.value,
                 taskNotes: userNoteInput,
                 taskDate: new Date(taskDate).toISOString().slice(0, 10)
             };
@@ -588,11 +582,10 @@ document.getElementById('day-info').addEventListener('click', function (event) {
 
 // Remove the specific task when a user clicks delete specific task
 
-document.getElementById('day-info').addEventListener('click', function (event) {
+DOM.taskDayInfo.addEventListener('click', function (event) {
     if (event.target && event.target.classList.contains('Delete-task')) {
-
         const deleteTaskDiv = event.target.closest('.task-added')
-        let taskID = deleteTaskDiv.getAttribute('data-Id')
+        let taskID = deleteTaskDiv.getAttribute('data-id')
         console.log(taskID)
         deleteSpecificTask(taskID, deleteTaskDiv)
     }
@@ -601,8 +594,7 @@ document.getElementById('day-info').addEventListener('click', function (event) {
 
 //---------------------------- REMOVE THE ADDED TASK DIV WHEN USER CLICKS CHECKBOX------------------------------------------
 
-
-document.getElementById('day-info').addEventListener('click', function (event) {
+DOM.taskDayInfo.addEventListener('click', function (event) {
     if (event.target && event.target.classList.contains('task-done')) {
         const taskDiv = event.target.closest('.task-added');
 
@@ -726,93 +718,43 @@ function getDataFromBackend(year, month, selectedDay) {
 
 }
 
-
-// Function to handle date selection from the calendar
-
-function handleDateClick(year, month, currentDay) {
-    let dateCells = document.querySelectorAll('#table-body td');
-    // remove prev styling
-    removeDateBg();
-    
-    dateCells.forEach((date) => {
-        date.addEventListener('click', () => {
-            // capture the month and year in a variable
-            let currYear = Number(DOM.currYear.innerText);
-            let currMonth = DOM.currMonth.innerText.trim();
-            let selectedDate = date.innerText.trim();
-
-            let currMonthInNumber
-
-            for (let i = 0; i <= months.length; i++) {
-                if (currMonth == months[i]) {
-                    currMonthInNumber = i + 1;
-                }
-            }
-            console.log(currYear, currMonthInNumber, currYear)
-            if (!selectedDate) { return; }
-           
-            getDataFromBackend(currYear, currMonthInNumber, selectedDate);
-
-        })
-    })
-}
-
-
 function formatDate(dateString) {
     let [year, month, day] = dateString.split('-'); // Split into parts
     return `${year}-${parseInt(month)}-${parseInt(day)}`; // Convert to number to remove leading zeros
 }
 
-let dateCells = document.querySelectorAll('#table-body td')
-dateCells.forEach((day) => {
+DOM.tableBody.addEventListener('click',(e) => {
+    const cell = e.target;
+    if(cell.tagName !== "TD" || !cell.innerText) {return}
+    removeDateBg();
 
-    let dateCells = document.querySelectorAll('#table-body td')
-    day.style.backgroundColor = '';
-    day.addEventListener('click', () => {
-        // Reset all cells
-        removeDateBg()
+    cell.style.backgroundColor = 'blue';
+    const year = Number(DOM.currYear.innerText);
+    const month = months.indexOf(DOM.currMonth.innerText)+1;
+    const day = Number(cell.innerText);
 
-        // Highlight selected day
-        day.style.backgroundColor = 'blue';
+    const selectedDate = `${year}-${month}-${day}`
 
-        let month = document.getElementById('month').innerText;
-        let year = document.getElementById('year').innerText;
-        let selectedDay = day.innerText;
+    // today/tomorrow logic
+    let today = new Date().toISOString().split('T')[0];
+    let tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow = tomorrow.toISOString().split('T')[0];
+    // set the date in correct format for proper comparison
+    today = formatDate(today);
+    tomorrow = formatDate(tomorrow);
 
-        if (!selectedDay) return;
-
-        // Convert month name to number efficiently
-        month = months.indexOf(month) + 1;
-
-        
-        let selectedDate = `${year}-${month}-${selectedDay}`;
-        // selectedDate = selectedDate.toISOString().split('T')[0];
-        // Fix "TODAY" comparison
-        let today = new Date().toISOString().split('T')[0];
-        let tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow = tomorrow.toISOString().split('T')[0];
-        // set the date in correct format for proper comparison
-        today = formatDate(today);
-        tomorrow = formatDate(tomorrow);
-
-        console.log(tomorrow) // "YYYY-MM-DD"
-        console.log(selectedDate)
-        if (selectedDate === today) {
-            DOM.navHeader.innerText = 'Today';
-        } else if (selectedDate === tomorrow) {
-            DOM.navHeader.innerText = 'Tommorow';
-        }
-        else {
-            DOM.navHeader.innerText = selectedDate;
-        }
-
-        // Fetch tasks for the selected date
-        console.log(year, month, selectedDay)
-
-        getDataFromBackend(year, month, selectedDay);
-    });
-});
+    if(selectedDate == today){
+        DOM.navHeader.innerText = 'Today'
+    }
+    else if(selectedDate === tomorrow){
+        DOM.navHeader.innerText = 'Tomorrow'
+    }
+    else{
+        DOM.navHeader.innerText = selectedDate;
+    }
+    getDataFromBackend(year,month,day)
+})
 
 
 function clearUI() {
@@ -1036,12 +978,13 @@ function addTaskToUI(task, container) {
 
 function deleteSpecificTask(taskID, taskDiv) {
     if (!confirm('This task will be removed. This action is irreversible.')) return;
-    let url = `${CONFIG.backendUrl}/api/tasks/delete/${taskID}`;
+    let url = `${CONFIG.backendUrl}/api/user/tasks/delete/${taskID}`;
     fetch(url, {
         method: 'DELETE',
         headers: {
             'content-type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+            'userid':localStorage.getItem("userID")
         },
         
     })
@@ -1094,7 +1037,7 @@ async function deleteCompletedTasks() {
         const data = await response.json();
         console.log("Delete completed:", data);
         alert(data.message);
-        document.getElementById('day-info').innerHTML = '';
+        DOM.taskDayInfo.innerHTML = '';
 
     }
     catch (err) {
