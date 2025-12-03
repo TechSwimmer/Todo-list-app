@@ -1423,9 +1423,22 @@ function logoutUser() {
     updateAuthBtn(); // toggle login/logout btns 
     clearTasks();
     clearUI();
+    closeMobileMenuIfOpen();
 }
 
 DOM.navLogout.addEventListener('click', (e) => {
     e.preventDefault();
     logoutUser();
 })
+
+// mobile view menu closer
+function closeMobileMenuIfOpen() {
+    const mq = window.matchMedia("(max-width:1280px)");
+    if (!mq.matches) return;
+    DOM.navMenuLinks.classList.add("visibility");
+    DOM.backbtn.classList.add("visibility");
+    DOM.toggleNavMenu.classList.add("invisibility");
+    DOM.taskDayInfo.style.display = "block";
+
+    handleMediaQueryChange(mq);
+}
