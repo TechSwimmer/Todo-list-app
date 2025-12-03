@@ -156,9 +156,6 @@ DOM.overlayEdit.addEventListener('click', function () {
 // task page elements and behaviour to load them in the day-info page updating the day-info heading to the date supplied.
 
 // elements required for rendering the task page
-
-
-
 async function renderTaskPage() {
     const taskName = DOM.taskNameInput.value.trim();
     const taskNotes = DOM.taskNotesInput.value.trim() || "No Task Notes.";
@@ -403,13 +400,9 @@ function renderRegularCalendar() {
 
 renderRegularCalendar();
 
-
-
-
 // ---------------------------------------------------------------CALENDER BUTTONS FUNCTIONAlITY----------------------------------------------------------
 
 //-------------------------------------------------------------left button functionality
-
 
 function monthLeftbtn() {
    
@@ -432,11 +425,9 @@ function monthLeftbtn() {
 
 }
 
-
 DOM.lMonthArrow.addEventListener('click', () => {
     monthLeftbtn();
 })
-
 
 // function that will fill days in the table cells according to the current month and date that is set
 
@@ -476,14 +467,7 @@ function daysLoader(year, month) {
         DOM.tableBody.appendChild(row);
     }
 }
-
-// let startOfMonth = new Date(2024,m-1,1).getDay();
-// console.log(startOfMonth);
-
-
 //-----------------------------------------------------------------------------right month button behaviour
-
-
 
 function rightMonthbtn() {
   
@@ -501,12 +485,9 @@ function rightMonthbtn() {
     }
 }
 
-
 DOM.rMonthArrow.addEventListener('click', () => {
     rightMonthbtn();
 })
-
- 
 
 //------------------------------------------------buttons for year---------------------------------------------------------------------
 
@@ -520,7 +501,6 @@ DOM.lYearArrow.addEventListener("click", () => {
     leftYearBtn()
 })
 
-
 function rightYearBtn() {
     let changeYear = parseInt(DOM.currYear.innerText);
     DOM.currYear.textContent = changeYear + 1;
@@ -530,7 +510,6 @@ function rightYearBtn() {
 DOM.rYearArrow.addEventListener('click', () => {
     rightYearBtn();
 })
-
 
 // ----------------open the edit page with all the user info placed in the task editor-----------------
 
@@ -898,8 +877,6 @@ function fetchAndDisplayTasks(filterType) {
     mediaQuery.addEventListener('change', handleMediaQueryChange);
 }
 
-
-
 // Attach media query listener
 
 
@@ -920,8 +897,6 @@ setupTaskButton('Tomorrow', 'tomorrow');
 setupTaskButton('Today', 'Today')
 
 // functionality for tomorrow button
-
-
 
 
 function renderCalendarWRTCond(year, month, day) {
@@ -947,17 +922,13 @@ function renderCalendarWRTCond(year, month, day) {
     });
 }
 
-
-
-
-
 // a function used to add tasks to UI 
 
 function addTaskToUI(task, container) {
     let taskDiv = document.createElement('div');
     let taskID = task._id;
     let userNoteInput = task.taskNotes.replace(/\n/g, "<br>");
-
+    console.log(task.taskDate.toString());
     taskDiv.innerHTML = `
             <div class="task-added" data-id="${taskID}" data-date="${task.taskDate}">
                 <div class="head-checkbox">
@@ -995,8 +966,6 @@ function deleteSpecificTask(taskID, taskDiv) {
         })
         .catch(error => console.error('Error deleting task:', error));
 }
-
-// let deleteTaskBtn = document.querySelector()
 
 
 // a function that would edit task when user clicks edit task btn
@@ -1060,10 +1029,6 @@ function removeDateBg() {
     })
 
 }
-
-
-
-
 
 // feedback settings and help page display logic
 
@@ -1236,10 +1201,6 @@ async function fetchWeatherByLocation() {
 fetchWeatherByLocation();
 
 
-
-
-
-
 // login page and overlay logic 
 
 function closeOverlayLogin() {
@@ -1262,11 +1223,9 @@ function openOverlayLogin() {
 
 DOM.overlayLogin.addEventListener('click', closeOverlayLogin)
 
-
-// login btn functionality
-
-
-
+//--------------------------------------
+//------login btn functionality---------
+//--------------------------------------
 
 // function to open user-login page
 function showLoginPage() {
@@ -1386,9 +1345,9 @@ signupForm.addEventListener('submit', (event) => {
     showLoginPage();
 })
 
-
-// login users logic
-// Login function
+//---------------------
+//--login users logic--
+//---------------------
 
 async function loginUser(email, password) {
    
