@@ -1,5 +1,3 @@
-
-
 * {
     margin: 0;
     padding: 0;
@@ -61,7 +59,7 @@ ul li a {
 ul li:hover {
     background-color: rgb(240, 202, 202);
     cursor: pointer;
-    
+
     font-weight: bold;
     box-shadow: 5px 0px 5px 0px rgba(25, 10, 0.5, 0.5);
     transition: background-color 0.5s ease;
@@ -95,35 +93,6 @@ ul li:hover {
 
 /*------------------------classes to be applied to the toggle button and the dropdown lnk list-------------------------------------*/
 
-/*------------------------------------------add task button-----------------------------------------------------------*/
-.add-task-icon {
-    background-image: url(./images/plus-flat.png);
-    background-size: cover;
-    background-position: center;
-    width: 45px;
-    height: 45px;
-    border: none;
-    border-radius: 100%;
-    z-index: 12;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    box-shadow: 1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
-    opacity: 0.3;
-}
-
-.add-task-icon:hover {
-    border: 2px solid aqua;
-    width: 50px;
-    height: 50px;
-    box-shadow: 5px 5px 5px 5px rgba(0.9, 0.9, 0.9, 0.9);
-    opacity: 0.9;
-}
-
-.add-task-img {
-    border-radius: 50px;
-    object-fit: fill;
-}
 
 .nav-links {
     display: flex;
@@ -137,12 +106,13 @@ ul li:hover {
 @media screen and (min-width: 1281px) {
 
     /*-------------------------------------navbar behaviour for full webpage-------------*/
-
+    
     .nav-header:hover {
         font-size: 1.3rem;
         border-bottom: 4px solid blue;
         transition: border-bottom 0.2s ease;
     }
+
     #toggle-nav-menu {
         display: none;
     }
@@ -159,7 +129,7 @@ ul li:hover {
         padding: 2px 2px 2px 2px;
         justify-content: space-between;
         border-radius: 10px;
-       
+
     }
 
     .content .day-info {
@@ -173,8 +143,8 @@ ul li:hover {
         display: flex;
         flex-direction: column;
         justify-content: top;
-        overflow:auto;
-        margin-top: 75px;  
+        overflow: auto;
+        margin-top: 75px;
 
     }
 
@@ -229,10 +199,10 @@ ul li:hover {
     caption {
         display: flex;
         flex-direction: column;
-        justify-content:space-between;
+        justify-content: space-between;
         margin: 10px;
         width: 98%;
-        
+
     }
 
     .caption-flex-part {
@@ -256,33 +226,37 @@ ul li:hover {
         box-shadow: 2px 2px 2px 2px rgba(0.9, 0.9, 0.9, 0.9);
     }
 
-    #year{
-       
-        
+    #year {
+
+
         padding: 7px 152px;
         background-color: aqua;
-        
+
     }
 
     #month {
         padding: 7px 150px;
         background-color: aqua;
-       
+
     }
-    #l-arrow-year , #l-arrow-month{
+
+    #l-arrow-year,
+    #l-arrow-month {
         background-image: url(./images/163768-arrow-left-free-photo.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
     }
-    #r-arrow-year, #r-arrow-month{
+
+    #r-arrow-year,
+    #r-arrow-month {
         background-image: url(./images/arrow-icon-1177.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
-        
+
     }
-   
+
 
 
     #calendar table {
@@ -304,7 +278,7 @@ ul li:hover {
         text-align: center;
         width: 100%;
         justify-content: space-evenly;
-        
+
     }
 
     #table-body tr td {
@@ -312,7 +286,7 @@ ul li:hover {
         padding: 6px 5px;
         text-align: center;
         width: calc(100%/7);
-    
+
         background-color: aqua;
         margin: 3px 1px;
         border-radius: 5px;
@@ -330,8 +304,8 @@ ul li:hover {
     }
 
     #table-head th {
-        
-        width:5.25vw;
+
+        width: 5.25vw;
         text-align: center;
         background-color: aqua;
         border-radius: 5px;
@@ -341,18 +315,18 @@ ul li:hover {
 
     /*-------------------------calendar behaviour when hover------------------------------*/
 
-    .caption-flex-part span:hover{
+    .caption-flex-part span:hover {
         box-shadow: 4px 4px 4px 4px rgba(0.9, 0.9, 0.9, 0.9);
         cursor: pointer;
-        
-    } 
 
-    #table-head th:hover{
+    }
+
+    #table-head th:hover {
         box-shadow: 4px 4px 4px 4px rgba(0.9, 0.9, 0.9, 0.9);
         cursor: pointer;
     }
 
-    #table-body tr td:hover{
+    #table-body tr td:hover {
         box-shadow: 4px 4px 4px 4px rgba(0.9, 0.9, 0.9, 0.9);
         cursor: pointer;
         background-color: blue;
@@ -360,100 +334,109 @@ ul li:hover {
         font-weight: bolder;
     }
 
-    #l-arrow-year:hover{
+    #l-arrow-year:hover {
         padding: 12px 24px;
         transition: padding 0.3s ease;
     }
-  
-    #r-arrow-year:hover{
-        padding: 12px 24px;
-        transition: padding 0.3s ease;
-    }
-    #l-arrow-month:hover{
-        padding: 12px 24px;
-        transition: padding 0.3s ease;
-    }
-    #r-arrow-month:hover{
-        padding: 12px 24px;
-        transition: padding 0.3s ease;
-    }
-   /*---------------------------adding task page------------------------*/
 
-   .task-container{
+    #r-arrow-year:hover {
+        padding: 12px 24px;
+        transition: padding 0.3s ease;
+    }
+
+    #l-arrow-month:hover {
+        padding: 12px 24px;
+        transition: padding 0.3s ease;
+    }
+
+    #r-arrow-month:hover {
+        padding: 12px 24px;
+        transition: padding 0.3s ease;
+    }
+
+    /*---------------------------adding task page------------------------*/
+
+    .task-container {
+
+        position: fixed;
+        top: 17%;
+        left: 25%;
+        bottom: 10%;
+        right: 25%;
+        z-index: 20;
+
+        justify-content: center;
+        font-weight: bold;
+        height: 65%;
+        padding: 20px;
+        background-color: blueviolet;
+        text-align: start;
+        border-radius: 20px;
+
+    }
+
+    .task-container h2 {
+        text-align: center;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+        width: 100%;
+        padding-bottom: 10px;
+        border-bottom: 2px solid black;
+    }
+
+    .task-container #task-form {
+        width: 100%;
         
-       position: fixed;
-       top: 17%;
-       left: 25%;
-       bottom: 10%;
-       right: 25%;
-       z-index: 20;
-    
-       justify-content: center;
-       font-weight: bold;
-       height: 65%;
-       padding: 25px;
-       background-color: blueviolet;
-       text-align: start;
-       border-radius: 20px;
-       
-   }
-   .task-container h2{
-    text-align: center;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
-    width: 100%;
-    padding-bottom: 10px;
-    border-bottom: 2px solid black;
-   }
+        align-items: center;
+    }
 
-   .task-container #task-form{
-    width: 100%;
-    align-items: center;
-   }
-   .task-container #task-name{
-    width: 100%;
-    height: 18px;
-    padding: 5px;
-    border-radius:6px ;
-    border: 3px solid blue;
-    resize: none;
-   }
-   .task-container #task-notes{
-    width: 100%;
-    height:15vh;
-    padding: 5px;
-    border-radius: 6px;
-    resize: none;
-    overflow-y: auto;
-    border: 3px solid blue;
+    .task-container #task-name {
+        width: 100%;
+        height: 18px;
+        padding: 5px;
+        border-radius: 6px;
+        border: 3px solid blue;
+        resize: none;
+    }
 
-   }
+    .task-container #task-notes {
+        width: 100%;
+        height: 13vh;
+        padding: 3px;
+        border-radius: 6px;
+        resize: none;   
+        overflow-y: auto;
+        border: 3px solid blue;
 
-   .task-container #task-date{
-    border: 3px solid blue;
-    height: 27px;
-    align-self: center;
-    padding: 3px;
-    margin-left: 15px;
-    border-radius: 6px;
-   }
+    }
 
-   .task-container #create{
-    justify-content: center;
-    align-self: center;
-    width: 100%;
-    padding: 15px;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    
-   }
-   .task-container #create:hover{
+    .task-container #task-date {
+        border: 3px solid blue;
+        height: 25px;
+        align-self: center;
+        padding: 3px;
+        margin-left: 15px;
+        border-radius: 6px;
+    }
+
+    .task-container #create {
+        justify-content: center;
+        align-self: center;
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+
+    }
+
+    .task-container #create:hover {
         cursor: pointer;
         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
         border: 3px solid blue;
-   }
-   .task-page-container{
+    }
+
+    .task-page-container {
         position: fixed;
         top: 0;
         left: 0;
@@ -461,330 +444,346 @@ ul li:hover {
         height: 100%;
         display: none;
         justify-content: center;
-   }
-   .overlay-create{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display: none;
-   }
-   .hidden{
-    display: hidden;
-   }
-   .visibility{
-    display: none;
-   }
-   .invisibility{
-    display: inline-block;
-   }
-   .block{
-    display: block;
-   }
-   .flex{
-    display: flex;
-   }
- 
-  /*--------------------------------------------edit-task-page----------------------------------------*/
-  #edit-task-container{
-        
-    position: fixed;
-    top: 15%;
-    left: 25%;
-    bottom: 15%;
-    right: 25%;
-    z-index: 20;
-    
-    justify-content: center;
-    font-weight: bold;
-    height: 65%;
-    padding: 50px;
-    background-color: blueviolet;
-    text-align: start;
-    border-radius: 20px;
-    
-}
-#edit-task-container h2{
- text-align: center;
- margin-bottom: 15px;
- letter-spacing: 2px;
- border-bottom: 2px solid black;
-}
+    }
 
-#edit-task-container #edit-task-form{
- width: 100%;
- align-items: center;
-}
-#edit-task-container #edit-task-name{
- width: 100%;
- height: 18px;
- padding: 5px;
- border-radius:6px ;
- border: 3px solid blue;
- resize: none;
-}
-#edit-task-container #edit-task-notes{
- width: 100%;
- height:18vh;
- padding: 5px;
- border-radius: 6px;
- resize: none;
- overflow-y: auto;
- border: 3px solid blue;
+    .overlay-create {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+    }
 
-}
+    .hidden {
+        display: hidden;
+    }
 
-#edit-task-container #edit-task-date{
- border: 3px solid blue;
- height: 25px;
- align-self: center;
- padding: 3px;
- margin-left: 15px;
- border-radius: 6px;
-}
+    .visibility {
+        display: none;
+    }
 
-#edit-task-container #edit{
- justify-content: center;
- width: 100%;
- padding: 15px;
- border-radius: 10px;
- font-size: 1rem;
- font-weight: bold;
- 
-}
-#edit-task-container #edit:hover{
-     cursor: pointer;
-     box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
-     border: 3px solid blue;
-}
-.edit-task-page-container{
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     display: none;
-     justify-content: center;
-}
-#overlay-edit{
- position: fixed;
- top: 0;
- left: 0;
- width: 100%;
- height: 100%;
- background-color: rgba(0, 0, 1, 0.85);
- display: none;
-}
+    .invisibility {
+        display: inline-block;
+    }
 
-/*---------------------------------------login-user-page ---------------------------------------------*/
+    .block {
+        display: block;
+    }
 
+    .flex {
+        display: flex;
+    }
 
+    /*--------------------------------------------edit-task-page----------------------------------------*/
+    #edit-task-container {
 
-.overlay-login-container{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display: none;
-}
+        position: fixed;
+        top: 15%;
+        left: 25%;
+        bottom: 15%;
+        right: 25%;
+        z-index: 20;
 
-.login-container{
-    display: none;
-    z-index: 152;
- 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color:violet;
-    position: fixed;
-    top:20%;
-    left: 25%;
-    width: 50%;
-    height: 50%;
-    border-radius: 15px;
-}
-.login-container h2{
-    width: 100%;
-    text-align: center;
-    border-bottom: 2px solid black;
-    font-size: 1.7rem;
-}
+        justify-content: center;
+        font-weight: bold;
+        height: 65%;
+        padding: 40px 30px;
+        background-color: blueviolet;
+        text-align: start;
+        border-radius: 20px;
 
-#loginForm{
-    width: 80%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 15px;
-}
-.input-group {
-    display: flex;
-    justify-content: left;
-    text-align: left;
-    font-size: 1.2rem;
-}
+    }
 
-.input-group #email{
-    margin-left: 35px;
+    #edit-task-container h2 {
+        text-align: center;
+        margin-bottom: 5px;
+        letter-spacing: 2px;
+        border-bottom: 2px solid black;
+    }
 
-    padding: 3px;
-}
-.input-group #password{
-    margin-left: 3px;
-    padding: 3px;
-}
+    #edit-task-container #edit-task-form {
+        width: 100%;
+        align-items: center;
+    }
 
-#loginForm button{
-    padding: 6px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 1rem;
-}
+    #edit-task-container #edit-task-name {
+        width: 100%;
+        height: 18px;
+        padding: 4px;
+        border-radius: 6px;
+        border: 3px solid blue;
+        resize: none;
+    }
 
-#loginForm button:hover{
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
-}
+    #edit-task-container #edit-task-notes {
+        width: 100%;
+        height: 18vh;
+        padding: 3px;
+        border-radius: 6px;
+        resize: none;
+        overflow-y: auto;
+        border: 3px solid blue;
 
-#loginForm .signup-link{
-    text-align: center;
-    font-size: 1.2rem;
-}
+    }
 
+    #edit-task-container #edit-task-date {
+        border: 3px solid blue;
+        height: 23px;
+        align-self: center;
+        padding: 3px;
+        margin-left: 15px;
+        border-radius: 6px;
+    }
 
-.overlay-signup-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display: none;
-}
+    #edit-task-container #edit {
+        justify-content: center;
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
 
-.signup-container {
-    z-index: 99;
-    position: fixed;
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    top:27.5%;
-    left: 27%;
-    width: 45%;
-    height: 40%;
-    background-color: silver;
-    border-radius: 15px;
-}
+    }
 
+    #edit-task-container #edit:hover {
+        cursor: pointer;
+        box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+        border: 3px solid blue;
+    }
 
-.signup-container h2 {
-    width: 100%;
-    text-align: center;
-    border-bottom: 2px solid black;
-    padding-bottom: 7px;
-}
-.signup-form{
-    margin-top: 14px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;   
-    width: 80%;
-    height: 100%;
-}
+    .edit-task-page-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+    }
 
-.signup-form input{
-    width: 70%;
-    padding: 6px;
-    border-radius: 10px;
-}
+    #overlay-edit {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+    }
 
-.signup-form button {
-    width: 60%;
-    font-size: 1.2rem;
-    color: aliceblue;
-    background-color: blue;
-    padding: 6px;
-    margin-top: 10px;
-    border-radius: 10px;
-}
+    /*---------------------------------------login-user-page ---------------------------------------------*/
 
 
 
+    .overlay-login-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+    }
 
-   /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
+    .login-container {
+        display: none;
+        z-index: 152;
 
-   .content .day-info{
-    height: 88%;
-    position: relative;
-    
-   }
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: violet;
+        position: fixed;
+        top: 20%;
+        left: 25%;
+        width: 50%;
+        height: 50%;
+        border-radius: 15px;
+    }
 
-   .content .day-info .task-added{
-    
-    height:auto;
-    width: 95%;
-    background-color: blue;
-    margin-top:15px;
-    border-radius: 10px;
-    word-wrap:break-word;
-    border: 3px solid blueviolet;
-    display: flex;
-    flex-direction: column;
-    justify-content:end;
-    padding: 10px 15px 10px 5px;
-    
-    
-    
-   }
+    .login-container h2 {
+        width: 100%;
+        text-align: center;
+        border-bottom: 2px solid black;
+        font-size: 1.7rem;
+    }
 
-   .content .day-info div h3{
+    #loginForm {
+        width: 80%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 15px;
+    }
+
+    .input-group {
+        display: flex;
+        justify-content: left;
+        text-align: left;
+        font-size: 1.2rem;
+    }
+
+    .input-group #email {
+        margin-left: 35px;
+
+        padding: 3px;
+    }
+
+    .input-group #password {
+        margin-left: 3px;
+        padding: 3px;
+    }
+
+    #loginForm button {
+        padding: 6px;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    #loginForm button:hover {
+        cursor: pointer;
+        box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+    }
+
+    #loginForm .signup-link {
+        text-align: center;
+        font-size: 1.2rem;
+    }
+
+
+    .overlay-signup-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+    }
+
+    .signup-container {
+        z-index: 99;
+        position: fixed;
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        top: 27.5%;
+        left: 27%;
+        width: 45%;
+        height: 40%;
+        background-color: silver;
+        border-radius: 15px;
+    }
+
+
+    .signup-container h2 {
+        width: 100%;
+        text-align: center;
+        border-bottom: 2px solid black;
+        padding-bottom: 7px;
+    }
+
+    .signup-form {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: 80%;
+        height: 100%;
+    }
+
+    .signup-form input {
+        width: 70%;
+        padding: 6px;
+        border-radius: 10px;
+    }
+
+    .signup-form button {
+        width: 60%;
+        font-size: 1.2rem;
+        color: aliceblue;
+        background-color: blue;
+        padding: 6px;
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+
+
+
+
+    /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
+
+    .content .day-info {
+        height: 88%;
+        position: relative;
+
+    }
+
+    .content .day-info .task-added {
+
+        height: auto;
+        width: 95%;
+        background-color: blue;
+        margin-top: 15px;
+        border-radius: 10px;
+        word-wrap: break-word;
+        border: 3px solid blueviolet;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding: 10px 15px 10px 5px;
+
+
+
+    }
+
+    .content .day-info div h3 {
         height: auto;
         background-color: aqua;
         width: 75%;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-        
+
         padding-left: 10px;
         padding-right: 10px;
         text-align: center;
         word-wrap: break-word;
-        
+
         border-left: 3px solid black;
         border-right: 3px solid black;
         border-top: 3px solid black;
         padding-bottom: 4px;
-        
-   }
 
-   .content .day-info div p{
+    }
+
+    .content .day-info div p {
         text-align: left;
         height: auto;
         background-color: aqua;
-        width:auto;
+        width: auto;
         padding: 5px;
-        
+
         margin-right: 5px;
         word-wrap: break-word;
         border-bottom: 3px solid black;
         border-left: 3px solid black;
         border-right: 3px solid black;
-        
-       
 
-   }
- 
-    .head-checkbox .checkbox{
-        
+
+
+    }
+
+    .head-checkbox .checkbox {
+
         background-color: aqua;
         padding: 0 10px 0 10px;
-        height:inherit;
+        height: inherit;
         border-top: 3px solid black;
         border-right: 3px solid black;
         border-bottom: 3px solid black;
@@ -792,438 +791,511 @@ ul li:hover {
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         margin-right: 5px;
-        width:15%;
+        width: 15%;
         color: black;
         text-align: center;
         transition: width 0.3s ease;
     }
-    .head-checkbox{
+
+    .head-checkbox {
         display: flex;
-        justify-content:space-between ;
+        justify-content: space-between;
     }
 
-    .checkbox:hover{
+    .checkbox:hover {
         background-color: blueviolet;
         cursor: pointer;
         font-weight: bold;
         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
         width: 25%;
-       
-        
-        
+
+
+
     }
-    .checkbox:hover + .task-notes{
+
+    .checkbox:hover+.task-notes {
         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
     }
-    #Delete-task ,  #Edit-task{
+
+    #Delete-task,
+    #Edit-task {
         width: 50%;
         background-color: aqua;
         border: 2px solid black;
-       
+
         text-align: center;
         padding: 2px;
         font-size: 1rem;
         transition: width 0.3s ease;
-        border-bottom-left-radius:10px; 
+        border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
 
-    #Edit-del-btn{
+    #Edit-del-btn {
         display: flex;
         width: 99.3%;
     }
 
-    #Delete-task:hover{
+    #Delete-task:hover {
         cursor: pointer;
         width: 65%;
         font-weight: bold;
         background-color: blueviolet;
     }
-    #Edit-task:hover{
-        cursor: pointer;
-        width: 65%;
-        font-weight: bold;
-        background-color: blueviolet;
-    }
-    
 
-    .content .day-info .task-added:hover{
+    #Edit-task:hover {
+        cursor: pointer;
+        width: 65%;
+        font-weight: bold;
+        background-color: blueviolet;
+    }
+
+
+    .content .day-info .task-added:hover {
         border: 3px solid blue;
         border-radius: 15px;
         box-shadow: 2px 2px 2px 2px rgba(15, 15, 15, 15);
-        
+
     }
 
-    .empty{
-       height: 25px;
-       
+    .empty {
+        height: 25px;
+
     }
 
-    #no-tasks{
+    #no-tasks {
         font-size: 2rem;
         letter-spacing: 2px;
         word-spacing: 5px;
         padding-left: 10px;
     }
-     /*-----------------------task-page scrollbar-----------------------------*/
 
-     #day-info::-webkit-scrollbar{
+    /*-----------------------task-page scrollbar-----------------------------*/
+
+    #day-info::-webkit-scrollbar {
         width: 10px;
-     }
+    }
 
-     #day-info::-webkit-scrollbar-thumb{
+    #day-info::-webkit-scrollbar-thumb {
         background: blue;
         border-radius: 10px;
-     }
-    
-
-/*---------------------WRITE CODE TO REMOVE THE TASK FROM THE DIV WHEN THE CHECKBOX (TASK DOINE IS CLICKED)-------------------------*/
+    }
 
 
-/*------------------------------------------------------settings - feedback - help-----------------------------------------------------*/
-
-/*-------------------------------------------------settings page styles for large screens---------------------------------------*/
-#settings {
-    height: 100%;
-    width: 100%;
-    background-color: blueviolet;
-    display: none;
-    
-}
-#settings #settings-list{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 100%;
-    width: 100%;
-}
-
-#settings-list li{
-    display: flex;
-    text-align: center;
-    width: 99%;
-    height: 8vh;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-}
-/*-------------------------------------------------help page styles-----------------------------------------------------*/
-#help {
-    height: 100%;
-    width: 100%;
-    background-color: blueviolet;
-    display: none;
-    flex-direction: column;
-    justify-content: space-around;
-    align-self: center;
-}
-
-.faq{
-    display: flex;
-    flex-direction: column;
-    
-}
-#help .faq details summary{
-    border-top: 2px solid aliceblue;
-    border-right: 2px solid aliceblue;
-    border-left: 2px solid aliceblue;
-    background-color: aqua;
-    margin-top: 5px;
-    font-weight: bold;
-    margin-right: 5px;
-    margin-left: 5px;
-    padding: 5px;
-}
-#help .faq details p{
-    background-color: aqua;
-    border-left:2px solid aliceblue ;
-    border-bottom:2px solid aliceblue ;
-    border-right:2px solid aliceblue ;
-    margin-right: 5px;
-    margin-left: 5px;
-    margin-top: 0;
-    padding: 8px;
-
-}
-#help .faq details summary:hover{
-    cursor: pointer;
-}
-
-.faq-images{
-    height: 40%;
-    border: 1px solid black;
-    width: 90%;
-    align-self: center;
-}
-
-/*----------------------------------------------feedback form styles-----------------------------------------*/
-#feedb {
-    max-height: 99vh;
-    width: 97.3%;
-    background-color: blueviolet;
-    
-    display: none;
-    
-    
-}
-
-#feedbackForm{
-    display: flex;
-    flex-direction: column;
-    font-weight: 600;
-    width: 100%;
-    max-height: 99vh;
-    
-}
-#feedb-submit{
-    width: 100%;
-    align-self: baseline;
-    height: 50px;
-    border-radius: 10px;
-    background-color: aqua;
-    justify-content: flex-end;
-    font-size: large;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 25px;
-    transition: box-shadow 0.3s ease-in;
-}
-#feedb-submit:hover{
-    box-shadow:1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
-    font-size: 1.3rem;
-    transition:  0.2s ease;
-}
-
-#feedb-issues{
-    height: 100px;
-    width: 97%;
-    resize: none;
-    padding: 5px;
-    border-radius: 5px;
-}
-
-#feedb-improvement{
-    height: 100px;
-    width: 97%;
-    resize: none;
-    padding: 5px;
-    border-radius: 5px;
-}
-#feedb-satisfaction, #feedb-satisfaction option {
-    font-weight: bold; /* Makes the options bold */
-  }
-
-  #feedb-experience, #feedb-experience option {
-    font-weight: bold;
-  }
-
-  /*--------------------------weather styles----------------------------*/
-  .weather-card {
-    width:100%;
-    height: 30vh;
-    
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-    display: flex;
-    
-    justify-content: space-between;
-    
-}
-
-.weather-info {
-    width:100%;
-    /*-background: linear-gradient(135deg, #89f7fe, #66a6ff);*/
-    background-color: blue;
-    color: white;
-    font-family: Arial, sans-serif;
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
-    
-
-}
+    /*---------------------WRITE CODE TO REMOVE THE TASK FROM THE DIV WHEN THE CHECKBOX (TASK DOINE IS CLICKED)-------------------------*/
 
 
-.weather-info:hover {
-    transform: scale(1.05);
-}
+    /*------------------------------------------------------settings - feedback - help-----------------------------------------------------*/
 
-.weather-info h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
+    /*-------------------------------------------------settings page styles for large screens---------------------------------------*/
+    #settings {
+        height: 100%;
+        width: 100%;
+        background-color: blueviolet;
+        display: none;
 
-.weather-info p {
-    font-size: 1rem;
+    }
 
-    font-weight: bold;
-    margin: 5px 0;
-   
-}
+    #settings #settings-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+        width: 100%;
+    }
 
-.weather-info img {
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
-}
-.weather-denied-card{
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+    #settings-list li {
+        display: flex;
+        text-align: center;
+        width: 99%;
+        height: 8vh;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    }
+
+    /*-------------------------------------------------help page styles-----------------------------------------------------*/
+    #help {
+        height: 100%;
+        width: 100%;
+        background-color: blueviolet;
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        align-self: center;
+    }
+
+    .faq {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    #help .faq details summary {
+        border-top: 2px solid aliceblue;
+        border-right: 2px solid aliceblue;
+        border-left: 2px solid aliceblue;
+        background-color: aqua;
+        margin-top: 5px;
+        font-weight: bold;
+        margin-right: 5px;
+        margin-left: 5px;
+        padding: 5px;
+    }
+
+    #help .faq details p {
+        background-color: aqua;
+        border-left: 2px solid aliceblue;
+        border-bottom: 2px solid aliceblue;
+        border-right: 2px solid aliceblue;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-top: 0;
+        padding: 8px;
+
+    }
+
+    #help .faq details summary:hover {
+        cursor: pointer;
+    }
+
+    .faq-images {
+        height: 40%;
+        border: 1px solid black;
+        width: 90%;
+        align-self: center;
+    }
+
+    /*----------------------------------------------feedback form styles-----------------------------------------*/
+    #feedb {
+        max-height: 99vh;
+        width: 97.3%;
+        background-color: blueviolet;
+
+        display: none;
 
 
-}
+    }
 
-.weather-unavailable {
-    margin-bottom: 12px;
-    color: aliceblue;
-}
-.access-denied {
-    margin-top: 12px;
-    color: aliceblue;
-}
-.local-time {
-    color: aliceblue;
-    font-weight: bold;
-    font-size: 1.8rem;
-}
+    #feedbackForm {
+        display: flex;
+        flex-direction: column;
+        font-weight: 600;
+        width: 100%;
+        max-height: 99vh;
 
-/* Optional: Add animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+    }
 
-.weather-info {
-    animation: fadeIn 0.5s ease-in-out;
-}
-.weather-status {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: end;
-    padding-top: 10px;
-}
+    #feedb-submit {
+        width: 100%;
+        align-self: baseline;
+        height: 50px;
+        border-radius: 10px;
+        background-color: aqua;
+        justify-content: flex-end;
+        font-size: large;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 25px;
+        transition: box-shadow 0.3s ease-in;
+    }
 
-/*----------------------------------------styling for login page and its overlay-------------------------*/
+    #feedb-submit:hover {
+        box-shadow: 1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
+        font-size: 1.3rem;
+        transition: 0.2s ease;
+    }
 
-.overlay-login{
+    #feedb-issues {
+        height: 100px;
+        width: 97%;
+        resize: none;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    #feedb-improvement {
+        height: 100px;
+        width: 97%;
+        resize: none;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    #feedb-satisfaction,
+    #feedb-satisfaction option {
+        font-weight: bold;
+        /* Makes the options bold */
+    }
+
+    #feedb-experience,
+    #feedb-experience option {
+        font-weight: bold;
+    }
+
+    /*--------------------------weather styles----------------------------*/
+    .weather-card {
+        width: 100%;
+        height: 30vh;
+
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        display: flex;
+
+        justify-content: space-between;
+
+    }
+
+    .weather-info {
+        width: 100%;
+        /*-background: linear-gradient(135deg, #89f7fe, #66a6ff);*/
+        background-color: blue;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+
+
+    }
+
+
+    .weather-info:hover {
+        transform: scale(1.05);
+    }
+
+    .weather-info h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .weather-info p {
+        font-size: 1rem;
+
+        font-weight: bold;
+        margin: 5px 0;
+
+    }
+
+    .weather-info img {
+        width: 50px;
+        height: 50px;
+        vertical-align: middle;
+    }
+
+    .weather-denied-card {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+
+    }
+
+    .weather-unavailable {
+        margin-bottom: 12px;
+        color: aliceblue;
+    }
+
+    .access-denied {
+        margin-top: 12px;
+        color: aliceblue;
+    }
+
+    .local-time {
+        color: aliceblue;
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
+
+    /* Optional: Add animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .weather-info {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .weather-status {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: end;
+        padding-top: 10px;
+    }
+
+    /*----------------------------------------styling for login page and its overlay-------------------------*/
+
+    .overlay-login {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+        z-index: 49;
+    }
+
+    .overlay-login:hover {
+        cursor: pointer;
+    }
+
+
+    .login-page {
+        position: fixed;
+        top: 40%;
+        bottom: 40%;
+        left: 10%;
+        width: 80%;
+
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 51;
+        display: none;
+
+    }
+
+
+    .login-signup-cards {
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+    }
+
+
+    .login-card {
+        margin-right: 10px;
+        background-color: silver;
+        padding: 70px 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 1.5rem;
+        border-radius: 18px;
+        height: auto;
+
+    }
+
+    .signup-card {
+        margin-left: 10px;
+        background-color: silver;
+        padding: 70px 40px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 1.5rem;
+        border-radius: 18px;
+        text-align: end;
+        height: auto;
+    }
+
+
+    .login-page-buttons {
+        width: 62%;
+        padding: 10px;
+        background-color: blue;
+        color: aliceblue;
+        margin: 5px;
+        font-size: 1.8rem;
+        border-radius: 50%;
+    }
+
+    .login-page-buttons:hover {
+        cursor: pointer;
+        box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+    }
+
+
+    /*-----------------------------------------------guest-details-page--------------------------------------------*/
+
+
+    #usernameForm {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        align-items: center;
+        justify-content: space-around;
+        font-size: 1.2rem;
+
+    }
+
+    #usernameForm input {
+        padding: 5px;
+
+    }
+
+    #usernameForm button {
+        width: 80%;
+        padding: 5px;
+        font-size: 1.2rem;
+        background-color: blue;
+        color: aliceblue;
+        border-radius: 15px;
+
+    }
+
+    .add-task-icon {
+    background-image: url(./images/plus-flat.png);
+    background-size:auto;
+    background-position: center;
+    width: 8%;
+    height: 9%;
+    border: none;
+    border-radius: 10%;
+    z-index: 12;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display: none; 
-    z-index: 49;
+    bottom: 20px;
+    left: 0.4%;
+    box-shadow: 1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
+    opacity: 1;
+    transition: all 0.4s ease;
+    background-color: silver;
 }
-.overlay-login:hover{
+.add-task-text{
+    opacity: 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.add-task-icon:hover {
+    border: 2px solid silver;
+    width: 30%;
+    height: 9%;
+    box-shadow: 5px 5px 5px 5px rgba(0.9, 0.9, 0.9, 0.9);
+    opacity: 0.9;
+    background-image: none;
     cursor: pointer;
 }
+.add-task-icon:hover .add-task-text{
+    opacity: 1;
 
-
-.login-page{
-    position: fixed;    
-     top: 40%;
-     bottom: 40%;
-     left: 10%;
-     width: 80%;
-    
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     z-index: 51;
-     display: none;
-    
 }
 
-
-.login-signup-cards{
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
-    align-items: center;
-    justify-content:center;
-   height: auto;
+.add-task-img {
+    border-radius: 50px;
+    object-fit: fill;
 }
-
-
-.login-card{
-    margin-right: 10px;
-    background-color:silver;
-    padding: 70px 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 1.5rem;
-    border-radius: 18px;
-    height: auto;
-    
-}
-.signup-card{
-    margin-left: 10px;
-    background-color:silver;
-    padding: 70px 40px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 1.5rem;
-    border-radius: 18px;
-    text-align: end;
-     height: auto;
-}
-
-
-.login-page-buttons{
-    width: 62%;
-    padding: 10px;
-    background-color: blue;
-    color: aliceblue;
-    margin: 5px;
-    font-size: 1.8rem;
-    border-radius: 50%;
-}
-.login-page-buttons:hover{
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
-}
-
-
-/*-----------------------------------------------guest-details-page--------------------------------------------*/
-
-
-#usernameForm{
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    height: 100%;
-    align-items: center;
-    justify-content: space-around;
-    font-size: 1.2rem;
-    
-}
-
-#usernameForm input{
-    padding: 5px;
-   
-}
-#usernameForm button {
-    width: 80%;
-    padding: 5px;
-    font-size: 1.2rem;
-    background-color: blue;
-    color: aliceblue;
-    border-radius: 15px;
-    
-}
-
 
 
 
@@ -1243,7 +1315,7 @@ ul li:hover {
         background-color: rgba(0, 0, 1, 0.85);
         display: none;
     }
-    
+
     .signup-container {
         z-index: 99;
         position: fixed;
@@ -1251,37 +1323,38 @@ ul li:hover {
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-        top:25%;
+        top: 25%;
         left: 20.5%;
         width: 65%;
         height: 50%;
         background-color: silver;
         border-radius: 15px;
     }
-    
-    
+
+
     .signup-container h2 {
         width: 100%;
         text-align: center;
         border-bottom: 2px solid black;
         padding-bottom: 7px;
     }
-    .signup-form{
+
+    .signup-form {
         margin-top: 14px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        align-items: center;   
+        align-items: center;
         width: 80%;
         height: 100%;
     }
-    
-    .signup-form input{
+
+    .signup-form input {
         width: 90%;
         padding: 6px;
         border-radius: 10px;
     }
-    
+
     .signup-form button {
         width: 90%;
         font-size: 1rem;
@@ -1291,200 +1364,210 @@ ul li:hover {
         margin-top: 10px;
         border-radius: 10px;
     }
+
     .signup-container p {
         margin-top: 5px;
         font-size: 1rem;
         margin-bottom: 5px;
     }
-    .overlay-signup-container:hover{
+
+    .overlay-signup-container:hover {
         cursor: pointer;
     }
-    
-
-    
-.overlay-login{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display: none; 
-    z-index: 49;
-}
-.overlay-login:hover{
-    cursor: pointer;
-}
-
-
-.login-page{
-     position: fixed;
-     top: 30%;
-     bottom: 30%;
-     left: 20%;
-     right: 20%;
-     width: 60%;
-     display: none;
-     flex-direction: column;
-     justify-content: space-around;
-     align-items: center;
-    z-index: 51;
-}
-
-
-.login-signup-cards{
-    display: flex;
-    flex-direction: column;
-    
-    align-items: center;
-    justify-content:center;
-   height: auto;
-}
-
-
-.login-card{
-    font-size: 1rem;
-    background-color:silver;
-    padding: 30px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-}
-.signup-card{
-    margin-top: 20px;
-    flex-direction: column;
-    display: flex;
-    justify-content: space-between;
-    padding: 30px;
-    border-radius: 10px;
-    background-color:silver;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-}
-
-#usernameForm{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: space-around;
-    font-size: 1.2rem;
-    
-}
-#usernameForm input{
-    padding: 3px;
-    width: 60%;
-}
-#usernameForm button {
-    width: 80%;
-    padding: 5px;
-    font-size: 1.2rem;
-    background-color: blue;
-    color: aliceblue;
-    border-radius: 15px;
-}
 
 
 
+    .overlay-login {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+        z-index: 49;
+    }
+
+    .overlay-login:hover {
+        cursor: pointer;
+    }
 
 
-.login-page-buttons{
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: blue;
-    color: aliceblue;
-    font-size: 1.3rem;
-    font-weight: bold;
-}
-.login-page-buttons:hover{
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
-}
+    .login-page {
+        position: fixed;
+        top: 30%;
+        bottom: 30%;
+        left: 20%;
+        right: 20%;
+        width: 60%;
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 51;
+    }
+
+
+    .login-signup-cards {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+        height: auto;
+    }
+
+
+    .login-card {
+        font-size: 1rem;
+        background-color: silver;
+        padding: 30px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .signup-card {
+        margin-top: 20px;
+        flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        padding: 30px;
+        border-radius: 10px;
+        background-color: silver;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    #usernameForm {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: space-around;
+        font-size: 1.2rem;
+
+    }
+
+    #usernameForm input {
+        padding: 3px;
+        width: 60%;
+    }
+
+    #usernameForm button {
+        width: 80%;
+        padding: 5px;
+        font-size: 1.2rem;
+        background-color: blue;
+        color: aliceblue;
+        border-radius: 15px;
+    }
 
 
 
-/*----------------------------------------user-login-page-styles------------------------------------*/
-.overlay-login-container{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 1, 0.85);
-    display: none;
-}
 
-.login-container{
-    display: none;
-    z-index: 152;
- 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color:violet;
-    position: fixed;
-    top:15%;
-    left: 5%;
-    width: 90%;
-    height: 60%;
-    border-radius: 15px;
-}
-.login-container h2{
-    width: 100%;
-    text-align: center;
-    border-bottom: 2px solid black;
-    font-size: 1.7rem;
-    padding-bottom: 10px;
-}
 
-#loginForm{
-    width: 90%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 15px;
-}
-.input-group {
-    display: flex;
-    justify-content: left;
-    text-align: left;
-    font-size: 1rem;
-}
+    .login-page-buttons {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: blue;
+        color: aliceblue;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
 
-.input-group #email{
-    margin-left: 32px;
+    .login-page-buttons:hover {
+        cursor: pointer;
+        box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+    }
 
-    padding: 3px;
-}
-.input-group #password{
-    margin-left: 3px;
-    padding: 3px;
-}
 
-#loginForm button{
-    padding: 6px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 1rem;
-}
 
-#loginForm button:hover{
-    cursor: pointer;
-    box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
-}
+    /*----------------------------------------user-login-page-styles------------------------------------*/
+    .overlay-login-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+    }
 
-#loginForm .signup-link{
-    text-align: center;
-    font-size: 1rem;
-}
+    .login-container {
+        display: none;
+        z-index: 152;
+
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: violet;
+        position: fixed;
+        top: 15%;
+        left: 5%;
+        width: 90%;
+        height: 60%;
+        border-radius: 15px;
+    }
+
+    .login-container h2 {
+        width: 100%;
+        text-align: center;
+        border-bottom: 2px solid black;
+        font-size: 1.7rem;
+        padding-bottom: 10px;
+    }
+
+    #loginForm {
+        width: 90%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 15px;
+    }
+
+    .input-group {
+        display: flex;
+        justify-content: left;
+        text-align: left;
+        font-size: 1rem;
+    }
+
+    .input-group #email {
+        margin-left: 32px;
+
+        padding: 3px;
+    }
+
+    .input-group #password {
+        margin-left: 3px;
+        padding: 3px;
+    }
+
+    #loginForm button {
+        padding: 6px;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    #loginForm button:hover {
+        cursor: pointer;
+        box-shadow: 0px 3px 5px rgba(25, 10, 10, 0.5);
+    }
+
+    #loginForm .signup-link {
+        text-align: center;
+        font-size: 1rem;
+    }
 
 
     body {
@@ -1502,7 +1585,7 @@ ul li:hover {
         margin-right: 10px;
         justify-content: space-between;
         border-radius: 10px;
-        
+
     }
 
     .content .day-info {
@@ -1524,11 +1607,11 @@ ul li:hover {
         overflow: hidden;
         display: flex;
         justify-content: space-around;
-        
-        
+
+
     }
 
-    .extras #weather-card{
+    .extras #weather-card {
         padding: 0px 20px 0px 5px;
         height: 22vh;
         width: 98vw;
@@ -1546,46 +1629,51 @@ ul li:hover {
         flex-direction: column;
         justify-content: space-around;
     }
+
     /*---------------------------------------edit and delete buttons for small devices----------------------------------------------*/
-    #no-tasks{
+    #no-tasks {
         font-size: 1rem;
         letter-spacing: 2px;
         word-spacing: 5px;
         padding-left: 10px;
         padding-bottom: 10px;
-      
+
         text-align: center;
     }
-    #Delete-task ,  #Edit-task{
+
+    #Delete-task,
+    #Edit-task {
         width: 50%;
         background-color: aqua;
-       
+
         border: 2px solid black;
         text-align: center;
         padding: 2px;
         font-size: 1rem;
         transition: width 0.3s ease;
-        border-bottom-left-radius:10px; 
+        border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
 
-    #Edit-del-btn{
+    #Edit-del-btn {
         display: flex;
         width: 99.3%;
     }
 
-    #Delete-task:hover{
+    #Delete-task:hover {
         cursor: pointer;
         width: 65%;
         font-weight: bold;
         background-color: blueviolet;
     }
-    #Edit-task:hover{
+
+    #Edit-task:hover {
         cursor: pointer;
         width: 65%;
         font-weight: bold;
         background-color: blueviolet;
     }
+
     /*------------------day-header for small screens---------------------------*/
 
     .nav-header {
@@ -1608,21 +1696,22 @@ ul li:hover {
         text-align: center;
         top: 18px;
         font-size: 1.2rem;
-        
+
     }
 
     .nav-header:hover {
-        
+
         border-bottom: 4px solid blue;
         transition: border-bottom 0.5s ease;
     }
-    .navbar{
+
+    .navbar {
         width: 100%;
         position: fixed;
         top: 0;
         z-index: 99;
     }
-   
+
 
     /*-------------------------------list for mobiles----------------*/
 
@@ -1646,18 +1735,19 @@ ul li:hover {
         text-decoration: none;
         transition: font-size 0.3s ease;
         transition: background-color 0.5s ease;
-        
+
         padding: 8%;
         border-radius: 20px;
         width: 90%;
         align-items: center;
         display: flex;
-        
+
     }
+
     nav ul li #All-Tasks {
         object-fit: fill;
         width: 100%;
-        
+
         height: 100%;
         display: block;
         align-items: center;
@@ -1671,10 +1761,10 @@ ul li:hover {
         height: 100%;
         border-radius: 20px;
         padding: 15px;
-        
+
         align-items: center;
         display: block;
-        
+
         text-align: center;
     }
 
@@ -1777,38 +1867,43 @@ ul li:hover {
         box-shadow: 2px 2px 2px 2px rgba(0.9, 0.9, 0.9, 0.9);
     }
 
-    #year{
-        
-        
+    #year {
+
+
         padding: 7px 70px;
         background-color: aqua;
-        
+
     }
 
     #month {
         padding: 7px 70px;
         background-color: aqua;
-       
-       
+
+
     }
-    #l-arrow-year , #l-arrow-month{
+
+    #l-arrow-year,
+    #l-arrow-month {
         background-image: url(./images/163768-arrow-left-free-photo.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
     }
-    #r-arrow-year, #r-arrow-month{
+
+    #r-arrow-year,
+    #r-arrow-month {
         background-image: url(./images/arrow-icon-1177.png);
         padding: 10px 20px;
         background-size: cover;
         background-position: center;
-        
+
     }
-   #calendar{
-        
+
+    #calendar {
+
         height: 48vh;
-        
-   }
+
+    }
 
     #calendar table {
         display: flex;
@@ -1816,7 +1911,7 @@ ul li:hover {
         justify-content: space-evenly;
         height: 100%;
         width: 98%;
-        
+
     }
 
     #table-body {
@@ -1830,161 +1925,176 @@ ul li:hover {
         text-align: center;
         width: 100%;
         justify-content: space-around;
-       
+
     }
 
     #table-body tr td {
         flex-basis: calc(100% / 8);
         padding: 4px 2px;
         text-align: center;
-       
+
         background-color: aqua;
         margin: 2px 1px;
         border-radius: 5px;
         box-shadow: 2px 2px 2px 2px rgba(0.9, 0.9, 0.9, 0.9);
     }
-    #table-head{
+
+    #table-head {
         display: flex;
         width: 100%;
     }
 
-    #table-head tr{
+    #table-head tr {
         width: 100%;
         display: flex;
         justify-content: space-between;
         margin-top: 7px;
         text-align: center;
         align-items: center;
-       
+
     }
 
     #table-head th {
-       
+
         margin: 3px 1px;
-        width:calc(100%/7);
+        width: calc(100%/7);
         text-align: center;
         background-color: aqua;
         border-radius: 5px;
         padding: 10px 1px;
         box-shadow: 2px 2px 2px 2px rgba(0.9, 0.9, 0.9, 0.9);
-        
+
     }
 
 
-      /*--------------------------weather styles----------------------------*/
-  .weather-card {
-    width: 250px;
-    height: 150px;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-    display: flex;
-    justify-content: center;
-}
-/* Weather Card Styling */
-.weather-info {
-    width:100%;
-    /*-background: linear-gradient(135deg, #89f7fe, #66a6ff);*/
-    background-color: blue;
-    color: white;
-    font-family: Arial, sans-serif;
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
+    /*--------------------------weather styles----------------------------*/
+    .weather-card {
+        width: 250px;
+        height: 150px;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15vh;
+    }
 
-    display: flex;
-    flex-direction: column;
-    
-    
+    /* Weather Card Styling */
+    .weather-info {
+        width: 100%;
+        /*-background: linear-gradient(135deg, #89f7fe, #66a6ff);*/
+        background-color: blue;
+        color: white;
+        font-family: Arial, sans-serif;
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
 
-}
+        display: flex;
+        flex-direction: column;
 
 
-.weather-info:hover {
-    transform: scale(1.05);
-}
 
-.weather-info h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    width: 100%;
-    margin-top: 0;
-    
-    
-}
-
-.weather-info p {
-    font-weight: bold;
-
-    
-    margin: 5px 0;
-   
-}
-
-.weather-info img {
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
-}
-.weather-denied-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items:center;
-}
-.weather-unavailable {
-    margin-bottom: 12px;
-    color: aliceblue;
-}
-.access-denied {
-    margin-top: 12px;
-    color: aliceblue;
-}
-.local-time {
-    color: aliceblue;
-    font-weight: bold;
-    font-size: 1.8rem;
-}
+    }
 
 
-/* Optional: Add animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+    .weather-info:hover {
+        transform: scale(1.05);
+    }
 
-.weather-info {
-    animation: fadeIn 0.5s ease-in-out;
-}
-.weather-status {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: end;
-    padding-top: 10px;
-}
+    .weather-info h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        width: 100%;
+        margin-top: 0;
+
+
+    }
+
+    .weather-info p {
+        font-weight: bold;
+
+
+        margin: 5px 0;
+
+    }
+
+    .weather-info img {
+        width: 50px;
+        height: 50px;
+        vertical-align: middle;
+    }
+
+    .weather-denied-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .weather-unavailable {
+        margin-bottom: 12px;
+        color: aliceblue;
+    }
+
+    .access-denied {
+        margin-top: 12px;
+        color: aliceblue;
+    }
+
+    .local-time {
+        color: aliceblue;
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
+
+
+    /* Optional: Add animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .weather-info {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .weather-status {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: end;
+        padding-top: 10px;
+    }
 
 
 
     /*-------------------------calendar behaviour when hover------------------------------*/
 
-    .caption-flex-part span:hover{
+    .caption-flex-part span:hover {
         box-shadow: 4px 4px 4px 4px rgba(0.9, 0.9, 0.9, 0.9);
         cursor: pointer;
-        
-    } 
 
-    #table-head th:hover{
+    }
+
+    #table-head th:hover {
         box-shadow: 4px 4px 4px 4px rgba(0.9, 0.9, 0.9, 0.9);
         cursor: pointer;
     }
 
-    #table-body tr td:hover{
+    #table-body tr td:hover {
         box-shadow: 4px 4px 4px 4px rgba(0.9, 0.9, 0.9, 0.9);
         cursor: pointer;
         background-color: blue;
@@ -1992,35 +2102,37 @@ ul li:hover {
         font-weight: bolder;
     }
 
-    #l-arrow-year:hover{
+    #l-arrow-year:hover {
         padding: 12px 24px;
         transition: padding 0.3s ease;
     }
-  
-    #r-arrow-year:hover{
+
+    #r-arrow-year:hover {
         padding: 12px 24px;
         transition: padding 0.3s ease;
     }
-    #l-arrow-month:hover{
+
+    #l-arrow-month:hover {
         padding: 12px 24px;
         transition: padding 0.3s ease;
     }
-    #r-arrow-month:hover{
+
+    #r-arrow-month:hover {
         padding: 12px 24px;
         transition: padding 0.3s ease;
     }
-   
+
     /*-------------------task page for mobile view-----------------------*/
 
-    .task-container{
-        
+    .task-container {
+
         position: fixed;
         top: 17%;
         left: 10%;
         bottom: 7%;
         right: 10%;
         z-index: 20;
-        
+
         justify-content: center;
         align-items: center;
         font-weight: bold;
@@ -2029,110 +2141,119 @@ ul li:hover {
         background-color: blueviolet;
         text-align: start;
         border-radius: 20px;
-        
-    }
-    .task-container h2{
-     text-align: center;
-     margin-bottom: 15px;
-     border-bottom: 2px solid black;
-     padding-bottom: 7px;
-     
-    
-    }
- 
-    .task-container #task-form{
-     width: 100%;
-     align-items: center;
-    }
-    .task-container #task-name{
-     width: 100%;
-     height: 18px;
-     padding: 5px;
-     border-radius:6px ;
-     border: 3px solid blue;
-     resize: none;
-    }
-    .task-container #task-notes{
-     width: 100%;
-     height:13vh;
-     padding: 5px;
-     border-radius: 6px;
-     resize: none;
-     overflow-y: auto;
-     border: 3px solid blue;
-    }
- 
-    .task-container #task-date{
-     border: 3px solid blue;
-     height: 25px;
-     align-self: center;
-     padding: 5px;
-     margin-left: 15px;
-     border-radius: 6px;
-    }
- 
-    .task-container #create{
-     justify-content: center;
-     width: 100%;
-     padding: 15px;
-     border-radius: 10px;
-     font-size: 1rem;
-     font-weight: bold;
-     
-    }
-    .task-container #create:hover{
-         cursor: pointer;
-         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
-         border: 3px solid blue;
-    }
-    .task-page-container{
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         display: none;
-         justify-content: center;
-    }
-    .task-page-container h2{
-        font-size: 1.2rem;
-    }
-    .overlay-create{
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     background-color: rgba(0, 0, 1, 0.85);
-     display: none;
-    }
- 
-    .visibility{
-     display: none;
-    }
-    .invisibility{
-        display:inline-block;
+
     }
 
-    .block{
+    .task-container h2 {
+        text-align: center;
+        margin-bottom: 15px;
+        border-bottom: 2px solid black;
+        padding-bottom: 7px;
+
+
+    }
+
+    .task-container #task-form {
+        width: 100%;
+        align-items: center;
+    }
+
+    .task-container #task-name {
+        width: 100%;
+        height: 18px;
+        padding: 5px;
+        border-radius: 6px;
+        border: 3px solid blue;
+        resize: none;
+    }
+
+    .task-container #task-notes {
+        width: 100%;
+        height: 13vh;
+        padding: 5px;
+        border-radius: 6px;
+        resize: none;
+        overflow-y: auto;
+        border: 3px solid blue;
+    }
+
+    .task-container #task-date {
+        border: 3px solid blue;
+        height: 25px;
+        align-self: center;
+        padding: 5px;
+        margin-left: 15px;
+        border-radius: 6px;
+    }
+
+    .task-container #create {
+        justify-content: center;
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+
+    }
+
+    .task-container #create:hover {
+        cursor: pointer;
+        box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+        border: 3px solid blue;
+    }
+
+    .task-page-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
+    }
+
+    .task-page-container h2 {
+        font-size: 1.2rem;
+    }
+
+    .overlay-create {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
+    }
+
+    .visibility {
+        display: none;
+    }
+
+    .invisibility {
+        display: inline-block;
+    }
+
+    .block {
         display: block;
     }
-    .flex{
+
+    .flex {
         display: flex;
     }
 
- 
+
     /*----------------------------------------------------------edit task page for mobile--------------------------------------*/
 
-    #edit-task-container{
-        
+    #edit-task-container {
+
         position: fixed;
         top: 17%;
         left: 15%;
         bottom: 7%;
         right: 15%;
         z-index: 20;
-        
+
         justify-content: center;
         font-weight: bold;
         height: 65%;
@@ -2140,85 +2261,91 @@ ul li:hover {
         background-color: blueviolet;
         text-align: start;
         border-radius: 20px;
-        
+
     }
-    #edit-task-container h2{
-     text-align: center;
-     margin-bottom: 15px;
-     letter-spacing: 2px;
-     border-bottom: 2px solid black;
-     padding-bottom: 5px;
-    
+
+    #edit-task-container h2 {
+        text-align: center;
+        margin-bottom: 15px;
+        letter-spacing: 2px;
+        border-bottom: 2px solid black;
+        padding-bottom: 5px;
+
     }
- 
-    #edit-task-container #edit-task-form{
-     width: 100%;
-     align-items: center;
+
+    #edit-task-container #edit-task-form {
+        width: 100%;
+        align-items: center;
     }
-    #edit-task-container #edit-task-name{
-     width: 100%;
-     height: 18px;
-     padding: 5px;
-     border-radius:6px ;
-     border: 3px solid blue;
-     resize: none;
+
+    #edit-task-container #edit-task-name {
+        width: 100%;
+        height: 18px;
+        padding: 5px;
+        border-radius: 6px;
+        border: 3px solid blue;
+        resize: none;
     }
-    #edit-task-container #edit-task-notes{
-     width: 100%;
-     height:13vh;
-     padding: 3px;
-     border-radius: 6px;
-     resize: none;
-     overflow-y: auto;
-     border: 3px solid blue;
+
+    #edit-task-container #edit-task-notes {
+        width: 100%;
+        height: 13vh;
+        padding: 3px;
+        border-radius: 6px;
+        resize: none;
+        overflow-y: auto;
+        border: 3px solid blue;
     }
- 
-    #edit-task-container #edit-task-date{
-     border: 3px solid blue;
-     height: 25px;
-     align-self: center;
-     padding: 5px;
-     margin-left: 15px;
-     border-radius: 6px;
+
+    #edit-task-container #edit-task-date {
+        border: 3px solid blue;
+        height: 25px;
+        align-self: center;
+        padding: 5px;
+        margin-left: 15px;
+        border-radius: 6px;
     }
- 
-    #edit-task-container #edit{
-     justify-content: center;
-     width: 100%;
-     padding: 15px;
-     border-radius: 10px;
-     font-size: 1rem;
-     font-weight: bold;
-     
+
+    #edit-task-container #edit {
+        justify-content: center;
+        width: 100%;
+        padding: 15px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+
     }
-    #edit-task-container #edit:hover{
-         cursor: pointer;
-         box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
-         border: 3px solid blue;
+
+    #edit-task-container #edit:hover {
+        cursor: pointer;
+        box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+        border: 3px solid blue;
     }
-    .edit-task-page-container{
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         display: none;
-         justify-content: center;
+
+    .edit-task-page-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        justify-content: center;
     }
-    .overlay-edit{
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     background-color: rgba(0, 0, 1, 0.85);
-     display: none;
+
+    .overlay-edit {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 1, 0.85);
+        display: none;
     }
- 
+
     /*------------------------------------styles for the tasks loaded on the task display page--------------------------*/
- 
+
     .content .day-info {
-        
+
         height: 100%;
         width: 100vw;
         padding: 10px 0px 0px 5px;
@@ -2228,277 +2355,340 @@ ul li:hover {
         flex-direction: column;
         justify-content: top;
         align-items: center;
-        overflow:scroll;
-        
-        
+        overflow: scroll;
+
+
     }
 
-    
- 
-    .content .day-info div h3{
+
+
+    .content .day-info div h3 {
         height: auto;
         background-color: aqua;
         width: 80%;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-        
+
         padding-left: 10px;
         padding-right: 10px;
         text-align: center;
         word-wrap: break-word;
-        
+
         border-left: 3px solid black;
         border-right: 3px solid black;
         border-top: 3px solid black;
         padding-bottom: 4px;
-        
-         
+
+
     }
- 
-    .content .day-info div p{
-         text-align: left;
-         height: auto;
-         background-color: aqua;
-         width: auto;
-         padding: 5px;
-         border-bottom-left-radius: 10px;
-         border-bottom-right-radius: 10px;
-         
-        
-         word-wrap: break-word;
-         border-left: 3px solid black;
-         border-right: 3px solid black;
-         border-bottom: 3px solid black;
-         
+
+    .content .day-info div p {
+        text-align: left;
+        height: auto;
+        background-color: aqua;
+        width: auto;
+        padding: 5px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+
+        word-wrap: break-word;
+        border-left: 3px solid black;
+        border-right: 3px solid black;
+        border-bottom: 3px solid black;
+
     }
-    
+
 
     /*-------------------------mobile view for added tasks---------------------------------*/
 
-     .content .day-info .task-added{
-    
+    .content .day-info .task-added {
+
         margin-top: 15px;
-        height:auto;
+        height: auto;
         width: 95vw;
         background-color: blue;
         display: flex;
         flex-direction: column;
         align-self: flex-start;
         border-radius: 10px;
-        word-wrap:break-word;
-        
+        word-wrap: break-word;
+
         margin-bottom: 15px;
         align-self: flex-start;
         overflow: hidden;
-        
-        
-        
-       }
-    
-    
-     
-        .head-checkbox .checkbox{
-            background-color: aqua;
-            padding: 0 10px 0 10px;
-            height:inherit;
-            border-top: 3px solid black;
-            border-right: 3px solid black;
-            border-bottom: 3px solid black;
-            border-left: 3px solid black;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            font-size: smaller;
-            width: 25%;
-            color: black;
-            text-align: center;
-            transition: width 0.3s ease;
-            
-            
-        }
-        .head-checkbox{
-            display: flex;
-            justify-content: space-between;
-            width: 95vw;
-            
-        }
-       
-    
-        .checkbox:hover{
-            background-color: blueviolet;
-            cursor: pointer;
-            color: black;
-            width: 35%;
-            box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
-        }
-        .content .day-info .task-added:hover{
-            border: 3px solid blue;
-            
-            box-shadow: 2px 2px 2px 2px rgba(15, 15, 15, 15);
-            
-        }
-
-        .checkbox:hover + .task-notes{
-            box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
-        }
-        .head-checkbox .checkbox .task-done{
-            position: relative;
-            top: 5px;
-        }
-    
-        .empty{
-           height: 25px;
-           
-        }
-
-        /*---------------------------settings-edit-feedback-----------------------------------------*/
-        /*-----------------------------settings page styles for mobile devices-------------------------------------*/
-        #settings {
-            height: 100%;
-            width: 100%;
-            background-color: blueviolet;
-            display: none;
-            
-        }
-        #settings #settings-list{
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            height: 100%;
-            width: 100%;
-        }
-        
-        #settings-list li{
-            display: flex;
-            text-align: center;
-            width: 99%;
-            height: 8vh;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            margin-top:10px ;
-            margin-bottom:10px ;
-        }
-        /*-----------------------------------------------------help-page-styles for mobile devices--------------------------------------*/
-        #help {
-            height: 100%;
-            width: 100%;
-            background-color: blueviolet;
-            display: none;
-            flex-direction: column;
-            justify-content: space-around;
-            align-self: center;
-        }
-        
-        .faq{
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 5px;
-            
-        }
-        #help .faq details summary{
-            border-top: 2px solid aliceblue;
-            border-right: 2px solid aliceblue;
-            border-left: 2px solid aliceblue;
-            background-color: aqua;
-            margin-top: 5px;
-            font-weight: bold;
-            margin-right: 5px;
-            margin-left: 5px;
-            padding: 5px;
-        }
-        #help .faq details p{
-            background-color: aqua;
-            border-left:2px solid aliceblue ;
-            border-bottom:2px solid aliceblue ;
-            border-right:2px solid aliceblue ;
-            margin-right: 5px;
-            margin-left: 5px;
-            margin-top: 0;
-            padding: 8px;
-        
-        }
-        #help .faq details summary:hover{
-            cursor: pointer;
-        }
-        
-        .faq-images{
-            min-height: 50vh;
-            border: 1px solid black;
-            width: 90%;
-            align-self: center;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
 
 
 
-        /*----------------------------------------feedback-styles for mobile devices-----------------------------------*/
-        #feedb {
-            max-height: 99vh;
-            width: 97.3%;
-            background-color: blueviolet;
-            
-            display: none;
-            
-            
-        }
-        
-        #feedbackForm{
-            display: flex;
-            flex-direction: column;
-            font-weight: 600;
-            width: 100%;
-            max-height: 99vh;
-            
-        }
-        #feedb-submit{
-            width: 100%;
-            align-self: baseline;
-            height: 50px;
-            border-radius: 10px;
-            background-color: aqua;
-            justify-content: flex-end;
-            font-size: large;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: box-shadow 0.3s ease-in;
-            margin-bottom: 7px;
-        }
-        #feedb-submit:hover{
-            box-shadow:1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
-            font-size: 1.3rem;
-            transition:  0.2s ease;
-        }
-        
-        #feedb-issues{
-            height: 100px;
-            width: 97%;
-            resize: none;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        
-        #feedb-improvement{
-            height: 100px;
-            width: 97%;
-            resize: none;
-            padding: 5px;
-            border-radius: 5px;
-        }
-        #feedb-satisfaction, #feedb-satisfaction option {
-            font-weight: bold; /* Makes the options bold */
-          }
-        
-          #feedb-experience, #feedb-experience option {
-            font-weight: bold;
-          }
-        
+    }
+
+
+
+    .head-checkbox .checkbox {
+        background-color: aqua;
+        padding: 0 10px 0 10px;
+        height: inherit;
+        border-top: 3px solid black;
+        border-right: 3px solid black;
+        border-bottom: 3px solid black;
+        border-left: 3px solid black;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        font-size: smaller;
+        width: 25%;
+        color: black;
+        text-align: center;
+        transition: width 0.3s ease;
+
+
+    }
+
+    .head-checkbox {
+        display: flex;
+        justify-content: space-between;
+        width: 95vw;
+
+    }
+
+
+    .checkbox:hover {
+        background-color: blueviolet;
+        cursor: pointer;
+        color: black;
+        width: 35%;
+        box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+    }
+
+    .content .day-info .task-added:hover {
+        border: 3px solid blue;
+
+        box-shadow: 2px 2px 2px 2px rgba(15, 15, 15, 15);
+
+    }
+
+    .checkbox:hover+.task-notes {
+        box-shadow: 5px 5px 5px 5px rgba(25, 25, 25, 25);
+    }
+
+    .head-checkbox .checkbox .task-done {
+        position: relative;
+        top: 5px;
+    }
+
+    .empty {
+        height: 25px;
+
+    }
+
+    /*---------------------------settings-edit-feedback-----------------------------------------*/
+    /*-----------------------------settings page styles for mobile devices-------------------------------------*/
+    #settings {
+        height: 100%;
+        width: 100%;
+        background-color: blueviolet;
+        display: none;
+
+    }
+
+    #settings #settings-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+        width: 100%;
+    }
+
+    #settings-list li {
+        display: flex;
+        text-align: center;
+        width: 99%;
+        height: 8vh;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    /*-----------------------------------------------------help-page-styles for mobile devices--------------------------------------*/
+    #help {
+        height: 100%;
+        width: 100%;
+        background-color: blueviolet;
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        align-self: center;
+    }
+
+    .faq {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 5px;
+
+    }
+
+    #help .faq details summary {
+        border-top: 2px solid aliceblue;
+        border-right: 2px solid aliceblue;
+        border-left: 2px solid aliceblue;
+        background-color: aqua;
+        margin-top: 5px;
+        font-weight: bold;
+        margin-right: 5px;
+        margin-left: 5px;
+        padding: 5px;
+    }
+
+    #help .faq details p {
+        background-color: aqua;
+        border-left: 2px solid aliceblue;
+        border-bottom: 2px solid aliceblue;
+        border-right: 2px solid aliceblue;
+        margin-right: 5px;
+        margin-left: 5px;
+        margin-top: 0;
+        padding: 8px;
+
+    }
+
+    #help .faq details summary:hover {
+        cursor: pointer;
+    }
+
+    .faq-images {
+        min-height: 50vh;
+        border: 1px solid black;
+        width: 90%;
+        align-self: center;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+
+
+    /*----------------------------------------feedback-styles for mobile devices-----------------------------------*/
+    #feedb {
+        max-height: 99vh;
+        width: 97.3%;
+        background-color: blueviolet;
+
+        display: none;
+
+
+    }
+
+    #feedbackForm {
+        display: flex;
+        flex-direction: column;
+        font-weight: 600;
+        width: 100%;
+        max-height: 99vh;
+
+    }
+
+    #feedb-submit {
+        width: 100%;
+        align-self: baseline;
+        height: 50px;
+        border-radius: 10px;
+        background-color: aqua;
+        justify-content: flex-end;
+        font-size: large;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 25px;
+        transition: box-shadow 0.3s ease-in;
+        margin-bottom: 7px;
+    }
+
+    #feedb-submit:hover {
+        box-shadow: 1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
+        font-size: 1.3rem;
+        transition: 0.2s ease;
+    }
+
+    #feedb-issues {
+        height: 100px;
+        width: 97%;
+        resize: none;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    #feedb-improvement {
+        height: 100px;
+        width: 97%;
+        resize: none;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    #feedb-satisfaction,
+    #feedb-satisfaction option {
+        font-weight: bold;
+        /* Makes the options bold */
+    }
+
+    #feedb-experience,
+    #feedb-experience option {
+        font-weight: bold;
+    }
+
+    /*-----add-task-buttons---------*/
+    .add-task-icon {
+        background-image: url(./images/plus-flat.png);
+       background-color: silver;
+        background-size: cover;
+        background-position: center;
+        width: 20%;
+        height:8%;
+        border: none;
+        border-radius: 17%;
+        z-index: 12;
+        position: fixed;
+        bottom: 20px;
+        left: 40%;
+        right: 40%;
+        box-shadow: 1px 1px 1px 1px rgba(0.9, 0.9, 0.9, 0.9);
+        opacity: 0.9;
+         transition: all 0.4s ease;
+    }
+    .add-task-text{
+        opacity: 0;                   /* hidden by default */
+        transform: scale(0.8);        /* slightly smaller */
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        color:black;
+        font-weight: bold;
+        display: block;               /* keep block, but invisible */
+        position: relative;
+    }
+    .add-task-icon:hover {
+        border: 2px solid silver;
+        cursor: pointer;
+        width: 50%;
+        height: 10%;
+        box-shadow: 5px 5px 5px 5px rgba(0.9, 0.9, 0.9, 0.9);
+        opacity: 0.9;
+        left: 25%;
+        right: 25%;
+        background-image: none;
+        cursor: pointer;
+    }
+    .add-task-icon:hover .add-task-text {
+        opacity: 1;                   /* fade in */
+        transform: scale(1);   
+        font-size: 1rem;
+    }
+    .add-task-img {
+        border-radius: 50px;
+        object-fit: fill;
+    }
 
 
 
 
-        /*-----------------------task-page scrollbar-----------------------------*/
+    /*-----------------------task-page scrollbar-----------------------------*/
 
 
 
