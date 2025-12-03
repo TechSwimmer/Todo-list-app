@@ -67,8 +67,29 @@ const DOM = {
     // login DOMs
     loginBtn : document.querySelector('#login-button'),
     overlayLoginContainer : document.querySelector('.overlay-login-container'),
-    loginUserPage : document.querySelector('.login-container')
+    loginUserPage : document.querySelector('.login-container'),
+
+    // main login and logout btns
+    navLogin : document.getElementById('login-signup-link'),
+    navLogout : document.getElementById('logout-link')
 }
+
+// display login or logout btns
+function updateAuthBtn() {
+    const token = localStorage.getItem('authToken');
+
+    if(token){
+        DOM.navLogin.style.display = 'none';
+        DOM.navLogout.style.display = 'block';
+        console.log(token);
+    }
+    else{
+        DOM.navLogin.style.display = 'block';
+        DOM.navLogout.style.display = 'none';
+        console.log(token);
+    }
+}
+document.addEventListener("DOMContentLoaded", updateAuthBtn)
 
 
 // STORE ELEMENTS IN A VARIABLE FOR MULTIPLE USE
@@ -1390,3 +1411,21 @@ loginUserForm.addEventListener('submit', (event) => {
     console.log(email, password);
     loginUser(email, password);
 });
+
+// logout function 
+
+function logoutUser() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userID');
+
+    alert('You have been logged out.');
+
+    updateAuthBtn(); // toggle login/logout btns 
+    clearTasks();
+    clearUI();
+}
+
+DOM.navLogout.addEventListener('click', (e) => {
+    e.preventDefault();
+    logoutUser();
+})

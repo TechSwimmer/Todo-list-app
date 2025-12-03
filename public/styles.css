@@ -44,6 +44,9 @@ nav ul li {
     transition: background-color 0.5s ease;
     height: 50%;
     border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 ul li a {
@@ -97,6 +100,9 @@ ul li:hover {
 .nav-links {
     display: flex;
     flex-direction: column;
+}
+#logout-link{
+    display: none;
 }
 
 /*----------------------------------------------------media queries----------------------------------------------------*/
