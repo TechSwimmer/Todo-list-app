@@ -21,11 +21,18 @@ const cors = require('cors')
 // const { mongoClient } = require('mongodb');
 
 //cors
-app.use(cors());
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000","https://todotasknest.netlify.app"],  // your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH","OPTIONS"],
+    credentials: true,
+  })
+);
+ 
 //middleware 
 
 app.use(express.static('./public'))     
+
 
 app.use(express.json())
 
