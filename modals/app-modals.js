@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 
 // DB must check for these things when it adds anything in database
-
+ 
 const appSchema = mongoose.Schema(
   {
     guestID: {

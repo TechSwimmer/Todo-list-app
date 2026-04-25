@@ -14,10 +14,11 @@ const JWT_SECRET = process.env.SECRET_KEY;
 const router = express.Router();
 
 
-
+ 
 // 🔹 Register User
 router.post(
     "/register",
+    // validation rules for registration fields (validation middleware- express validator)
     [
       body("username").trim().notEmpty().withMessage("Username is required"),
       body("email").trim().isEmail().withMessage("Invalid email").normalizeEmail(),
@@ -35,15 +36,10 @@ router.post(
         
         
         userID = `user_${Date.now()}_${Math.floor(Math.random() * 10000)}`;            // userID to diff tasks w.r.t users
-        // const salt = await bcrypt.genSalt(10);
-        const salt = await bcrypt.genSalt(10);
+        
         user = new User({ username, email,userID,password });
        
-        
-       
         await user.save();
-        const newUser = await User.findOne({ email });
-        console.log("Stored User Password (After Save):", newUser.password);
   
         const payload = { userID: user.userID } ;
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
@@ -59,9 +55,11 @@ router.post(
   // 🔹 Login User
   router.post(
     "/login",
+    // validation rules for login fields (validation middleware- express validator)
+
     [
       body("email").trim().isEmail().withMessage("Invalid email").normalizeEmail(),
-      body("password").exists().withMessage("Password is required")
+      body("password").trim().notEmpty().withMessage("Password is required")
     ],
     async (req, res) => {
       const errors = validationResult(req);
@@ -75,10 +73,8 @@ router.post(
         if (!user) return res.status(400).json({ msg: "Invalid credentials" });
   
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log("password:", req.body.password)
-        console.log("user-password:", user.password)
-        console.log("Password Match:", isMatch);
-        if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+      
+        if (!isMatch) return res.status(401).json({ msg: "Invalid credentials" });
   
         const payload = { userID: user.userID  };
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
